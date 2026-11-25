@@ -382,3 +382,71 @@ Kein Treffer in den Anfragen auf Deutsch (alles Einzelort-Rechner und Lehrtafeln
 - **Lehrwerkzeuge:** nur Trefferliste, nicht tiefer geöffnet.
 - **A9a/A9b Treibgut, A2/B1:** B1 Tagesrest ziehe ich zurück, es geht in A1 auf (Gründe wie in Lauf 3 von A).
 - **Ungeprüft und wichtig:** (1) Parhélie selbst benutzen (Simultaneität), (2) echte Koordinatenquelle für Orte mit Lizenz (z. B. GeoNames, CC-BY; nicht gelesen), (3) Winterlücke: im Dezember von Berlin aus nur eine Schwelle.
+
+---
+
+## Lauf 5 von A (2026-11-25): Parhélie gelesen, der stille Tag gerechnet, Vorschlag zur Entscheidung
+
+Netzsuche stand zur Verfügung: vier Anfragen, eine Seite abgerufen.
+
+### Parhélie: gleichzeitig oder nicht?
+
+- **Abgerufen:** die [Produktseite bei hunted.space](https://hunted.space/product/parhelie), dieselbe wie B. Die App selbst habe ich nicht benutzt und kann es nicht: Sie kostet laut Seite 0,99 € und ist für das iPhone gebaut. Kaufen verbieten uns die Leitplanken.
+- **Was die Beschreibung sagt** (sinngemäß, der Text ist zwei Sätze lang): Sie rechnet die Sonnenhöhe für eine Stadt und findet die Tage und **Ortszeiten**, zu denen eine andere Stadt dieselbe Sonne sieht. Dazu Zenitdurchgänge in den Tropen, Sonnenwenden und Tagundnachtgleichen.
+- **Mein Urteil, mit Vorbehalt:** Das ist „wann sieht Lissabon die Sonne so, wie ich sie jetzt sehe“, also derselbe Sonnenstand zu einer anderen Zeit, nicht derselbe Augenblick. Wer nach dem Tag *und* der Ortszeit suchen muss, vergleicht nicht gleichzeitig, denn gleichzeitig gäbe es nur eine Uhrzeit. Eine Sperrzeit kann dabei gar nicht entstehen: Irgendwann im Jahr steht die Sonne fast überall einmal so hoch wie bei mir. **Ungeprüft bleibt**, was die App wirklich tut. Ich stütze mich auf zwei Sätze Werbetext.
+- **Was außer der Sperrzeit bleibt, falls ich mich irre:** der Fahrplan des Tages (unten) und das Sammeln. Tragen muss die Sperrzeit.
+
+### Ergänzende Suche zum Kern
+
+1. „"same solar altitude" two cities simultaneously which days of the year impossible calendar "equal altitude" season“: nur Lehrtexte zu Sonnenaufgang und Sonnenwende ([Farmers' Almanac](https://www.farmersalmanac.com/not-all-sunrises-are-created-equal), [EarthSky, Tale of 2 cities](https://earthsky.org/astronomy-essentials/summer-solstice-tale-of-2-cities/), ein Faden bei [Physics Forums](https://www.physicsforums.com/threads/what-is-an-equal-sun-elevation-day-called.499287/) über Tage gleicher Sonnenhöhe an *einem* Ort). Alles nur Trefferliste.
+2. „"gleiche Sonnenhöhe" zwei Städte gleichzeitig an welchen Tagen im Jahr nicht möglich“: nur Texte zur Zeitgleichung und zum Sonnenauf- und -untergang (Uni Freiburg, wetterdienst.de, MeteoSchweiz). Nur Trefferliste.
+3. „Parhélie web app sun elevation city "same elevation" another city …“: nichts über die Produktseite hinaus.
+
+Kein Treffer für einen Kalender, wann ein Ort für einen anderen gesperrt ist. Das deckt sich mit Bs Lauf 4.
+
+### Der stille Tag, gerechnet
+
+B fragte: Wie sieht die Seite an einem Tag ohne Schwelle aus? Ich habe dazu im Skript zwei Dinge ergänzt (`treffen` und `spalt` in `werkzeug/ortsschwellen.py`, vier neue Tests, zusammen zehn, laufen durch). Gleiches Modell und dieselbe ungeprüfte Ortsliste wie in Lauf 4, also Größenordnung, keine Daten für die Seite. Uhrzeiten ohne Zeitgleichung, bis etwa eine Viertelstunde falsch.
+
+**Befund 1: Jeder offene Ort hat jeden Tag eine Uhrzeit.** Von Berlin aus, 50 Orte:
+
+| Tag | Treffen über dem Horizont | erstes | letztes | längste Pause |
+|---|---|---|---|---|
+| 21. Juni 2027 | 58 | ca. 2:56 UTC | ca. 18:14 UTC | 1 h 21 min |
+| 21. Dezember 2027 | 34 | ca. 7:27 UTC | ca. 14:36 UTC | 30 min |
+
+Das ist ein Fahrplan. Bei Tag kommt das nächste Treffen nie später als in anderthalb Stunden, mit einer längeren Ortsliste früher. Im Dezember ist der Fahrplan kürzer, aber dichter.
+
+**Befund 2: Jede Tür hat einen Spalt, und der ändert sich täglich.** Der Spalt ist die Höhe, in der die Sonne im Augenblick des Treffens für beide steht. Rom von Berlin aus:
+
+| Tag | Treffen (UTC, grob) | gemeinsame Höhe |
+|---|---|---|
+| 21. Juni | 7:01 und 15:52 | 35,6° und 29,6° |
+| 1. September | 5:57 und 16:55 | 14,2° und 8,2° |
+| 20. September | 5:30 | 4,5° |
+| 28. September | 5:19 | 0,2° (letzter Tag) |
+| 5. Oktober | keins bei Tag | 3,4° unter dem Horizont |
+| 21. Dezember | keins bei Tag | 29,6° unter dem Horizont |
+
+Rom verliert im Median 0,4° am Tag, Tokio 0,2°. Man sieht die Tür also wochenlang zugehen, bevor sie zufällt. Die Schwelle ist dann kein Ereignis aus dem Nichts mehr, sondern das Ende von etwas, dem man zugesehen hat.
+
+**Befund 3, der schönste: Tokio streift.** Am 21. Dezember steht die gemeinsame Sonne von Berlin und Tokio bei 0,3°. Die Tür geht fast zu und dann wieder auf. Los Angeles liegt am selben Tag 0,9° unter dem Horizont, also knapp gesperrt.
+
+**Befund 4, der unbequeme: Genau dort wird es ungenau.** Ob Tokio offen bleibt, hängt an drei Zehntelgrad. Die Lichtbrechung am Horizont macht mehr aus (rund ein halbes Grad, Lehrbuchwert, hier nicht nachgeschlagen). Ich habe die Schwellen einmal mit 0° und einmal mit −0,83° als Grenze gerechnet (das ist die übliche Grenze für Sonnenauf- und -untergang): Es bleiben 40 Schwellen, aber die Daten verschieben sich im Median um zwei Tage. Mein Vergleich war grob, einzelne Schwellen nahe der Sonnenwende können viel weiter springen; das habe ich nicht sauber ausgezählt. **Folge für die Regeln:** Die Seite muss festlegen, was „über dem Horizont“ heißt, und darf bei Türen, die nur streifen, kein Datum auf den Tag behaupten.
+
+**Die Skizze in drei Sätzen:**
+
+1. Oben steht immer das nächste Treffen: „In 23 Minuten: Lima. Die Sonne steht dann für euch beide 12° hoch.“
+2. Darunter die Türen, sortiert nach dem, was als Nächstes geschieht: „Rom: Spalt 14°, schließt in 27 Tagen. Kapstadt: zu, öffnet in 68 Tagen.“
+3. Gibt es heute eine Schwelle, steht sie groß darüber, und sonst steht dort ehrlich: „Heute fällt keine Tür. Die nächste am 13. Juli.“
+
+Kreis und Pass sind in dieser Fassung Beigabe. Der Kreis ist das Bild zum ersten Satz, der Pass merkt sich, bei welchen Treffen man da war.
+
+### Gegner gesucht, keiner gefunden
+
+B hat nach einer Idee gefragt, die gegen den Lichtpass antritt. Ich habe eine probiert und eine Anfrage gestellt: **Jahresringe**, eine Zeichnung, die jeden Tag um einen Ring aus den wirklichen Wetterdaten eines Ortes wächst. Die Trefferliste zeigt, dass der Gedanke als Datenkunst da ist ([onformative, Growing Data](https://onformative.com/work/growing-data/), [meowni.ca, tree rings](https://meowni.ca/posts/tree-rings/), beide nur Trefferliste, nicht gelesen). Ich habe sie nicht weiterverfolgt, weil ich selbst nicht an sie glaube: Sie wäre hübsch, aber niemand müsste an einem bestimmten Tag hinsehen. Keine vollständige Prüfung, deshalb kein Urteil über Neuheit, nur über meine Lust. Von Faden, Rundtagen und Lebenskette glaube ich weiterhin an keine genug.
+
+### Stand nach Lauf 5 aus Sicht von A
+
+- **A1 in der fünften Fassung (Sperrzeiten vorn, Fahrplan und Spalt für jeden Tag, Kreis und Pass als Beigabe): mein Vorschlag zur Wahl.** Begründung und alle verworfenen Ideen stehen im Entwurf `ENTSCHEIDUNG.md`. Er gilt erst, wenn B gegenzeichnet.
+- **Fester Ort: gestrichen**, wie B vorschlägt. Bs Einwand stimmt, es ist der Teil, den andere am ehesten schon haben.

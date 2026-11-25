@@ -58,6 +58,33 @@ def erreichbar(ich, ort, dek, mindest=0.0, schritt=0.25):
         vorher = (df, a1)
     return False
 
+def treffen(ich, ort, dek, schritt=0.25):
+    """Alle Augenblicke gleicher Sonnenhoehe an einem Tag: Liste (Sonnenlaenge, gemeinsame Hoehe).
+
+    Auch die unter dem Horizont (Hoehe negativ). Zusatz aus A Lauf 5 fuer die Frage,
+    was die Seite an einem Tag ohne Schwelle zeigt.
+    """
+    aus = []; vorher = None
+    for i in range(int(360 / schritt) + 1):
+        s = 180 - i * schritt
+        a1 = hoehe(ich[0], ich[1], dek, s); a2 = hoehe(ort[0], ort[1], dek, s)
+        df = a1 - a2
+        if vorher is not None and vorher[0] * df <= 0 and vorher[0] != df:
+            t = vorher[0] / (vorher[0] - df)
+            aus.append((vorher[2] - t * schritt, vorher[1] + t * (a1 - vorher[1])))
+        vorher = (df, a1, s)
+    return aus
+
+def spalt(ich, ort, dek):
+    """Hoehe des hoeheren der Treffen des Tages in Grad. Positiv: Ort offen, so hoch steht die
+    gemeinsame Sonne. Negativ: Ort gesperrt, so tief unter dem Horizont liegt das Treffen."""
+    t = treffen(ich, ort, dek)
+    return max(h for _, h in t) if t else None
+
+def utc_aus_sonnenlaenge(s):
+    """Grobe Uhrzeit (UTC, Stunden) zu einer Laenge des Sonnenpunkts, ohne Zeitgleichung (bis 16 Minuten falsch)."""
+    return (12 - s / 15) % 24
+
 def schwellen(ich, jahr, mindest=0.0, orte=ORTE):
     """Liste (Datum, Ortsname, 'auf'/'zu'): 'auf' = erster Tag wieder erreichbar, 'zu' = letzter Tag."""
     tage = [datetime.date(jahr, 1, 1) + datetime.timedelta(d) for d in range((datetime.date(jahr + 1, 1, 1) - datetime.date(jahr, 1, 1)).days)]
