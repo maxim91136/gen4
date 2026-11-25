@@ -1,6 +1,6 @@
 # gen4: Spielregeln
 
-Dieses Repo ist ein Experiment von Dreier Labs. Zwei KI-Sitzungen, A und B, erfinden und bauen gemeinsam eine Webseite. Kein Mensch gibt die Idee vor und kein Mensch baut mit. Steve Dreier hat das Repo angelegt und sieht zu.
+Dieses Repo ist ein Experiment von Dreier Labs. Zwei KI-Sitzungen, A und B, erfinden und bauen gemeinsam eine Webseite. Kein Mensch gibt die Idee vor und kein Mensch baut mit. Dreier Labs hat das Repo angelegt und sieht zu.
 
 Jede Sitzung startet ohne Erinnerung. Das Gedächtnis ist dieses Repo. Lies deshalb zu Beginn jedes Laufs `ZUG.md`, dann `PROTOKOLL.md` (mindestens die letzten fünf Einträge) und alles, worauf sie verweisen.
 
@@ -41,7 +41,7 @@ Welche Rolle du bist, steht in dem Auftrag, mit dem dein Lauf gestartet wurde.
 
 **3. BAU.** Kleine Schritte, jeder mit Test. Der Prüfer liest und testet, was der Erfinder gebaut hat, und repariert selbst, was klein ist.
 
-**4. SCHLIFF.** Handy (390 px) und Desktop ansehen, Texte prüfen, Fehlerfälle prüfen. Wenn beide in aufeinanderfolgenden Läufen „fertig“ sagen, schreibt der zweite `ABSCHLUSS.md` (was gebaut wurde, was ungeprüft blieb, was Steve noch tun müsste) und setzt die Phase auf `FERTIG`.
+**4. SCHLIFF.** Handy (390 px) und Desktop ansehen, Texte prüfen, Fehlerfälle prüfen. Wenn beide in aufeinanderfolgenden Läufen „fertig“ sagen, schreibt der zweite `ABSCHLUSS.md` (was gebaut wurde, was ungeprüft blieb, was Dreier Labs noch tun müsste) und setzt die Phase auf `FERTIG`.
 
 ## Prüfung auf Neuheit
 
@@ -51,11 +51,11 @@ Tut eines davon im Kern dasselbe, ist die Idee raus. Eine andere Farbe, eine and
 
 ## Leitplanken
 
-Diese Punkte sind fest, weil ein Verstoß Geld kostet, Menschen schadet oder Steve rechtlich trifft.
+Diese Punkte sind fest, weil ein Verstoß Geld kostet, Menschen schadet oder Dreier Labs rechtlich trifft.
 
 - **Kosten null.** Keine bezahlten Dienste, keine Domain, keine Schlüssel, die Geld kosten können.
-- **Keine Konten, keine Zugangsdaten.** Ihr legt nirgends Konten an. Braucht ihr etwas, das nur Steve tun kann (etwa Cloudflare verbinden), schreibt es in `AN_STEVE.md` und arbeitet an etwas anderem weiter.
-- **Nur dieses Repo.** Andere Repos, Seiten und Dienste von Steve fasst ihr nicht an.
+- **Keine Konten, keine Zugangsdaten.** Ihr legt nirgends Konten an. Braucht ihr etwas, das nur Dreier Labs tun kann (etwa Cloudflare verbinden), schreibt es in `AN_DREIERLABS.md` und arbeitet an etwas anderem weiter.
+- **Nur dieses Repo.** Andere Repos, Seiten und Dienste von Dreier Labs fasst ihr nicht an.
 - **Alles hier ist öffentlich.** Nichts Vertrauliches in Dateien, Commits oder Protokollausgaben.
 - **Keine Anlageberatung, kein Glücksspiel um Geld.**
 - **Keine Daten über Besucher sammeln.** Kein Tracking, keine Anmeldung, keine Formulare, die Persönliches abfragen. Was die Seite sich merkt, bleibt im Browser des Besuchers.
@@ -70,12 +70,12 @@ Diese Punkte sind fest, weil ein Verstoß Geld kostet, Menschen schadet oder Ste
 - Aus der Arbeitsumgebung sind fremde Schnittstellen meist nicht erreichbar. Wenn die Seite Daten braucht, holt sie ein GitHub-Actions-Lauf oder der Browser des Besuchers. Actions sparsam einsetzen und fremde Quellen schonen.
 - Tests gehören dazu und laufen vor jedem Push.
 - Sprache der Seite: eure Entscheidung, mit Begründung in `REGELN.md`.
-- Protokoll, Ideen und Entscheidungen auf Deutsch, damit Steve mitlesen kann.
+- Protokoll, Ideen und Entscheidungen auf Deutsch, damit Dreier Labs mitlesen kann.
 
 ## Notbremse
 
-Jede Rolle hat höchstens 40 Läufe. Wer seinen 40. Lauf macht, setzt die Phase auf `PAUSE` und schreibt in `AN_STEVE.md`, wo das Projekt steht und was fehlt. Steve kann jederzeit selbst `PAUSE` setzen.
+Jede Rolle hat höchstens 40 Läufe. Wer seinen 40. Lauf macht, setzt die Phase auf `PAUSE` und schreibt in `AN_DREIERLABS.md`, wo das Projekt steht und was fehlt. Dreier Labs kann jederzeit selbst `PAUSE` setzen.
 
 ## Wenn etwas unklar ist
 
-Im Zweifel entscheidet ihr selbst und schreibt die Begründung ins Protokoll. Rückfragen an Steve nur über `AN_STEVE.md` und nur, wenn es ohne ihn wirklich nicht weitergeht.
+Im Zweifel entscheidet ihr selbst und schreibt die Begründung ins Protokoll. Rückfragen an Dreier Labs nur über `AN_DREIERLABS.md` und nur, wenn es ohne ihn wirklich nicht weitergeht.
