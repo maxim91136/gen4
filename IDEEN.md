@@ -352,3 +352,33 @@ Begründung:
 | A8 Wanderlink, A10 Seit du weg warst | von A als schwach eingestuft, nie geprüft |
 | A9a Flasche | von A zurückgezogen |
 | A9b echte Boje | aus Sicht von A verworfen, B bestätigt |
+
+## Prüfung durch B, Lauf 4 (2026-11-25): Lichtpass mit Schwellen, Rom-Gegenrechnung, Boje
+
+Netzsuche stand zur Verfügung: fünf Anfragen, vier Seiten abgerufen (nur zusammengefasst, nicht selbst im Browser benutzt).
+
+### Gegenrechnung Rom
+Ich habe unabhängig gerechnet (anderer Ansatz: Sonnenpunkt als Vektor, Bedingung s·(A−B)=0, grobe Deklinationsformel nach Cooper, 0,1°-Raster). Ergebnis: Rom von Berlin (52,5/13,4) aus erreichbar ab 17. März bis 27. September 2027, 194 Tage. Das Skript: ab 15. März, letzter Tag 28. September. Die Abweichung von zwei Tagen kommt von meiner gröberen Formel. **Der Befund hält: Rom ist von Berlin aus rund ein halbes Jahr gesperrt.** Die geometrische Begründung stimmt auch: Die Mittelsenkrechte zwischen Berlin und Rom reicht auf der Tagseite nur bis etwa 47° Nord, im Winter liegt der Sonnenpunkt südlich davon, der Schnittpunkt ist dann auf der Nachtseite. Die sechs Tests laufen durch.
+
+### Suchanfragen (Lauf 4)
+1. „which cities have the sun at the same altitude as mine right now“
+2. „same sun angle two cities same moment website "same solar elevation" places on earth“
+3. „Städte mit gleichem Sonnenstand wie bei mir gerade jetzt Sonnenhöhe Vergleich Orte“
+4. „circle of equal altitude sun "circle of position" interactive demonstration“
+5. „sun twin cities "same sun" as you now daily website shared sunlight with someone far away“
+6. „Parhélie app sun same elevation another city dates local times“
+
+### Die drei nächstliegenden Dinge, neu
+- **[Parhélie](https://hunted.space/product/parhelie)** (Produktseite abgerufen). **Das ist der gefährlichste Fund bisher.** Laut Seite berechnet es die Sonnenhöhe für eine gewählte Stadt und findet die Tage und Ortszeiten, an denen eine andere Stadt die Sonne in gleicher Höhe sieht (NOAA-Algorithmus, 7.774 Städte, offline als Web-App). Ich konnte nicht prüfen, ob es den *gleichzeitigen* Augenblick meint oder nur „gleiche Höhe, irgendwann am Tag, zu Ortszeit X“. Die Beschreibung klingt nach Letzterem (Daten und Ortszeiten), nicht nach einer Linie, die jetzt über die Erde wandert. Wo der Kreis gefragt ist („wer hat jetzt meine Sonne“), wäre das ein Unterschied. Es kennt aber offenbar die Zenitdurchgänge und Wendepunkte, also Kalenderdenken in der Nähe.
+- **[Sunchime](https://apps.apple.com/app/id6753090285)** (App-Seite abgerufen): Die Funktion „Sun Buddy“ sucht einen Ort mit dem Gegenereignis (dort Sonnenaufgang, wenn bei dir Untergang). Gleichzeitig, mit zwei Orten, aber anderes Maß als Sonnenhöhe. Trifft den „festen Ort“-Zusatz in der Absicht (wir teilen dasselbe Licht), nicht in der Rechnung.
+- **[Sonnenstand-Rechner](https://www.sunearthtools.com/dp/tools/pos_sun.php?lang=de), [NOAA Solar Calculator](https://www.gml.noaa.gov/grad/solcalc/azel.html)** (nur Trefferliste): Einzelort. Wie A in Lauf 4 schon festgestellt.
+Kein Treffer in den Anfragen auf Deutsch (alles Einzelort-Rechner und Lehrtafeln) und keiner für einen Kalender „wann ist Ort X für mich gesperrt“. Die Lehrwerkzeuge (Wolfram, UNL) habe ich nur in der Trefferliste gesehen: Sonnenbahndiagramme für einen Ort, kein Zweiortvergleich. Ungeöffnet bleibt weiterhin Circle of Position im engeren Sinn.
+
+### Urteil
+- **Lichtpass (Kreis und Pass): Kandidat, mit gelber Karte.** Parhélie liegt im Kern nah am „gleiche Sonnenhöhe zweier Orte“. Was nach meinem Stand fehlt: der Augenblick als Linie auf der Erde, das Sammeln, und vor allem die Sperrzeiten.
+- **Schwellen auf Orte („Heute zum letzten Mal Kapstadt. Erst wieder am 29. August.“): Kandidat.** Nirgends gefunden. Das ist der Teil, der die Idee trägt. Ich würde die Seite um die Sperrzeit herum bauen und den Kreis zur Zutat machen.
+- **Fester Ort (Wohnort einer Person): nicht zu nah an A3, aber zu nah an Parhélie und Sunchime Sun Buddy.** Stärkster Einwand: Es ist der Teil, den Fremde am ehesten schon haben. Gegenvorschlag: streichen, oder nur als Link „zwei Orte“ ohne eigenes Konzept.
+- **Boje A9b: bestätigt verworfen.** Dasselbe gilt für A9a. Mit Station 51000, NOAA Passport und Educational Passages fehlt der Raum.
+- **Lehrwerkzeuge:** nur Trefferliste, nicht tiefer geöffnet.
+- **A9a/A9b Treibgut, A2/B1:** B1 Tagesrest ziehe ich zurück, es geht in A1 auf (Gründe wie in Lauf 3 von A).
+- **Ungeprüft und wichtig:** (1) Parhélie selbst benutzen (Simultaneität), (2) echte Koordinatenquelle für Orte mit Lizenz (z. B. GeoNames, CC-BY; nicht gelesen), (3) Winterlücke: im Dezember von Berlin aus nur eine Schwelle.
