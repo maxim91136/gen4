@@ -20,9 +20,15 @@ const EPOCHE = 10957; // Tage vom 1.1.1970 bis zum 1.1.2000, wie in rechnung.mjs
 export const RAND = 10;
 
 // Knappe Türen (REGELN.md Abschnitt 4, Zusatz Lauf 9): heute offen und entweder in höchstens
-// so vielen Tagen zu oder vor höchstens so vielen Tagen noch zu gewesen. Nur sie kommen in die
-// oberste Zeile und in den kurzen Fahrplan.
+// so vielen Tagen zu oder vor höchstens so vielen Tagen noch zu gewesen. Seit Lauf 10 ist das
+// nur noch ein Merkmal der Tür; was oben steht, entscheidet VORN.
 export const KNAPP_TAGE = 30;
+
+// Die vordersten Türen (Vorschlag B, Lauf 9; REGELN.md Abschnitt 4, Zusatz Lauf 10): die
+// höchstens so vielen heute offenen Türen mit dem kleinsten Abstand in Tagen zu ihrer Schwelle.
+// Nur sie kommen in die oberste Zeile und in den kurzen Fahrplan. Eine Frist in Tagen lief um
+// die Sonnenwenden leer und lieferte am Polarkreis 197 Türen; eine Rangfolge kann beides nicht.
+export const VORN = 10;
 
 // Weiche Daten als Zeitraum (Vorschlag B, Lauf 8): Statt "um den" nennt die Seite die Tage, die
 // die Rechnung bei 4,5° und bei 5,5° hergibt. Ist der Zeitraum länger als das hier, gehören die
@@ -82,7 +88,7 @@ export function abstandGrad(a, b) {
  * Ergebnis:
  *   heute       Tagnummer des Ortstags
  *   polarnacht  true, wenn die Sonne heute am eigenen Ort nie die Mindesthöhe erreicht
- *   tueren      je Ort { id, name, land, zustand, streift, spalt, naechste, danach, knapp, frisch }, sortiert
+ *   tueren      je Ort { id, name, land, zustand, streift, spalt, naechste, danach, knapp, frisch, seit, abstand, vorn }, sortiert
  *               nach dem, was als Nächstes geschieht.
  *               zustand: 'offen' | 'zu' (Tür wechselt) | 'immer' | 'nie' (über die Vorausschau)
  *               spalt: höchste gemeinsame Höhe heute oder null
@@ -90,9 +96,12 @@ export function abstandGrad(a, b) {
  *               Ortstag. von / bis: Zeitraum einer weichen Schwelle in Ortstagen oder null.
  *               knapp: heute offen und binnen KNAPP_TAGE zu oder vor Kurzem noch zu gewesen
  *               frisch: heute offen und an einem der letzten KNAPP_TAGE Tage zu gewesen
- *   fahrplan    Treffen des Ortstags { ms, hoehe, tuer, knapp } nach Zeit, tuer zeigt in `tueren`
+ *               seit: vor wie vielen Tagen sie zuletzt zu war (1 bis KNAPP_TAGE) oder null
+ *               abstand: Tage bis zur nächsten Schließung oder seit, das kleinere; null ohne beides
+ *               vorn: eine der höchstens VORN offenen Türen mit dem kleinsten abstand
+ *   fahrplan    Treffen des Ortstags { ms, hoehe, tuer, knapp, vorn } nach Zeit, tuer zeigt in `tueren`
  *   morgen      erstes Treffen des nächsten Ortstags oder null
- *   morgenKnapp erstes Treffen des nächsten Ortstags mit einer knappen Tür oder null
+ *   morgenVorn  erstes Treffen des nächsten Ortstags mit einer vorderen Tür oder null
  *   heuteZu     Türen, deren letztes Treffen heute liegt (Datum fest, nicht "um den")
  *   heuteAuf    Türen, die heute zum ersten Mal wieder offen sind
  *   naechsteZu  die Tür, die als Nächste nach heute schließt, oder null
@@ -115,7 +124,8 @@ export function ansicht(ich, orte, jetztMs, ortstag) {
 
     const t = tuer(ich, o.ort, start, tage);
     const eintrag = { id: o.id, name: o.name, land: o.land, zustand: t.art, streift: t.streift,
-      spalt: null, naechste: null, danach: null, heuteAuf: false, knapp: false, frisch: false };
+      spalt: null, naechste: null, danach: null, heuteAuf: false, knapp: false, frisch: false,
+      seit: null, abstand: null, vorn: false };
 
     // Treffen des Ortstags und das erste von morgen, aus vier UTC-Tagen.
     const heutige = [];
@@ -168,9 +178,11 @@ export function ansicht(ich, orte, jetztMs, ortstag) {
         for (let k = 1; k <= KNAPP_TAGE && !eintrag.frisch; k++) {
           const i = n0 - k - start;
           const sp = i >= 0 ? t.spalt[i] : spalt(ich, o.ort, deklination(n0 - k));
-          if (!istOffen(sp, MINDESTHOEHE)) eintrag.frisch = true;
+          if (!istOffen(sp, MINDESTHOEHE)) { eintrag.frisch = true; eintrag.seit = k; }
         }
         eintrag.knapp = eintrag.frisch || (eintrag.naechste !== null && eintrag.naechste.in <= KNAPP_TAGE);
+        const bis = eintrag.naechste !== null ? eintrag.naechste.in : null;
+        eintrag.abstand = bis === null ? eintrag.seit : eintrag.seit === null ? bis : Math.min(bis, eintrag.seit);
       }
     }
     tueren.push(eintrag);
@@ -183,20 +195,26 @@ export function ansicht(ich, orte, jetztMs, ortstag) {
     (a.name < b.name ? -1 : a.name > b.name ? 1 : 0) || a.id - b.id);
   tueren.forEach((e, i) => { e.nr = i; });
 
-  const fahrplan = roh.sort((a, b) => a.ms - b.ms).map((m) => ({ ms: m.ms, hoehe: m.hoehe, tuer: m.eintrag.nr, knapp: m.eintrag.knapp }));
+  // Die vordersten: kleinster Abstand zuerst. Bei gleichem Abstand die Tür mit dem schmaleren
+  // Spalt (sie hängt am dünneren Faden), dann die Kennung, damit die Auswahl feststeht.
+  tueren.filter((e) => e.abstand !== null)
+    .sort((a, b) => a.abstand - b.abstand || a.spalt - b.spalt || a.id - b.id)
+    .slice(0, VORN).forEach((e) => { e.vorn = true; });
+
+  const fahrplan = roh.sort((a, b) => a.ms - b.ms).map((m) => ({ ms: m.ms, hoehe: m.hoehe, tuer: m.eintrag.nr, knapp: m.eintrag.knapp, vorn: m.eintrag.vorn }));
   const zahlen = { offen: 0, zu: 0, immer: 0, nie: 0 };
   for (const e of tueren) zahlen[e.zustand]++;
   const schliesst = (e) => e.zustand === 'offen' && e.naechste;
-  // Eine Tür, die heute knapp ist und morgen ein Treffen hat, ist es morgen auch noch.
-  let morgenKnapp = null;
-  for (const m of morgige) if (m.eintrag.knapp && (morgenKnapp === null || m.ms < morgenKnapp.ms)) morgenKnapp = m;
+  // Die Auswahl von heute gilt auch für das erste Treffen von morgen. Morgen wird neu gerechnet.
+  let morgenVorn = null;
+  for (const m of morgige) if (m.eintrag.vorn && (morgenVorn === null || m.ms < morgenVorn.ms)) morgenVorn = m;
 
   return {
     heute,
     polarnacht: mittagshoehe(ich, n0) < MINDESTHOEHE && fahrplan.length === 0,
     tueren, fahrplan,
-    morgen: morgen ? { ms: morgen.ms, hoehe: morgen.hoehe, tuer: morgen.eintrag.nr, knapp: morgen.eintrag.knapp } : null,
-    morgenKnapp: morgenKnapp ? { ms: morgenKnapp.ms, hoehe: morgenKnapp.hoehe, tuer: morgenKnapp.eintrag.nr, knapp: true } : null,
+    morgen: morgen ? { ms: morgen.ms, hoehe: morgen.hoehe, tuer: morgen.eintrag.nr, knapp: morgen.eintrag.knapp, vorn: morgen.eintrag.vorn } : null,
+    morgenVorn: morgenVorn ? { ms: morgenVorn.ms, hoehe: morgenVorn.hoehe, tuer: morgenVorn.eintrag.nr, knapp: morgenVorn.eintrag.knapp, vorn: true } : null,
     heuteZu: tueren.filter((e) => schliesst(e) && e.naechste.in === 0 && !e.naechste.ungefaehr),
     heuteAuf: tueren.filter((e) => e.heuteAuf),
     naechsteZu: tueren.find((e) => schliesst(e) && e.naechste.in > 0) || null,
@@ -206,12 +224,12 @@ export function ansicht(ich, orte, jetztMs, ortstag) {
 
 /**
  * Das nächste Treffen nach jetztMs aus einer Ansicht, für die oberste Zeile. Reihenfolge:
- * heute mit einer knappen Tür, heute mit irgendeiner, morgen mit einer knappen, morgen mit
- * irgendeiner, sonst null. Mit nurAlle = true zählt "knapp" nicht (alter Stand, für Tests).
+ * heute mit einer vorderen Tür, heute mit irgendeiner, morgen mit einer vorderen, morgen mit
+ * irgendeiner, sonst null. Mit nurAlle = true zählt "vorn" nicht (alter Stand, für Tests).
  */
 export function naechstesTreffen(a, jetztMs, nachlaufMs = 0, nurAlle = false) {
   const ab = jetztMs - nachlaufMs;
-  if (!nurAlle) for (const m of a.fahrplan) if (m.knapp && m.ms >= ab) return m;
+  if (!nurAlle) for (const m of a.fahrplan) if (m.vorn && m.ms >= ab) return m;
   for (const m of a.fahrplan) if (m.ms >= ab) return m;
-  return (!nurAlle && a.morgenKnapp) || a.morgen;
+  return (!nurAlle && a.morgenVorn) || a.morgen;
 }

@@ -3,7 +3,7 @@
 // Ohne gewählten Ort rechnet die Seite für Berlin und sagt, dass das ein Beispiel ist.
 
 import { tagnummer, datum, MINDESTHOEHE, VORAUSSCHAU } from './rechnung.mjs';
-import { ansicht, naechstesTreffen, KNAPP_TAGE } from './ansicht.mjs';
+import { ansicht, naechstesTreffen } from './ansicht.mjs';
 import { suche, koordinaten, standort, gradteile, alsText, ausText } from './ortswahl.mjs';
 import { satz } from './texte.mjs';
 
@@ -34,6 +34,7 @@ let daten = null, ich = null, orte = null, bild = null;
 let wahl = null;      // gewählter Ort { art, name, land, ort } oder null für das Beispiel Berlin
 let berlin = null;    // der Beispielort aus orte.json
 let meldung = '';     // Schlüssel der Meldung in der Ortswahl oder ''
+let anfrage = 0;      // zählt jede Ortswahl und jede Standortabfrage; eine späte Antwort des Geräts gilt nur, wenn sich nichts getan hat
 
 const t = (k, w) => satz(sprache, k, w);
 const ortstag = (ms) => { const d = new Date(ms); return tagnummer(d.getFullYear(), d.getMonth() + 1, d.getDate()); };
@@ -109,6 +110,7 @@ function maleTreffer() {
 
 /** Neuer Ort (oder null für das Beispiel): merken, rechnen, malen. */
 function waehle(neueWahl) {
+  anfrage++;
   wahl = neueWahl;
   if (wahl) merke.schreib('sonnentuer.ort', alsText(wahl)); else merke.vergiss('sonnentuer.ort');
   ich = wahl ? wahl.ort : berlin.ort;
@@ -140,13 +142,17 @@ function ortswahlAnschliessen() {
     // Nur auf diesen Tipp. Das Ergebnis wird gerundet, bevor irgendetwas damit geschieht.
     if (!navigator.geolocation) { meldung = 'ort_geraet_fehlt'; maleOrt(); return; }
     meldung = 'ort_geraet_sucht'; maleOrt();
+    // Fund B, Lauf 9: Wählt der Besucher eine Stadt, während das Gerät noch sucht (bis 20
+    // Sekunden), darf die späte Antwort seine Wahl nicht überschreiben.
+    const meine = ++anfrage;
     navigator.geolocation.getCurrentPosition(
       (p) => {
+        if (meine !== anfrage) return;
         const k = standort(p.coords.latitude, p.coords.longitude);
         if (k) waehle({ art: 'standort', name: '', land: '', ort: k });
         else { meldung = 'ort_geraet_fehlt'; maleOrt(); }
       },
-      () => { meldung = 'ort_geraet_fehlt'; maleOrt(); },
+      () => { if (meine !== anfrage) return; meldung = 'ort_geraet_fehlt'; maleOrt(); },
       { enableHighAccuracy: false, timeout: 20000, maximumAge: 3600000 },
     );
   });
@@ -194,7 +200,7 @@ function maleNaechstes() {
   const m = naechstesTreffen(bild, jetzt, NACHLAUF_MS);
   if (!m) { kasten.append(neu('p', 'gross', t('kein_treffen'))); return; }
   const e = bild.tueren[m.tuer], ort = ortsname(e), min = Math.round((m.ms - jetzt) / 60000);
-  const morgen = m === bild.morgen || m === bild.morgenKnapp;
+  const morgen = m === bild.morgen || m === bild.morgenVorn;
   let kopf, fuss = t('dann', { grad: grad(m.hoehe), uhr: uhr(m.ms) });
   if (morgen) kopf = t('morgen_erst', { ort });
   else if (min <= 0) { kopf = t('jetzt', { ort }); fuss = t('jetzt_hoehe', { grad: grad(m.hoehe) }); }
@@ -202,9 +208,10 @@ function maleNaechstes() {
   else if (min < 60) kopf = t('in_minuten', { min, ort });
   else kopf = t('in_stunden', { std: Math.floor(min / 60), min: min % 60, ort });
   kasten.append(neu('p', 'gross', kopf), neu('p', 'klein', fuss));
-  // Warum gerade dieses Treffen oben steht: Die Tür ist knapp (REGELN.md Abschnitt 4).
-  if (m.knapp) {
-    const bald = e.naechste && e.naechste.in <= KNAPP_TAGE;
+  // Warum gerade dieses Treffen oben steht: Die Tür ist eine der vordersten (REGELN.md
+  // Abschnitt 4). Genannt wird, was näher liegt: die Schließung oder das Aufgehen vor Kurzem.
+  if (m.vorn) {
+    const bald = e.naechste && (e.seit === null || e.naechste.in <= e.seit);
     kasten.append(neu('p', 'klein grund', t('grund_knapp', { ort, was: bald ? schwellentext(e.naechste) : t('frisch') })));
   }
 }
@@ -260,10 +267,10 @@ function maleFahrplan() {
   if (!bild.fahrplan.length) { $('fahrplan-zahl').textContent = t('fahrplan_leer'); return; }
   $('fahrplan-zahl').textContent = t('fahrplan_zahl', { zahl: bild.fahrplan.length, orte: new Set(bild.fahrplan.map((m) => m.tuer)).size });
   const jetzt = Date.now();
-  // Zuerst die Treffen mit knappen Türen, als kurze Liste. Darunter, auf Wunsch, alle Treffen,
+  // Zuerst die Treffen der vordersten Türen, als kurze Liste. Darunter, auf Wunsch, alle Treffen,
   // nach Stunden gebündelt, weil ein Tag mehrere hundert hat.
-  const knappe = bild.fahrplan.filter((m) => m.knapp);
-  $('fahrplan-knapp-text').textContent = knappe.length ? t('fahrplan_knapp', { tage: KNAPP_TAGE }) : t('fahrplan_knapp_leer', { tage: KNAPP_TAGE });
+  const knappe = bild.fahrplan.filter((m) => m.vorn);
+  $('fahrplan-knapp-text').textContent = knappe.length ? t('fahrplan_knapp', { zahl: new Set(knappe.map((m) => m.tuer)).size }) : t('fahrplan_knapp_leer');
   knapp.append(...knappe.map((m) => treffenzeile(m, jetzt)));
   $('fahrplan-alle-text').textContent = t('fahrplan_alle', { zahl: bild.fahrplan.length });
   const stunden = new Map();

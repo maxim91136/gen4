@@ -79,8 +79,8 @@ export const TEXTE = {
 
     k_fahrplan: 'Der Fahrplan von heute',
     fahrplan_zahl: '{zahl} Treffen mit {orte} Orten.',
-    fahrplan_knapp: 'Zuerst die knappen Türen: Sie schließen in den nächsten {tage} Tagen oder waren in den letzten {tage} Tagen noch zu.',
-    fahrplan_knapp_leer: 'Heute trifft sich keine knappe Tür: keine, die in den nächsten {tage} Tagen schließt oder in den letzten {tage} Tagen noch zu war.',
+    fahrplan_knapp: 'Zuerst die {zahl} Türen, an denen sich als Nächstes etwas tut: Sie schließen am ehesten oder sind gerade erst wieder aufgegangen.',
+    fahrplan_knapp_leer: 'Heute ist keine Tür offen, die in der Vorausschau schließt oder gerade erst aufgegangen ist.',
     fahrplan_alle: 'Alle {zahl} Treffen von heute, nach Stunden',
     stunde: '{uhr} · {zahl} Treffen',
     fahrplan_leer: 'Heute gibt es kein Treffen.',
@@ -170,8 +170,8 @@ export const TEXTE = {
 
     k_fahrplan: 'Today’s timetable',
     fahrplan_zahl: '{zahl} meetings with {orte} places.',
-    fahrplan_knapp: 'First the scarce doors: they close within the next {tage} days or were still closed within the last {tage} days.',
-    fahrplan_knapp_leer: 'No scarce door meets today: none that closes within the next {tage} days or was still closed within the last {tage} days.',
+    fahrplan_knapp: 'First the {zahl} doors where something happens next: they are the soonest to close, or have only just opened again.',
+    fahrplan_knapp_leer: 'No door is open today that closes within the days we look ahead or has only just opened.',
     fahrplan_alle: 'All {zahl} of today’s meetings, by the hour',
     stunde: '{uhr} · {zahl} meetings',
     fahrplan_leer: 'There is no meeting today.',

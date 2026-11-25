@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as r from '../site/rechnung.mjs';
-import { ansicht, naechstesTreffen, abstandGrad, utcTag, zeitraum, KNAPP_TAGE, ZEITRAUM_HOECHSTENS } from '../site/ansicht.mjs';
+import { ansicht, naechstesTreffen, abstandGrad, utcTag, zeitraum, KNAPP_TAGE, VORN, ZEITRAUM_HOECHSTENS } from '../site/ansicht.mjs';
 
 const D = JSON.parse(readFileSync(new URL('../site/orte.json', import.meta.url), 'utf8'));
 const ORTE = D.tueren.map((z) => ({ id: z[0], name: z[1], land: z[2], ort: [z[3], z[4]] }));
@@ -177,7 +177,7 @@ test('zeitraum(): nur wenn beide Gegenstücke da sind, der Tag dazwischen liegt 
 
 test('Zeiträume und knappe Türen: über ein Jahr und fünf Orte stimmig', () => {
   const faelle = [[BERLIN, 1], [ort('Auckland'), 13], [ort('Quito'), -5], [[69.65, 18.96], 1], [ort('Singapore'), 8]];
-  let mitZeitraum = 0, um = 0, knapp = 0, frisch = 0;
+  let mitZeitraum = 0, um = 0, knapp = 0, frisch = 0, meisteVorn = 0, ohneVorn = 0;
   for (const [ich, h] of faelle) {
     for (let k = 0; k < 366; k += 19) {
       const jetzt = Date.UTC(2027, 0, 1 + k, 12) - h * 3600000;
@@ -204,18 +204,35 @@ test('Zeiträume und knappe Türen: über ein Jahr und fünf Orte stimmig', () =
         if (e.frisch) { frisch++; assert.equal(e.zustand, 'offen', wo + e.name); }
         if (e.zustand === 'immer' || e.zustand === 'nie' || e.zustand === 'zu') assert.equal(e.knapp, false, wo + e.name);
       }
-      for (const m of a.fahrplan) assert.equal(m.knapp, a.tueren[m.tuer].knapp, wo);
-      // Die oberste Zeile: gibt es heute noch ein Treffen mit einer knappen Tür, dann steht eines oben,
+      for (const m of a.fahrplan) { assert.equal(m.knapp, a.tueren[m.tuer].knapp, wo); assert.equal(m.vorn, a.tueren[m.tuer].vorn, wo); }
+      // Die vordersten Türen (Lauf 10): höchstens VORN, alle offen, und keine Tür dahinter liegt näher
+      // an ihrer Schwelle als eine davor. Leer nur, wenn keine offene Tür einen Abstand hat.
+      const vorn = a.tueren.filter((e) => e.vorn), mitAbstand = a.tueren.filter((e) => e.abstand !== null);
+      assert.equal(vorn.length, Math.min(VORN, mitAbstand.length), wo);
+      meisteVorn = Math.max(meisteVorn, vorn.length);
+      if (!vorn.length) ohneVorn++;
+      const weitester = Math.max(...vorn.map((e) => e.abstand));
+      for (const e of a.tueren) {
+        if (e.abstand === null) { assert.ok(!e.vorn && !e.frisch && !(e.zustand === 'offen' && e.naechste), wo + e.name); continue; }
+        assert.equal(e.zustand, 'offen', wo + e.name);
+        assert.ok(e.abstand >= 0 && e.spalt !== null, wo + e.name);
+        assert.equal(e.abstand, Math.min(e.naechste ? e.naechste.in : Infinity, e.seit ?? Infinity), wo + e.name);
+        if (!e.vorn) assert.ok(e.abstand >= weitester, wo + e.name);
+        if (e.seit !== null) assert.ok(e.frisch && e.seit >= 1 && e.seit <= KNAPP_TAGE, wo + e.name);
+      }
+      // Wer knapp ist, wird nur von anderen Knappen verdrängt.
+      if (a.tueren.some((e) => e.knapp && !e.vorn)) assert.ok(vorn.every((e) => e.knapp), wo);
+      // Die oberste Zeile: gibt es heute noch ein Treffen mit einer vorderen Tür, dann steht eines oben,
       // und zwar das früheste. Sonst das nächste überhaupt.
       const oben = naechstesTreffen(a, jetzt);
-      const knappe = a.fahrplan.filter((m) => m.knapp && m.ms >= jetzt), alle = a.fahrplan.filter((m) => m.ms >= jetzt);
-      if (knappe.length) assert.equal(oben, knappe[0], wo);
+      const vordere = a.fahrplan.filter((m) => m.vorn && m.ms >= jetzt), alle = a.fahrplan.filter((m) => m.ms >= jetzt);
+      if (vordere.length) assert.equal(oben, vordere[0], wo);
       else if (alle.length) assert.equal(oben, alle[0], wo);
-      else assert.equal(oben, a.morgenKnapp || a.morgen, wo);
-      if (a.morgenKnapp) {
-        assert.equal(zone(h)(a.morgenKnapp.ms), a.heute + 1, wo);
-        assert.equal(a.tueren[a.morgenKnapp.tuer].knapp, true, wo);
-        assert.ok(a.morgenKnapp.ms >= a.morgen.ms, wo);
+      else assert.equal(oben, a.morgenVorn || a.morgen, wo);
+      if (a.morgenVorn) {
+        assert.equal(zone(h)(a.morgenVorn.ms), a.heute + 1, wo);
+        assert.equal(a.tueren[a.morgenVorn.tuer].vorn, true, wo);
+        assert.ok(a.morgenVorn.ms >= a.morgen.ms, wo);
       }
       assert.equal(naechstesTreffen(a, jetzt, 0, true), alle.length ? alle[0] : a.morgen, wo);
     }
@@ -223,6 +240,32 @@ test('Zeiträume und knappe Türen: über ein Jahr und fünf Orte stimmig', () =
   // Der Test soll nicht leer laufen.
   assert.ok(mitZeitraum > 100 && knapp > 100 && frisch > 20, `${mitZeitraum} ${um} ${knapp} ${frisch}`);
   assert.ok(mitZeitraum > um, `Zeitraum ${mitZeitraum}, um den ${um}`);
+  assert.equal(meisteVorn, VORN);
+  console.log(`vorn: ${ohneVorn} von ${faelle.length * 20} Stichtagen ohne vordere Tür`);
+});
+
+test('Tromsø: nie mehr als zehn vordere Türen, leer nur in der Polarnacht', () => {
+  // Bs Zählung aus Lauf 9: mit der Frist von 30 Tagen bis zu 197 knappe Türen an einem Tag und
+  // 13 von 37 Stichtagen leer. Mit der Rangfolge: höchstens VORN, und leer nur ohne offene Tür.
+  const tromso = [69.65, 18.96];
+  let leer = 0, meisteKnapp = 0;
+  for (let k = 0; k < 366; k += 10) {
+    const jetzt = Date.UTC(2027, 0, 1 + k, 11);
+    const a = ansicht(tromso, ORTE, jetzt, zone(1));
+    const vorn = a.tueren.filter((e) => e.vorn);
+    meisteKnapp = Math.max(meisteKnapp, a.tueren.filter((e) => e.knapp).length);
+    assert.ok(vorn.length <= VORN, `Tag ${k}: ${vorn.length}`);
+    if (!vorn.length) {
+      leer++;
+      // Leer heißt: keine wechselnde Tür ist offen. In der Polarnacht ist gar keine offen.
+      assert.equal(a.zahlen.offen, 0, `Tag ${k}`);
+    } else {
+      assert.ok(a.fahrplan.some((m) => m.vorn), `Tag ${k}`);
+    }
+    if (a.polarnacht) assert.equal(vorn.length, 0, `Tag ${k}`);
+  }
+  assert.ok(meisteKnapp > 100, `knapp höchstens ${meisteKnapp}`); // die Flut gibt es wirklich
+  console.log(`Tromsø: ${leer} von 37 Stichtagen ohne vordere Tür, bis zu ${meisteKnapp} knappe`);
 });
 
 test('Frisch: Rom ist von Berlin aus Anfang April 2028 knapp, weil es gerade erst wieder aufging', () => {
