@@ -4,7 +4,7 @@
 
 import { tagnummer, datum, MINDESTHOEHE, VORAUSSCHAU } from './rechnung.mjs';
 import { ansicht, naechstesTreffen } from './ansicht.mjs';
-import { suche, koordinaten, standort, gradteile, alsText, ausText } from './ortswahl.mjs';
+import { suche, anzeigename, koordinaten, standort, gradteile, alsText, ausText } from './ortswahl.mjs';
 import { satz } from './texte.mjs';
 
 const BERLIN_ID = 2950159;      // GeoNames-Kennung, der Ort selbst kommt aus orte.json
@@ -31,7 +31,7 @@ let sprache = merke.lies('sonnentuer.sprache') ||
 if (sprache !== 'de' && sprache !== 'en') sprache = 'de';
 
 let daten = null, ich = null, orte = null, bild = null;
-let wahl = null;      // gewählter Ort { art, name, land, ort } oder null für das Beispiel Berlin
+let wahl = null;      // gewählter Ort { art, name, nameDe, land, ort } oder null für das Beispiel Berlin
 let berlin = null;    // der Beispielort aus orte.json
 let meldung = '';     // Schlüssel der Meldung in der Ortswahl oder ''
 let anfrage = 0;      // zählt jede Ortswahl und jede Standortabfrage; eine späte Antwort des Geräts gilt nur, wenn sich nichts getan hat
@@ -44,7 +44,7 @@ const tagtext = (n) => {
   return new Intl.DateTimeFormat(sprache, { day: 'numeric', month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(d.jahr, d.monat - 1, d.tag)));
 };
 const grad = (h) => Math.floor(h); // abgerundet, damit nie mehr dasteht, als gerechnet ist
-const ortsname = (e) => e.name;
+const ortsname = (e) => e.name; // steht schon in der Sprache der Seite, siehe baueOrte()
 const zahltext = (x) => new Intl.NumberFormat(sprache, { maximumFractionDigits: 2 }).format(x);
 
 // Wann eine Schwelle liegt: festes Datum, Zeitraum (bei 4,5° und 5,5° gerechnet) oder "um den".
@@ -65,7 +65,13 @@ function schwellentext(n) {
 
 function festeTexte() {
   document.documentElement.lang = sprache;
+  // Gibt es deutsche Namen in der Ortsliste, sagen Suchhilfe und Quellen das; sonst gilt GeoNames allein.
+  const mitNamen = !!(daten && daten.namen_abgerufen);
+  $('ort-suche-hilfe').dataset.t = mitNamen ? 'ort_suchen_hilfe_namen' : 'ort_suchen_hilfe';
+  $('quellen-namen').dataset.t = mitNamen ? 'namen_wikidata' : 'namen_geonames';
+  $('quellen-namen').dataset.stand = mitNamen ? isoText(daten.namen_abgerufen) : '';
   for (const e of document.querySelectorAll('[data-t]')) {
+    if (e.dataset.stand) { e.textContent = t(e.dataset.t, { datum: e.dataset.stand }); continue; }
     e.textContent = t(e.dataset.t, { grad: MINDESTHOEHE, tage: VORAUSSCHAU, datum: daten ? isoText(daten.abgerufen) : '' });
   }
   maleOrt();
@@ -75,7 +81,7 @@ function maleOrt() {
   const zeile = $('ort-jetzt');
   if (!ich) { zeile.textContent = ''; return; }
   if (!wahl) zeile.textContent = t('ort_beispiel');
-  else if (wahl.art === 'liste') zeile.textContent = t('ort_liste', { name: wahl.name, land: wahl.land });
+  else if (wahl.art === 'liste') zeile.textContent = t('ort_liste', { name: anzeigename(wahl.name, wahl.nameDe, sprache), land: wahl.land });
   else {
     const g = gradteile(wahl.ort);
     const w = { breite: zahltext(g.breite), ns: t(g.nord ? 'nord' : 'sued'), laenge: zahltext(g.laenge), ow: t(g.ost ? 'ost' : 'west') };
@@ -99,8 +105,8 @@ function maleTreffer() {
   for (const o of treffer) {
     const knopf = neu('button', 'treffer-knopf');
     knopf.type = 'button';
-    knopf.append(neu('span', 'ort', o.name), ' ', neu('span', 'land', o.land));
-    knopf.addEventListener('click', () => waehle({ art: 'liste', name: o.name, land: o.land, ort: o.ort }));
+    knopf.append(neu('span', 'ort', anzeigename(o.name, o.nameDe, sprache)), ' ', neu('span', 'land', o.land));
+    knopf.addEventListener('click', () => waehle({ art: 'liste', name: o.name, nameDe: o.nameDe, land: o.land, ort: o.ort }));
     const li = neu('li');
     li.append(knopf);
     liste.append(li);
@@ -134,7 +140,7 @@ function ortswahlAnschliessen() {
   const nimm = () => {
     const k = koordinaten($('ort-breite').value, $('ort-laenge').value);
     if (!k) { meldung = 'ort_koordinaten_falsch'; maleOrt(); return; }
-    waehle({ art: 'koordinaten', name: '', land: '', ort: k });
+    waehle({ art: 'koordinaten', name: '', nameDe: '', land: '', ort: k });
   };
   $('ort-nehmen').addEventListener('click', nimm);
   for (const id of ['ort-breite', 'ort-laenge']) $(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') nimm(); });
@@ -149,7 +155,7 @@ function ortswahlAnschliessen() {
       (p) => {
         if (meine !== anfrage) return;
         const k = standort(p.coords.latitude, p.coords.longitude);
-        if (k) waehle({ art: 'standort', name: '', land: '', ort: k });
+        if (k) waehle({ art: 'standort', name: '', nameDe: '', land: '', ort: k });
         else { meldung = 'ort_geraet_fehlt'; maleOrt(); }
       },
       () => { if (meine !== anfrage) return; meldung = 'ort_geraet_fehlt'; maleOrt(); },
@@ -301,6 +307,11 @@ function maleFahrplan() {
   }
 }
 
+/** Die Türen mit Namen in der Sprache der Seite. Die Rechnung kennt nur einen Namen je Ort. */
+function baueOrte() {
+  orte = daten.tueren.map((z) => ({ id: z[0], name: anzeigename(z[1], z[6], sprache), land: z[2], ort: [z[3], z[4]] }));
+}
+
 function rechne() {
   bild = ansicht(ich, orte, Date.now(), ortstag);
 }
@@ -323,13 +334,14 @@ async function los() {
   $('sprache').addEventListener('click', () => {
     sprache = sprache === 'de' ? 'en' : 'de';
     merke.schreib('sonnentuer.sprache', sprache);
-    if (bild) male(); else festeTexte();
+    // Die Namen der Türen hängen an der Sprache, und die Liste ist nach Namen geordnet: neu rechnen.
+    if (bild) { baueOrte(); rechne(); male(); } else festeTexte();
   });
   try {
     const antwort = await fetch('orte.json');
     if (!antwort.ok) throw new Error(String(antwort.status));
     daten = await antwort.json();
-    orte = daten.tueren.map((z) => ({ id: z[0], name: z[1], land: z[2], ort: [z[3], z[4]] }));
+    baueOrte();
     berlin = orte.find((o) => o.id === BERLIN_ID);
     if (!berlin) throw new Error('Berlin fehlt in der Ortsliste');
     wahl = ausText(merke.lies('sonnentuer.ort'));

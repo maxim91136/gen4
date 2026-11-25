@@ -23,6 +23,7 @@ test('Die Seite benutzt nur Sätze, die es gibt, und jeder Satz wird benutzt', (
   for (const m of js.matchAll(/\bt\(\s*'(\w+)'/g)) benutzt.add(m[1]);
   for (const m of js.matchAll(/\bt\([^()]*\? '(\w+)' : '(\w+)'/g)) { benutzt.add(m[1]); benutzt.add(m[2]); } // t(x ? 'a' : 'b')
   for (const m of js.matchAll(/dataset\.t = '(\w+)'/g)) benutzt.add(m[1]);
+  for (const m of js.matchAll(/dataset\.t = \w+ \? '(\w+)' : '(\w+)'/g)) { benutzt.add(m[1]); benutzt.add(m[2]); }
   for (const m of js.matchAll(/\bmeldung = '(\w+)'/g)) benutzt.add(m[1]); // Meldungen der Ortswahl
   for (const k of benutzt) assert.ok(k in TEXTE.de, 'fehlt in der Tabelle: ' + k);
   benutzt.add('ohneSkript'); // steht fest im noscript der Seite, siehe nächster Test
@@ -44,6 +45,9 @@ test('Ohne JavaScript steht ein Satz da, und die Herkunft steht in der Seite sel
   assert.match(TEXTE.de.herkunft, /zwei KI-Sitzungen/);
   assert.match(TEXTE.en.herkunft, /two AI sessions/);
   assert.match(TEXTE.de.quellen, /GeoNames.*CC BY 4\.0/);
+  // Deutsche Namen kommen aus einer zweiten Quelle; steht sie in der Ortsliste, nennt die Seite sie mit Stand.
+  for (const s of ['de', 'en']) assert.match(TEXTE[s].namen_wikidata, /Wikidata, CC0.*\{datum\}/);
+  assert.match(lies('seite.mjs'), /daten\.namen_abgerufen/);
 });
 
 test('Nichts in site/ lädt etwas von einer fremden Adresse', () => {

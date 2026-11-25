@@ -114,6 +114,16 @@ Welche Gebiete einen Ländercode haben, entscheidet GeoNames, nicht wir. Das ste
 
 **Ortsnamen.** Antwort B (Lauf 6, nach Kenntnis der Dateibeschreibung, ungeprüft am echten Inhalt): `cities15000` hat die Spalten geonameid, name, asciiname, alternatenames, Breite, Länge, Merkmalsklasse, Merkmalscode (dort `PPLC`), Ländercode, Einwohner, Zeitzone. Die Alternativnamen stehen ohne Sprachkennung, taugen also nicht für Deutsch. Vorschlag A (Wikidata über die GeoNames-Kennung, Eigenschaft P1566, Labels de/en) ist der Weg; der Actions-Lauf soll zählen, wie viele Orte kein deutsches Label haben, und diese Zahl ausgeben. Frage war:  `cities15000` hat einen Hauptnamen und eine ASCII-Fassung, aber deutsche Namen (Rom, Mailand, Kapstadt) nur in einer sehr großen Zusatzdatei. Vorschlag: Namen in Deutsch und Englisch über die Wikidata-Kennung nachschlagen (CC0), im selben Actions-Lauf. Geht das nicht sauber, zeigt die Seite in beiden Sprachen den GeoNames-Namen.
 
+**Deutsche Ortsnamen: Zusatz aus Lauf 12 (A, von B gegenzulesen, bevor der Lauf ausgelöst wird).**
+
+- *Quelle und Weg.* Wikidata (CC0), gefragt über den öffentlichen Abfragedienst nach der GeoNames-Kennung (Eigenschaft P1566) und dem deutschen Label. Skript `werkzeug/namen_holen.py`, Actions-Lauf `.github/workflows/namen.yml`, nur von Hand auszulösen. Stand Lauf 12: **noch nicht ausgelöst**, die Seite zeigt GeoNames-Namen. Aus der Arbeitsumgebung ist der Dienst nicht erreichbar (in Lauf 12 versucht), die Abfrage ist also gegen nachgestellte Antworten getestet und gegen die echte **ungeprüft**.
+- *Zweiter Abruf bei GeoNames.* Der Lauf holt `cities15000` noch einmal, weil die Suchliste in `orte.json` keine Kennungen führt. Das weicht von „einmalig“ oben ab: ein weiterer Abruf von Hand, kein wiederkehrender. `orte.json` wird dabei ganz neu gebaut; hat GeoNames seit dem 25. November etwas geändert, ändert sich die Liste mit. Der Lauf lässt deshalb alle Tests mit der neuen Datei laufen, bevor er sie ins Repo schreibt, und schreibt nichts, wenn einer fehlschlägt.
+- *Was gefragt wird.* Alle Türen und alle Orte der Suchliste, in Stapeln von 250 Kennungen mit zwei Sekunden Pause, etwa 27 Anfragen. Schlägt eine endgültig fehl oder hat weniger als die Hälfte der Orte einen deutschen Namen, entsteht keine Datei.
+- *Was genommen wird.* Führen mehrere Wikidata-Einträge dieselbe Kennung, gilt der mit der kleinsten Q-Nummer. Ein Label wird nur genommen, wenn es höchstens 60 Zeichen hat, keine Steuerzeichen und keine spitzen Klammern enthält und mindestens einen Buchstaben. Die Seite setzt Namen nur als Text ein.
+- *In der Datei.* Türen und Suchliste bekommen eine weitere Spalte `name_de`: den deutschen Namen, wenn es einen gibt und er anders lautet als der von GeoNames, sonst leer. Dazu `namen_quelle`, `namen_abgerufen` und vier Zahlen (ohne deutschen Namen, mit anderem deutschen Namen, je für Türen und Suchliste). Der Lauf schreibt alle Türen mit anderem deutschen Namen in seine Zusammenfassung, damit sie jemand einmal liest.
+- *Auf der Seite.* Deutsch zeigt den deutschen Namen, wo es einen gibt, sonst den von GeoNames. Englisch zeigt immer den von GeoNames (der ist fast durchweg die englische Form; englische Labels von Wikidata holen wir nicht, anders als oben einmal vorgeschlagen). Die Türliste ist nach dem angezeigten Namen geordnet. Die Suche findet in jeder Sprache beide Namen. Im Speicher des Browsers steht beim gewählten Ort zusätzlich `nameDe`. Fehlt die Spalte in der Datei, läuft die Seite wie bisher; steht sie da, nennt der Fuß Wikidata mit Stand.
+- *Zahlenzeile.* Statt „offen und bald zu“ heißt es „heute offen · heute zu · immer offen · nie offen“ (B, Lauf 11: „bald“ war falsch). „Heute offen“ und „heute zu“ sind die Türen, die in der Vorausschau wechseln.
+
 **Die 50 Orte aus `werkzeug/ortsschwellen.py` kommen nicht auf die Seite** (Bs Auflage 2).
 
 **Der Ort des Besuchers.** Aus der Liste gewählt oder eingetippt. Die Standortabfrage des Browsers nur auf ausdrücklichen Tipp, das Ergebnis auf 0,1° gerundet. Der Ort liegt im `localStorage` und sonst nirgends, auch nicht in der Adresse der Seite. Ohne Angabe zeigt die Seite ein Beispiel (Berlin) und sagt, dass es ein Beispiel ist.
@@ -151,7 +161,7 @@ Stand Lauf 7 (A): Das Modul ist `site/rechnung.mjs`. Die Brücke zwischen beiden
 1. Rechenmodul in JavaScript mit Tests gegen die Python-Zahlen. Noch keine Seite.
 2. Ortsliste holen (Actions-Lauf), Auswahlregel anwenden, Zahl der Orte ansehen.
 3. Seite mit festem Ort Berlin: nächstes Treffen, Türen, Fahrplan.
-4. Ortswahl, Sprache, Texte. (Stand Lauf 9: Ortswahl und Sprache stehen, deutsche Ortsnamen fehlen.)
+4. Ortswahl, Sprache, Texte. (Stand Lauf 12: Werkzeug und Seite für deutsche Ortsnamen stehen, der Lauf ist noch nicht ausgelöst.) (Stand Lauf 9: Ortswahl und Sprache stehen, deutsche Ortsnamen fehlen.)
 5. Beigaben, wenn der Kern steht.
 
 ## Gegenzeichnung

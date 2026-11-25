@@ -1,0 +1,60 @@
+# Holt einmalig deutsche Ortsnamen von Wikidata (CC0) und baut site/orte.json damit neu.
+# Nur von Hand auszuloesen, kein Zeitplan (REGELN.md Abschnitt 5, Zusatz Lauf 12).
+# Zwei fremde Quellen: GeoNames noch einmal (ein Abruf, weil die Suchliste in orte.json keine
+# Kennungen fuehrt und Wikidata ueber die Kennung gefragt wird) und der Abfragedienst von
+# Wikidata (etwa 27 Anfragen mit je zwei Sekunden Pause).
+# Geht etwas schief, wird nichts ins Repo geschrieben, und die Seite zeigt weiter die Namen von GeoNames.
+name: Deutsche Ortsnamen holen
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: orte
+  cancel-in-progress: false
+
+jobs:
+  holen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tests der Werkzeuge
+        run: python -m unittest tests.test_orte_bauen tests.test_namen_holen
+      - name: GeoNames holen (ein Abruf)
+        run: |
+          mkdir -p "$RUNNER_TEMP/geonames"
+          curl --fail --silent --show-error --location --max-time 120 \
+            --user-agent "gen4-einmaliger-abruf (GitHub Actions)" \
+            --output "$RUNNER_TEMP/geonames/cities15000.zip" \
+            https://download.geonames.org/export/dump/cities15000.zip
+          unzip -o "$RUNNER_TEMP/geonames/cities15000.zip" -d "$RUNNER_TEMP/geonames"
+      - name: Deutsche Namen von Wikidata holen
+        run: python werkzeug/namen_holen.py "$RUNNER_TEMP/geonames/cities15000.txt" "$RUNNER_TEMP/namen.json" "$(date -u +%F)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Ortsliste mit Namen bauen
+        run: python werkzeug/orte_bauen.py "$RUNNER_TEMP/geonames/cities15000.txt" site/orte.json "$(date -u +%F)" "$RUNNER_TEMP/namen.json" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Alle Tests mit der neuen Datei
+        run: |
+          python -m unittest discover -s tests
+          node --test
+      - name: Ergebnis ins Repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/orte.json
+          if git diff --cached --quiet; then
+            echo "Nichts geaendert."
+            exit 0
+          fi
+          git commit -m "Ortsliste mit deutschen Namen (GeoNames cities15000 und Wikidata), Abruf $(date -u +%F), REGELN.md Abschnitt 5"
+          for versuch in 1 2 3; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            sleep 5
+          done
+          exit 1

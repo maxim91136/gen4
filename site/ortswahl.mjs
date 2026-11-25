@@ -13,22 +13,30 @@ export function vergleichsform(s) {
 }
 
 /**
- * Orte, deren Name zur Eingabe passt. `liste` hat Zeilen [name, land, breite, länge], die größten
- * Städte zuerst (so liegt sie in orte.json). Erst Namen, die so anfangen, dann Namen, in denen
- * ein Wort so anfängt; innerhalb davon bleibt die Reihenfolge der Liste. Unter zwei Zeichen nichts.
- * Ergebnis: Liste { name, land, ort: [breite, länge] }.
+ * Orte, deren Name zur Eingabe passt. `liste` hat Zeilen [name, land, breite, länge] und, wenn
+ * es deutsche Namen gibt, als fünftes den deutschen Namen oder '' (REGELN.md Abschnitt 5). Die
+ * größten Städte stehen zuerst (so liegt sie in orte.json). Gesucht wird in beiden Namen, gleich
+ * in welcher Sprache die Seite steht: Wer „Mailand“ tippt, findet Milan, und umgekehrt. Erst
+ * Namen, die so anfangen, dann Namen, in denen ein Wort so anfängt; innerhalb davon bleibt die
+ * Reihenfolge der Liste. Unter zwei Zeichen nichts.
+ * Ergebnis: Liste { name, nameDe, land, ort: [breite, länge] }, nameDe ist '' ohne deutschen Namen.
  */
 export function suche(liste, eingabe, hoechstens = TREFFER_HOECHSTENS) {
   const q = vergleichsform(eingabe);
   if (q.length < 2) return [];
   const vorn = [], innen = [];
   for (const z of liste) {
-    const n = vergleichsform(z[0]);
-    if (n.startsWith(q)) vorn.push(z);
-    else if (innen.length < hoechstens && n.includes(' ' + q)) innen.push(z);
+    const n = vergleichsform(z[0]), d = z[4] ? vergleichsform(z[4]) : '';
+    if (n.startsWith(q) || (d && d.startsWith(q))) vorn.push(z);
+    else if (innen.length < hoechstens && (n.includes(' ' + q) || d.includes(' ' + q))) innen.push(z);
     if (vorn.length >= hoechstens) break;
   }
-  return vorn.concat(innen).slice(0, hoechstens).map((z) => ({ name: z[0], land: z[1], ort: [z[2], z[3]] }));
+  return vorn.concat(innen).slice(0, hoechstens).map((z) => ({ name: z[0], nameDe: typeof z[4] === 'string' ? z[4] : '', land: z[1], ort: [z[2], z[3]] }));
+}
+
+/** Der Name eines Orts in der Sprache der Seite: deutsch der deutsche, wenn es einen gibt, sonst der von GeoNames. */
+export function anzeigename(name, nameDe, sprache) {
+  return sprache === 'de' && typeof nameDe === 'string' && nameDe ? nameDe : name;
 }
 
 /** Eine Zahl aus einem Textfeld, Komma oder Punkt als Dezimalzeichen. Sonst null. */
@@ -67,7 +75,7 @@ export function gradteile(ort) {
 
 /** Was im Speicher des Browsers liegt: Text aus einem gewählten Ort. */
 export function alsText(wahl) {
-  return JSON.stringify({ art: wahl.art, name: wahl.name || '', land: wahl.land || '', ort: wahl.ort });
+  return JSON.stringify({ art: wahl.art, name: wahl.name || '', nameDe: wahl.nameDe || '', land: wahl.land || '', ort: wahl.ort });
 }
 
 /** Gewählter Ort aus dem Text im Speicher oder null, wenn dort nichts Brauchbares steht. */
@@ -81,6 +89,7 @@ export function ausText(text) {
   return {
     art: w.art,
     name: w.art === 'liste' ? w.name.slice(0, 80) : '',
+    nameDe: w.art === 'liste' && typeof w.nameDe === 'string' ? w.nameDe.slice(0, 80) : '',
     land: w.art === 'liste' && typeof w.land === 'string' ? w.land.slice(0, 3) : '',
     ort: [w.ort[0], w.ort[1]],
   };

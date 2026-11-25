@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { vergleichsform, suche, zahl, koordinaten, runde, standort, gradteile, alsText, ausText, TREFFER_HOECHSTENS } from '../site/ortswahl.mjs';
+import { vergleichsform, suche, anzeigename, zahl, koordinaten, runde, standort, gradteile, alsText, ausText, TREFFER_HOECHSTENS } from '../site/ortswahl.mjs';
 
 const D = JSON.parse(readFileSync(new URL('../site/orte.json', import.meta.url), 'utf8'));
 
@@ -41,6 +41,25 @@ test('Suche: Anfang des Namens zuerst, große Städte zuerst, ohne Akzente, höc
   assert.deepEqual(suche(D.orte, '<script>'), suche(D.orte, 'script'));
 });
 
+test('Deutsche Namen: Suche in beiden Namen, Anzeige nach Sprache, alte Liste ohne fünfte Spalte geht weiter', () => {
+  // Erfundene Liste in der Form von orte.json nach dem Namenslauf, keine Daten.
+  const L = [['Milan', 'IT', 45.46, 9.19, 'Mailand'], ['Mainz', 'DE', 50, 8.27, ''], ['Cologne', 'DE', 50.93, 6.95, 'Köln'],
+    ['Mexico City', 'MX', 19.43, -99.13, 'Mexiko-Stadt'], ['Frankfurt am Main', 'DE', 50.12, 8.68, ''], ['Alt', 'XX', 1, 2]];
+  assert.deepEqual(suche(L, 'mail').map((o) => o.name), ['Milan']);
+  assert.deepEqual(suche(L, 'mila').map((o) => o.nameDe), ['Mailand']);
+  assert.deepEqual(suche(L, 'koln').map((o) => o.name), ['Cologne']);
+  assert.deepEqual(suche(L, 'ma').map((o) => o.name), ['Milan', 'Mainz', 'Frankfurt am Main']); // Anfang (auch deutsch) vor Wortmitte
+  assert.deepEqual(suche(L, 'stadt').map((o) => o.name), ['Mexico City']);
+  assert.deepEqual(suche(L, 'city').map((o) => o.name), ['Mexico City']);
+  assert.equal(suche(L, 'main')[0].nameDe, '');
+  assert.deepEqual(suche(L, 'alt'), [{ name: 'Alt', nameDe: '', land: 'XX', ort: [1, 2] }]);
+  assert.equal(anzeigename('Milan', 'Mailand', 'de'), 'Mailand');
+  assert.equal(anzeigename('Milan', 'Mailand', 'en'), 'Milan');
+  assert.equal(anzeigename('Mainz', '', 'de'), 'Mainz');
+  assert.equal(anzeigename('Alt', undefined, 'de'), 'Alt');
+  assert.equal(anzeigename('Alt', 5, 'de'), 'Alt');
+});
+
 test('Zahlen und Koordinaten: Komma oder Punkt, nichts Halbes, nichts außerhalb', () => {
   assert.equal(zahl('52,52'), 52.52);
   assert.equal(zahl(' -33.9 '), -33.9);
@@ -75,12 +94,15 @@ test('Gradteile für die Anzeige', () => {
 });
 
 test('Speicher: hin und zurück, und Unsinn im Speicher wird zu "kein Ort"', () => {
-  const w = { art: 'liste', name: 'Lima', land: 'PE', ort: [-12.04, -77.03] };
+  const w = { art: 'liste', name: 'Milan', nameDe: 'Mailand', land: 'IT', ort: [45.46, 9.19] };
   assert.deepEqual(ausText(alsText(w)), w);
-  const k = { art: 'standort', name: '', land: '', ort: [52.5, 13.4] };
+  const k = { art: 'standort', name: '', nameDe: '', land: '', ort: [52.5, 13.4] };
+  // Was vor den deutschen Namen gemerkt wurde, gilt weiter.
+  assert.deepEqual(ausText('{"art":"liste","name":"Lima","land":"PE","ort":[-12.04,-77.03]}'), { art: 'liste', name: 'Lima', nameDe: '', land: 'PE', ort: [-12.04, -77.03] });
+  assert.equal(ausText(JSON.stringify({ ...k, nameDe: 'Unsinn' })).nameDe, '');
   assert.deepEqual(ausText(alsText(k)), k);
   // Im Speicher steht nur, was die Seite braucht.
-  assert.deepEqual(Object.keys(JSON.parse(alsText({ ...w, geheim: 1 }))).sort(), ['art', 'land', 'name', 'ort']);
+  assert.deepEqual(Object.keys(JSON.parse(alsText({ ...w, geheim: 1 }))).sort(), ['art', 'land', 'name', 'nameDe', 'ort']);
   for (const s of [null, undefined, '', 'Berlin', '{', '[]', 'null', '{"art":"liste","ort":[1,2]}', '{"art":"x","name":"a","ort":[1,2]}',
     '{"art":"koordinaten","ort":[91,2]}', '{"art":"koordinaten","ort":["1","2"]}', '{"art":"koordinaten","ort":[1]}', '{"art":"koordinaten"}']) {
     assert.equal(ausText(s), null, String(s));

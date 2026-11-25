@@ -9,7 +9,11 @@ Die Datei hat laut GeoNames-Beschreibung 19 Spalten, durch Tabulator getrennt. K
 hat sie bisher gesehen (download.geonames.org ist aus der Arbeitsumgebung nicht erreichbar).
 Darum bricht das Skript ab, sobald eine Zeile nicht passt, statt zu raten.
 
-Aufruf: python3 werkzeug/orte_bauen.py cities15000.txt site/orte.json JJJJ-MM-TT
+Aufruf: python3 werkzeug/orte_bauen.py cities15000.txt site/orte.json JJJJ-MM-TT [namen.json]
+
+Mit namen.json (geschrieben von werkzeug/namen_holen.py, Quelle Wikidata, CC0) bekommt jede
+Zeile eine weitere Spalte name_de: den deutschen Namen, wenn es einen gibt und er anders lautet
+als der Name von GeoNames, sonst eine leere Zeichenkette. A Lauf 12, REGELN.md Abschnitt 5.
 """
 import json, sys
 
@@ -62,7 +66,31 @@ def auswahl(orte):
               "tueren_im_erwarteten_bereich": ERWARTET[0] <= len(tueren) <= ERWARTET[1]}
     return tueren, suchliste, zahlen
 
-def ausgabe(tueren, suchliste, zahlen, abgerufen):
+def name_de(o, namen):
+    """Der deutsche Name, wenn er sich vom Namen bei GeoNames unterscheidet, sonst ''."""
+    n = namen.get(str(o["id"]), "")
+    return n if n and n != o["name"] else ""
+
+def ausgabe(tueren, suchliste, zahlen, abgerufen, namen=None):
+    if namen is not None:
+        n = namen["namen"]
+        zahlen = dict(zahlen,
+                      tueren_ohne_deutschen_namen=sum(1 for o in tueren if str(o["id"]) not in n),
+                      tueren_mit_anderem_deutschen_namen=sum(1 for o in tueren if name_de(o, n)),
+                      suchliste_ohne_deutschen_namen=sum(1 for o in suchliste if str(o["id"]) not in n),
+                      suchliste_mit_anderem_deutschen_namen=sum(1 for o in suchliste if name_de(o, n)))
+        return {
+            "quelle": "GeoNames, cities15000, CC BY 4.0, https://www.geonames.org/",
+            "abgerufen": abgerufen,
+            "namen_quelle": namen["quelle"],
+            "namen_abgerufen": namen["abgerufen"],
+            "regel": "REGELN.md Abschnitt 5",
+            "zahlen": zahlen,
+            "tueren_spalten": ["geonameid", "name", "land", "breite", "laenge", "einwohner", "name_de"],
+            "tueren": [[o["id"], o["name"], o["land"], o["b"], o["l"], o["ew"], name_de(o, n)] for o in tueren],
+            "orte_spalten": ["name", "land", "breite", "laenge", "name_de"],
+            "orte": [[o["name"], o["land"], o["b"], o["l"], name_de(o, n)] for o in suchliste],
+        }
     return {
         "quelle": "GeoNames, cities15000, CC BY 4.0, https://www.geonames.org/",
         "abgerufen": abgerufen,
@@ -79,9 +107,23 @@ if __name__ == "__main__":
     with open(quelle, encoding="utf-8") as f:
         orte = lesen(f)
     tueren, suchliste, zahlen = auswahl(orte)
+    namen = None
+    if len(sys.argv) > 4:
+        with open(sys.argv[4], encoding="utf-8") as f:
+            namen = json.load(f)
+    daten = ausgabe(tueren, suchliste, zahlen, abgerufen, namen)
+    zahlen = daten["zahlen"]
     with open(ziel, "w", encoding="utf-8") as f:
-        json.dump(ausgabe(tueren, suchliste, zahlen, abgerufen), f, ensure_ascii=False, separators=(",", ":"))
+        json.dump(daten, f, ensure_ascii=False, separators=(",", ":"))
         f.write("\n")
     print(json.dumps(zahlen, ensure_ascii=False, indent=1))
     if not zahlen["tueren_im_erwarteten_bereich"]:
         print(f"ACHTUNG: {zahlen['tueren']} Tueren, erwartet {ERWARTET[0]} bis {ERWARTET[1]}. Schwelle in REGELN.md aendern, nicht still im Code.")
+    if namen is not None:
+        # Damit der Pruefer die Namen einmal lesen kann, bevor er ihnen traut: alle Tueren, deren
+        # deutscher Name anders lautet, und alle Tueren ohne deutschen Namen.
+        n = namen["namen"]
+        print("\nTueren mit anderem deutschen Namen:")
+        print(", ".join(f"{o['name']} -> {name_de(o, n)}" for o in tueren if name_de(o, n)))
+        print("\nTueren ohne deutschen Namen bei Wikidata:")
+        print(", ".join(o["name"] for o in tueren if str(o["id"]) not in n) or "keine")
