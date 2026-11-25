@@ -80,6 +80,13 @@ Bei 2° wäre mehr als die Hälfte aller Daten weich, und der Satz „Heute zum 
 - *Nachbarn:* Ein Ort, der weniger als 0,5° (das Band, etwa 55 km) vom Besucher entfernt liegt, ist keine Tür. Die Sonne steht für beide immer gleich hoch, soweit das Modell unterscheiden kann. Die Seite nennt diese Orte in einem eigenen Satz. Das deckt auch den eigenen Ort als Tür ab (Fertig-Punkt 3).
 - *Höhen werden abgerundet*, nicht gerundet, damit an einer offenen Tür nie weniger als 5° und nie mehr dasteht, als gerechnet ist.
 
+**Zusätze aus Lauf 9 (A, auf Vorschlag von B in Lauf 8, von B gegenzulesen).**
+
+- *Knappe Türen.* Eine Tür ist **knapp**, wenn sie heute offen ist und entweder in höchstens **30 Tagen** schließt oder an einem der letzten 30 Tage noch zu war. Die Zahl steht als Konstante `KNAPP_TAGE` in `site/ansicht.mjs` und im Text der Seite. „Das nächste Treffen“ nimmt in dieser Reihenfolge: das nächste Treffen von heute mit einer knappen Tür, sonst das nächste von heute überhaupt, sonst das erste von morgen mit einer knappen Tür, sonst das erste von morgen. Steht eine knappe Tür oben, sagt eine dritte Zeile, warum („Lima: schließt in 4 Tagen, 29. November.“ oder „vor Kurzem wieder aufgegangen“). Der Fahrplan zeigt zuerst die Treffen der knappen Türen, alle Treffen stehen dahinter auf Wunsch. Das „war noch zu“ wird in UTC-Tagen gezählt und dient nur der Auswahl, die Seite nennt daraus kein Datum.
+  Gezählt von Berlin aus, 2027, alle zehn Tage (37 Stichtage), 325 Türen: zwischen 0 und 56 knappe Türen, Median 27, an 5 von 37 Stichtagen keine (um die Sonnenwenden). Nur mit „schließt in 30 Tagen“, ohne „war noch zu“, wären es an 18 von 37 Stichtagen null gewesen, weil von Berlin aus ein halbes Jahr lang fast nur Türen aufgehen. Die Zahl schwankt mit der Jahreszeit und lässt sich mit einer Frist nicht glätten: Um die Tagundnachtgleichen bewegt sich alles, um die Sonnenwenden nichts. Für die Tage ohne knappe Tür gibt es die Reihenfolge oben.
+- *Zeitraum statt „um den“.* Ist ein Datum weich (Regel oben, unverändert), nennt die Seite die beiden Tage, die die Rechnung bei 4,5° und bei 5,5° für dieselbe Schwelle hergibt: „schließt zwischen 6. Januar und 2. Februar“. Das gilt nur, wenn es beide Tage gibt, wenn der Tag bei 5° zwischen ihnen liegt und wenn der Zeitraum höchstens **60 Tage** lang ist (`ZEITRAUM_HOECHSTENS`). Sonst bleibt es bei „um den …“. Die 60 trennt echte Zeiträume von falsch gepaarten Schwellen: gemessen von Berlin, Quito und Auckland aus über 386 Tage ab dem 15. November 2026 lagen alle 287 echten Zeiträume bei höchstens 45 Tagen und alle 12 falschen Paare über 90; bei allen falschen lag der Tag bei 5° außerdem nicht dazwischen. Ohne Gegenstück blieben 38 von 337 weichen Schwellen. Die Ränder des Zeitraums wandern mit der Schwelle vom UTC-Tag auf den Ortstag.
+- *Uhr des Geräts.* Uhrzeiten und „heute“ richten sich nach der Uhr des Geräts, auch wenn der Besucher einen Ort in einer anderen Zeitzone wählt. Die Seite sagt das in der Ortswahl. Eine Zeitzone je Ort führt die Seite nicht.
+
 **Tempo.** Nachgemessen in Python: 500 Orte mal 365 Tage, je drei Mindesthöhen, in 0,7 Sekunden. Im Browser ist das kein Engpass. Das Abtasten in Minutenschritten (`werkzeug/ortsschwellen.py`) bleibt als unabhängige Gegenprobe in den Tests und kommt nicht auf die Seite.
 
 ## 5. Daten
@@ -98,6 +105,8 @@ Welche Gebiete einen Ländercode haben, entscheidet GeoNames, nicht wir. Das ste
 **Die 50 Orte aus `werkzeug/ortsschwellen.py` kommen nicht auf die Seite** (Bs Auflage 2).
 
 **Der Ort des Besuchers.** Aus der Liste gewählt oder eingetippt. Die Standortabfrage des Browsers nur auf ausdrücklichen Tipp, das Ergebnis auf 0,1° gerundet. Der Ort liegt im `localStorage` und sonst nirgends, auch nicht in der Adresse der Seite. Ohne Angabe zeigt die Seite ein Beispiel (Berlin) und sagt, dass es ein Beispiel ist.
+
+Stand Lauf 9 (A): gebaut in `site/ortswahl.mjs` und `site/seite.mjs`. Die Suche vergleicht ohne Akzente und Großschreibung, zeigt höchstens acht Treffer, Namen, die so anfangen, zuerst und darin die größten Städte zuerst. Breite und Länge nehmen Komma oder Punkt. Der Standort des Geräts wird nur im Tipp auf seinen Knopf abgefragt, ohne hohe Genauigkeit, und auf 0,1° gerundet, bevor er gemerkt oder gerechnet wird. Im Speicher steht unter `sonnentuer.ort` Art, Name, Ländercode, Breite und Länge, sonst nichts. Steht dort Unbrauchbares, gilt das Beispiel. Ein Satz neben dem Knopf sagt, dass der Browser für den Standort unter Umständen seinen eigenen Ortungsdienst fragt; das ist die eine Stelle, an der nach dem Laden etwas hinausgehen kann, nicht von der Seite, sondern vom Browser, und nur auf diesen Tipp.
 
 ## 6. Sprache
 
@@ -130,7 +139,7 @@ Stand Lauf 7 (A): Das Modul ist `site/rechnung.mjs`. Die Brücke zwischen beiden
 1. Rechenmodul in JavaScript mit Tests gegen die Python-Zahlen. Noch keine Seite.
 2. Ortsliste holen (Actions-Lauf), Auswahlregel anwenden, Zahl der Orte ansehen.
 3. Seite mit festem Ort Berlin: nächstes Treffen, Türen, Fahrplan.
-4. Ortswahl, Sprache, Texte.
+4. Ortswahl, Sprache, Texte. (Stand Lauf 9: Ortswahl und Sprache stehen, deutsche Ortsnamen fehlen.)
 5. Beigaben, wenn der Kern steht.
 
 ## Gegenzeichnung

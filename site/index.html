@@ -16,7 +16,29 @@
     <button id="sprache" type="button" data-t="sprache">English</button>
   </div>
   <p class="untertitel" data-t="untertitel">Mit wem du heute die Sonne teilst, und wer dir gerade verschlossen ist.</p>
-  <p class="hinweis" data-t="beispiel">Das ist ein Beispiel für Berlin. Die Ortswahl ist noch nicht gebaut.</p>
+  <div class="ortszeile">
+    <p id="ort-jetzt" class="hinweis"></p>
+    <button id="ort-knopf" type="button" aria-expanded="false" aria-controls="ortswahl" data-t="ort_aendern" hidden>Ort ändern</button>
+  </div>
+  <div id="ortswahl" class="kasten ortswahl" hidden>
+    <label for="ort-suche" data-t="ort_suchen"></label>
+    <input id="ort-suche" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="ort-suche-hilfe">
+    <p id="ort-suche-hilfe" class="klein" data-t="ort_suchen_hilfe"></p>
+    <ul id="ort-treffer" class="treffer"></ul>
+    <p class="klein" data-t="ort_koordinaten_hilfe"></p>
+    <div class="felder">
+      <label><span data-t="ort_breite"></span><input id="ort-breite" type="text" inputmode="text" autocomplete="off" size="8"></label>
+      <label><span data-t="ort_laenge"></span><input id="ort-laenge" type="text" inputmode="text" autocomplete="off" size="8"></label>
+      <button id="ort-nehmen" type="button" data-t="ort_nehmen"></button>
+    </div>
+    <div class="felder">
+      <button id="ort-geraet" type="button" data-t="ort_geraet"></button>
+      <button id="ort-zurueck" type="button" data-t="ort_zurueck" hidden></button>
+    </div>
+    <p class="klein" data-t="ort_geraet_hilfe"></p>
+    <p id="ort-meldung" class="meldung" role="status" aria-live="polite"></p>
+    <p class="klein" data-t="ort_uhr"></p>
+  </div>
 </header>
 
 <noscript><p class="gross">Sonnentür rechnet in deinem Browser. Dafür muss JavaScript an sein.<br>Sonnentür does its sums in your browser. It needs JavaScript to be on.</p></noscript>
@@ -48,7 +70,12 @@
     <section aria-labelledby="k4">
       <h2 id="k4" data-t="k_fahrplan"></h2>
       <p id="fahrplan-zahl" class="klein"></p>
-      <div id="fahrplan"></div>
+      <p id="fahrplan-knapp-text" class="klein"></p>
+      <ol id="fahrplan-knapp" class="treffen"></ol>
+      <details id="fahrplan-alle">
+        <summary id="fahrplan-alle-text"></summary>
+        <div id="fahrplan"></div>
+      </details>
     </section>
   </div>
 </main>

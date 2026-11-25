@@ -23,6 +23,7 @@ test('Die Seite benutzt nur Sätze, die es gibt, und jeder Satz wird benutzt', (
   for (const m of js.matchAll(/\bt\(\s*'(\w+)'/g)) benutzt.add(m[1]);
   for (const m of js.matchAll(/\bt\([^()]*\? '(\w+)' : '(\w+)'/g)) { benutzt.add(m[1]); benutzt.add(m[2]); } // t(x ? 'a' : 'b')
   for (const m of js.matchAll(/dataset\.t = '(\w+)'/g)) benutzt.add(m[1]);
+  for (const m of js.matchAll(/\bmeldung = '(\w+)'/g)) benutzt.add(m[1]); // Meldungen der Ortswahl
   for (const k of benutzt) assert.ok(k in TEXTE.de, 'fehlt in der Tabelle: ' + k);
   benutzt.add('ohneSkript'); // steht fest im noscript der Seite, siehe nächster Test
   for (const k of Object.keys(TEXTE.de)) assert.ok(benutzt.has(k), 'steht in der Tabelle, wird aber nicht benutzt: ' + k);
@@ -61,4 +62,20 @@ test('Nichts in site/ lädt etwas von einer fremden Adresse', () => {
     assert.ok(!/@import|sendBeacon|XMLHttpRequest|WebSocket|cookie/i.test(text), name);
   }
   assert.deepEqual([...lies('seite.mjs').matchAll(/fetch\(([^)]*)\)/g)].map((m) => m[1]), ["'orte.json'"]);
+});
+
+test('Der Ort bleibt im Browser: nicht in der Adresse, Standort nur im Tipp auf den Knopf', () => {
+  const js = lies('seite.mjs');
+  assert.ok(!/\blocation\.(hash|search|href|assign|replace)|\bhistory\.|URLSearchParams/.test(js));
+  // Genau eine Stelle fragt den Standort ab, und sie steht im Klick auf den Knopf "ort-geraet".
+  assert.equal([...js.matchAll(/getCurrentPosition|watchPosition/g)].length, 1);
+  const i = js.indexOf("$('ort-geraet').addEventListener('click'"), j = js.indexOf('getCurrentPosition');
+  assert.ok(i > 0 && j > i && j - i < 500);
+  assert.ok(!/enableHighAccuracy: true/.test(js));
+  // Was vom Gerät kommt, geht durch standort() (rundet auf 0,1°), bevor es gemerkt wird.
+  assert.match(js, /standort\(p\.coords\.latitude, p\.coords\.longitude\)/);
+  assert.equal([...js.matchAll(/coords\./g)].length, 2);
+  // Alle Felder der Ortswahl stehen in der Seite.
+  const html = lies('index.html');
+  for (const m of js.matchAll(/\$\('([\w-]+)'\)/g)) assert.ok(html.includes(`id="${m[1]}"`), m[1]);
 });

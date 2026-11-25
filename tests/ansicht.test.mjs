@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as r from '../site/rechnung.mjs';
-import { ansicht, naechstesTreffen, abstandGrad, utcTag } from '../site/ansicht.mjs';
+import { ansicht, naechstesTreffen, abstandGrad, utcTag, zeitraum, KNAPP_TAGE, ZEITRAUM_HOECHSTENS } from '../site/ansicht.mjs';
 
 const D = JSON.parse(readFileSync(new URL('../site/orte.json', import.meta.url), 'utf8'));
 const ORTE = D.tueren.map((z) => ({ id: z[0], name: z[1], land: z[2], ort: [z[3], z[4]] }));
@@ -159,4 +159,81 @@ test('Tempo: eine Ansicht mit allen Türen in unter zwei Sekunden', () => {
   const t0 = performance.now();
   ansicht(BERLIN, ORTE, Date.UTC(2027, 3, 14, 10), zone(2));
   assert.ok(performance.now() - t0 < 2000);
+});
+
+// --- Lauf 9: knappe Türen und Zeiträume statt "um den" (REGELN.md Abschnitt 4) ---
+
+test('zeitraum(): nur wenn beide Gegenstücke da sind, der Tag dazwischen liegt und die Spanne klein bleibt', () => {
+  const s = { tag: 100, was: 'zu' };
+  assert.deepEqual(zeitraum(s, [{ tag: 108, was: 'zu' }], [{ tag: 95, was: 'zu' }]), [95, 108]);
+  assert.deepEqual(zeitraum(s, [{ tag: 95, was: 'zu' }], [{ tag: 108, was: 'zu' }]), [95, 108]);
+  // Das nächstgelegene Gegenstück zählt, und nur eines derselben Art.
+  assert.deepEqual(zeitraum(s, [{ tag: 300, was: 'zu' }, { tag: 104, was: 'zu' }, { tag: 101, was: 'auf' }], [{ tag: 97, was: 'zu' }]), [97, 104]);
+  assert.equal(zeitraum(s, [], [{ tag: 95, was: 'zu' }]), null);
+  assert.equal(zeitraum(s, [{ tag: 108, was: 'auf' }], [{ tag: 95, was: 'zu' }]), null);
+  assert.equal(zeitraum(s, [{ tag: 110, was: 'zu' }], [{ tag: 105, was: 'zu' }]), null, 'Tag liegt nicht dazwischen');
+  assert.equal(zeitraum(s, [{ tag: 100 + ZEITRAUM_HOECHSTENS, was: 'zu' }], [{ tag: 99, was: 'zu' }]), null, 'zu lang');
+});
+
+test('Zeiträume und knappe Türen: über ein Jahr und fünf Orte stimmig', () => {
+  const faelle = [[BERLIN, 1], [ort('Auckland'), 13], [ort('Quito'), -5], [[69.65, 18.96], 1], [ort('Singapore'), 8]];
+  let mitZeitraum = 0, um = 0, knapp = 0, frisch = 0;
+  for (const [ich, h] of faelle) {
+    for (let k = 0; k < 366; k += 19) {
+      const jetzt = Date.UTC(2027, 0, 1 + k, 12) - h * 3600000;
+      const a = ansicht(ich, ORTE, jetzt, zone(h));
+      const wo = `${ich} Tag ${k} `;
+      for (const e of a.tueren) {
+        for (const n of [e.naechste, e.danach]) {
+          if (!n) continue;
+          if (n.von === null) { assert.equal(n.bis, null, wo + e.name); if (n.ungefaehr) um++; continue; }
+          mitZeitraum++;
+          assert.equal(n.ungefaehr, true, wo + e.name);                 // feste Daten haben keinen Zeitraum
+          assert.ok(n.von <= n.tag && n.tag <= n.bis, wo + e.name);      // das Datum bei 5° liegt darin
+          assert.ok(n.bis - n.von > 3, wo + e.name);                     // sonst wäre es nicht weich
+          assert.ok(n.bis - n.von <= ZEITRAUM_HOECHSTENS, wo + e.name);
+        }
+        // Knapp ist nur, was heute offen ist und wechselt.
+        if (e.knapp) {
+          knapp++;
+          assert.equal(e.zustand, 'offen', wo + e.name);
+          assert.ok(e.frisch || (e.naechste && e.naechste.in <= KNAPP_TAGE), wo + e.name);
+        } else if (e.zustand === 'offen') {
+          assert.ok(!e.frisch && (!e.naechste || e.naechste.in > KNAPP_TAGE), wo + e.name);
+        }
+        if (e.frisch) { frisch++; assert.equal(e.zustand, 'offen', wo + e.name); }
+        if (e.zustand === 'immer' || e.zustand === 'nie' || e.zustand === 'zu') assert.equal(e.knapp, false, wo + e.name);
+      }
+      for (const m of a.fahrplan) assert.equal(m.knapp, a.tueren[m.tuer].knapp, wo);
+      // Die oberste Zeile: gibt es heute noch ein Treffen mit einer knappen Tür, dann steht eines oben,
+      // und zwar das früheste. Sonst das nächste überhaupt.
+      const oben = naechstesTreffen(a, jetzt);
+      const knappe = a.fahrplan.filter((m) => m.knapp && m.ms >= jetzt), alle = a.fahrplan.filter((m) => m.ms >= jetzt);
+      if (knappe.length) assert.equal(oben, knappe[0], wo);
+      else if (alle.length) assert.equal(oben, alle[0], wo);
+      else assert.equal(oben, a.morgenKnapp || a.morgen, wo);
+      if (a.morgenKnapp) {
+        assert.equal(zone(h)(a.morgenKnapp.ms), a.heute + 1, wo);
+        assert.equal(a.tueren[a.morgenKnapp.tuer].knapp, true, wo);
+        assert.ok(a.morgenKnapp.ms >= a.morgen.ms, wo);
+      }
+      assert.equal(naechstesTreffen(a, jetzt, 0, true), alle.length ? alle[0] : a.morgen, wo);
+    }
+  }
+  // Der Test soll nicht leer laufen.
+  assert.ok(mitZeitraum > 100 && knapp > 100 && frisch > 20, `${mitZeitraum} ${um} ${knapp} ${frisch}`);
+  assert.ok(mitZeitraum > um, `Zeitraum ${mitZeitraum}, um den ${um}`);
+});
+
+test('Frisch: Rom ist von Berlin aus Anfang April 2028 knapp, weil es gerade erst wieder aufging', () => {
+  // Rom geht um den 25. März 2028 wieder auf (REGELN.md Abschnitt 9) und schließt erst im September.
+  const a = ansicht(BERLIN, ORTE, Date.UTC(2028, 3, 5, 10), zone(2));
+  const rom = bei(a, 'Rome');
+  assert.equal(rom.zustand, 'offen');
+  assert.equal(rom.frisch, true);
+  assert.equal(rom.knapp, true);
+  assert.ok(rom.naechste.in > KNAPP_TAGE);
+  const spaeter = bei(ansicht(BERLIN, ORTE, Date.UTC(2028, 5, 5, 10), zone(2)), 'Rome');
+  assert.equal(spaeter.frisch, false);
+  assert.equal(spaeter.knapp, false);
 });
