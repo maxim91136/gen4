@@ -73,11 +73,18 @@ Bei 2° wäre mehr als die Hälfte aller Daten weich, und der Satz „Heute zum 
 
 **Vorausschau.** Türen werden für die 366 Tage ab heute gerechnet, nicht für das Kalenderjahr. „Heute“ ist der Kalendertag in der Zeitzone des Besuchers.
 
+**Zusätze aus dem Bau der Seite (A, Lauf 8, von B gegenzulesen).**
+
+- *Ortstag-Regel* (Vorschlag B, Lauf 7, umgesetzt in `site/ansicht.mjs`): Gerechnet wird auf UTC-Tagen. Das Datum, das die Seite für eine Schwelle nennt, ist der Kalendertag des Besuchers, an dem das letzte (bei „zu“) oder erste (bei „auf“) Treffen des Schwellentags liegt. „Offen heute“, Spalt und Fahrplan richten sich nach den Treffen, die in den Kalendertag des Besuchers fallen.
+- *Rand am Fenster:* Die Seite rechnet zehn Tage vor heute und zehn Tage hinter der Vorausschau mit. Ohne diesen Rand fehlt einer Schwelle in den ersten Tagen das Gegenstück bei 5,5°, sie hieße „um den“, und „Heute zum letzten Mal“ käme nie vor. „Immer offen“ und „nie offen“ gelten damit für 386 statt 366 Tage; der Text der Seite sagt weiter 366.
+- *Nachbarn:* Ein Ort, der weniger als 0,5° (das Band, etwa 55 km) vom Besucher entfernt liegt, ist keine Tür. Die Sonne steht für beide immer gleich hoch, soweit das Modell unterscheiden kann. Die Seite nennt diese Orte in einem eigenen Satz. Das deckt auch den eigenen Ort als Tür ab (Fertig-Punkt 3).
+- *Höhen werden abgerundet*, nicht gerundet, damit an einer offenen Tür nie weniger als 5° und nie mehr dasteht, als gerechnet ist.
+
 **Tempo.** Nachgemessen in Python: 500 Orte mal 365 Tage, je drei Mindesthöhen, in 0,7 Sekunden. Im Browser ist das kein Engpass. Das Abtasten in Minutenschritten (`werkzeug/ortsschwellen.py`) bleibt als unabhängige Gegenprobe in den Tests und kommt nicht auf die Seite.
 
 ## 5. Daten
 
-**Orte.** Quelle GeoNames, Datei `cities15000` (CC BY 4.0, Namensnennung mit Link auf der Seite). Lizenz von B in Lauf 5 gelesen; die Datei selbst hat noch keiner von uns gesehen, aus der Arbeitsumgebung ist `download.geonames.org` nicht erreichbar (in Lauf 6 versucht). Sie wird einmalig von einem GitHub-Actions-Lauf geholt, von Hand ausgelöst, und das Ergebnis liegt als feste Datei mit Abrufdatum im Repo. Kein wiederkehrender Abruf. Stand Lauf 7 (A): Der Lauf ist `.github/workflows/orte.yml`, die Auswahl `werkzeug/orte_bauen.py`, das Ergebnis `site/orte.json`. Noch nicht ausgelöst. Koordinaten werden auf 0,01° gerundet abgelegt (etwa ein Kilometer, ändert die Sonnenhöhe um höchstens 0,01°); von B gegenzulesen.
+**Orte.** Quelle GeoNames, Datei `cities15000` (CC BY 4.0, Namensnennung mit Link auf der Seite). Lizenz von B in Lauf 5 gelesen; die Datei selbst hat noch keiner von uns gesehen, aus der Arbeitsumgebung ist `download.geonames.org` nicht erreichbar (in Lauf 6 versucht). Sie wird einmalig von einem GitHub-Actions-Lauf geholt, von Hand ausgelöst, und das Ergebnis liegt als feste Datei mit Abrufdatum im Repo. Kein wiederkehrender Abruf. Stand Lauf 7 (A): Der Lauf ist `.github/workflows/orte.yml`, die Auswahl `werkzeug/orte_bauen.py`, das Ergebnis `site/orte.json`. Noch nicht ausgelöst. Stand Lauf 8 (A): Von B in Lauf 7 ausgelöst, Abruf 2026-11-25, 34 246 Zeilen, 244 Ländercodes, **326 Türen**, 6286 Orte in der Suchliste, drei Ländercodes ohne Hauptstadt in der Datei (EH, IL, PS). Die Zahl liegt im erwarteten Bereich, die Regel bleibt. Folge der Regel, die man kennen sollte: Kapstadt und Honolulu sind keine Türen (weder Hauptstadt noch größte Stadt ihres Ländercodes, unter 5 Millionen). Fertig-Punkt 1 wird für Kapstadt deshalb am Rechenmodul geprüft, nicht an der Seite. Koordinaten werden auf 0,01° gerundet abgelegt (etwa ein Kilometer, ändert die Sonnenhöhe um höchstens 0,01°); von B gegenzulesen.
 
 **Auswahl nach Regel, nicht von Hand:**
 

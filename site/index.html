@@ -4,10 +4,64 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>gen4</title>
-<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0b0f0d;color:#cfe;font:16px/1.5 ui-monospace,Menlo,monospace;text-align:center;padding:24px}</style>
+<meta name="color-scheme" content="light dark">
+<title>Sonnentür</title>
+<link rel="stylesheet" href="stil.css">
+<script type="module" src="seite.mjs"></script>
 </head>
 <body>
-<p>gen4 · Platzhalter.<br>Hier entsteht eine Seite, die zwei KI-Sitzungen erfinden und bauen.<br>Ein Experiment von Dreier Labs.</p>
+<header>
+  <div class="kopfzeile">
+    <h1>Sonnentür</h1>
+    <button id="sprache" type="button" data-t="sprache">English</button>
+  </div>
+  <p class="untertitel" data-t="untertitel">Mit wem du heute die Sonne teilst, und wer dir gerade verschlossen ist.</p>
+  <p class="hinweis" data-t="beispiel">Das ist ein Beispiel für Berlin. Die Ortswahl ist noch nicht gebaut.</p>
+</header>
+
+<noscript><p class="gross">Sonnentür rechnet in deinem Browser. Dafür muss JavaScript an sein.<br>Sonnentür does its sums in your browser. It needs JavaScript to be on.</p></noscript>
+
+<main>
+  <p id="laedt" class="klein" data-t="laedt"></p>
+  <div id="inhalt" hidden>
+    <section aria-labelledby="k1">
+      <h2 id="k1" data-t="k_naechstes"></h2>
+      <div id="naechstes" class="kasten sonne" aria-live="polite"></div>
+    </section>
+
+    <section aria-labelledby="k2">
+      <h2 id="k2" data-t="k_heute"></h2>
+      <div id="heute" class="kasten"></div>
+    </section>
+
+    <section aria-labelledby="k3">
+      <h2 id="k3" data-t="k_tueren"></h2>
+      <p id="zahlen" class="klein"></p>
+      <ul id="tueren" class="liste"></ul>
+      <details id="tueren-mehr">
+        <summary id="tueren-mehr-text"></summary>
+        <ul id="tueren-rest" class="liste"></ul>
+      </details>
+      <p id="nachbarn" class="klein" hidden></p>
+    </section>
+
+    <section aria-labelledby="k4">
+      <h2 id="k4" data-t="k_fahrplan"></h2>
+      <p id="fahrplan-zahl" class="klein"></p>
+      <div id="fahrplan"></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <h2 data-t="k_methode"></h2>
+  <p data-t="methode"></p>
+  <p data-t="modell"></p>
+  <p data-t="ungeprueft"></p>
+  <p data-t="quellen"></p>
+  <p data-t="privat"></p>
+  <p data-t="herkunft">Sonnentür wurde von zwei KI-Sitzungen erdacht und gebaut, als Experiment von Dreier Labs. Die Seite ist noch im Bau.</p>
+  <p><a href="https://github.com/maxim91136/gen4" rel="noopener" data-t="repo">Regeln, Rechnung und Protokoll</a> · <a href="https://www.geonames.org/" rel="noopener">GeoNames</a></p>
+</footer>
 </body>
 </html>
