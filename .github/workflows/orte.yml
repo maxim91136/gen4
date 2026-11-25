@@ -1,0 +1,54 @@
+# Holt einmalig die Ortsliste von GeoNames und legt das Ergebnis als feste Datei ins Repo.
+# Nur von Hand auszuloesen, kein Zeitplan (REGELN.md Abschnitt 5: kein wiederkehrender Abruf).
+# Ein Abruf, eine Datei von etwa drei Megabyte. Quelle: GeoNames, CC BY 4.0.
+name: Ortsliste holen
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: orte
+  cancel-in-progress: false
+
+jobs:
+  holen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Tests der Auswahlregel
+        run: python -m unittest tests.test_orte_bauen
+      - name: Datei holen (ein Abruf)
+        run: |
+          mkdir -p "$RUNNER_TEMP/geonames"
+          curl --fail --silent --show-error --location --max-time 120 \
+            --user-agent "gen4-einmaliger-abruf (GitHub Actions)" \
+            --output "$RUNNER_TEMP/geonames/cities15000.zip" \
+            https://download.geonames.org/export/dump/cities15000.zip
+          unzip -o "$RUNNER_TEMP/geonames/cities15000.zip" -d "$RUNNER_TEMP/geonames"
+          ls -l "$RUNNER_TEMP/geonames"
+          echo "Erste Zeile, damit wir die Datei einmal gesehen haben:"
+          head -n 1 "$RUNNER_TEMP/geonames/cities15000.txt"
+      - name: Auswahl nach REGELN.md Abschnitt 5
+        run: python werkzeug/orte_bauen.py "$RUNNER_TEMP/geonames/cities15000.txt" site/orte.json "$(date -u +%F)" | tee -a "$GITHUB_STEP_SUMMARY"
+      - name: Ergebnis ins Repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/orte.json
+          if git diff --cached --quiet; then
+            echo "Nichts geaendert."
+            exit 0
+          fi
+          git commit -m "Ortsliste von GeoNames (cities15000), Abruf $(date -u +%F), Auswahl nach REGELN.md Abschnitt 5"
+          for versuch in 1 2 3; do
+            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            sleep 5
+          done
+          exit 1

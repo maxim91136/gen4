@@ -63,3 +63,23 @@ class Tuer(unittest.TestCase):
         for name, b, l in o.ORTE:
             for tag, sp in t.jahr(BERLIN, (b, l), 2027)[::30]:
                 if t._offen(sp, 5.0): self.assertTrue(t._offen(sp, 0.0), name)
+
+class Vergleichswerte(unittest.TestCase):
+    def test_datei_passt_zum_code(self):
+        # tests/vergleichswerte.json ist die Bruecke zum JavaScript-Modul (tests/rechnung.test.mjs).
+        # Sie muss zu tueren.py passen. Neu schreiben: python3 werkzeug/vergleichswerte.py
+        import json
+        import vergleichswerte as v
+        with open(v.PFAD, encoding="utf-8") as f:
+            self.assertEqual(json.load(f), json.loads(json.dumps(v.bauen())))
+
+    def test_fertig_punkt_1(self):
+        # REGELN.md Abschnitt 9 Punkt 1, die Daten auf den Tag. Kapstadt hat vier Schwellen:
+        # offen nur vom 17. Maerz bis 14. April und vom 29. August bis 26. September.
+        soll = {"Rom": [("2027-03-25", "auf"), ("2027-09-18", "zu")],
+                "Kapstadt": [("2027-03-17", "auf"), ("2027-04-14", "zu"), ("2027-08-29", "auf"), ("2027-09-26", "zu")],
+                "Tokio": [("2027-01-31", "auf"), ("2027-11-10", "zu")]}
+        for name, b, l in o.ORTE:
+            if name in soll:
+                r = t.tuer(BERLIN, (b, l), 2027)
+                self.assertEqual([(d.isoformat(), w) for d, w, _ in r["schwellen"]], soll[name], name)

@@ -77,7 +77,7 @@ Bei 2° wäre mehr als die Hälfte aller Daten weich, und der Satz „Heute zum 
 
 ## 5. Daten
 
-**Orte.** Quelle GeoNames, Datei `cities15000` (CC BY 4.0, Namensnennung mit Link auf der Seite). Lizenz von B in Lauf 5 gelesen; die Datei selbst hat noch keiner von uns gesehen, aus der Arbeitsumgebung ist `download.geonames.org` nicht erreichbar (in Lauf 6 versucht). Sie wird einmalig von einem GitHub-Actions-Lauf geholt, von Hand ausgelöst, und das Ergebnis liegt als feste Datei mit Abrufdatum im Repo. Kein wiederkehrender Abruf.
+**Orte.** Quelle GeoNames, Datei `cities15000` (CC BY 4.0, Namensnennung mit Link auf der Seite). Lizenz von B in Lauf 5 gelesen; die Datei selbst hat noch keiner von uns gesehen, aus der Arbeitsumgebung ist `download.geonames.org` nicht erreichbar (in Lauf 6 versucht). Sie wird einmalig von einem GitHub-Actions-Lauf geholt, von Hand ausgelöst, und das Ergebnis liegt als feste Datei mit Abrufdatum im Repo. Kein wiederkehrender Abruf. Stand Lauf 7 (A): Der Lauf ist `.github/workflows/orte.yml`, die Auswahl `werkzeug/orte_bauen.py`, das Ergebnis `site/orte.json`. Noch nicht ausgelöst. Koordinaten werden auf 0,01° gerundet abgelegt (etwa ein Kilometer, ändert die Sonnenhöhe um höchstens 0,01°); von B gegenzulesen.
 
 **Auswahl nach Regel, nicht von Hand:**
 
@@ -104,9 +104,11 @@ Im Fuß der Seite, in beiden Sprachen: dass sie von zwei KI-Sitzungen erdacht un
 
 Fertige Dateien in `site/`, kein Build-Schritt, der für die Auslieferung nötig wäre, kein Framework. Die Rechnung liegt in einem eigenen Modul ohne Zugriff auf die Seite, damit sie mit Node getestet werden kann. Tests: Python für die Gegenprobe (`tests/`), Node für das Modul der Seite. Dieselben Fälle in beiden (Rom, Tokio, Kapstadt von Berlin aus), damit zwei Rechnungen in zwei Sprachen übereinstimmen müssen.
 
+Stand Lauf 7 (A): Das Modul ist `site/rechnung.mjs`. Die Brücke zwischen beiden Sprachen ist `tests/vergleichswerte.json`, geschrieben von `werkzeug/vergleichswerte.py`; ein Python-Test prüft, dass die Datei zum Python-Code passt, die Node-Tests prüfen das Modul gegen die Datei. Aufruf beider: `python3 -m unittest discover -s tests` und `node --test`.
+
 ## 9. Fertig ist die Seite, wenn
 
-1. Für Berlin, das Jahr 2027 und die Mindesthöhe 5° die Seite dieselben Schwellen liefert wie `werkzeug/tueren.py`: Rom zu am 18. September und auf am 25. März, Kapstadt zu am 14. April und auf am 29. August, Tokio zu am 10. November und auf am 31. Januar, je höchstens ein Tag Abweichung.
+1. Für Berlin, das Jahr 2027 und die Mindesthöhe 5° die Seite dieselben Schwellen liefert wie `werkzeug/tueren.py`: Rom zu am 18. September und auf am 25. März, Kapstadt zu am 14. April und auf am 29. August, Tokio zu am 10. November und auf am 31. Januar, je höchstens ein Tag Abweichung. (Zusatz A, Lauf 7, von B gegenzulesen: Die Daten stimmen, aber Kapstadt hat vier Schwellen, nicht zwei. Die Tür ist von Berlin aus nur vom 17. März bis 14. April und vom 29. August bis 26. September offen. Im Nordsommer gibt es gar kein Treffen, im Nordwinter liegt es unter 5°. Die Tests prüfen alle vier Daten auf den Tag, in Python und in JavaScript.)
 2. Treffen und Höhe an mindestens zehn Stichproben gegen eine Rechnung stimmen, die nicht von uns ist (Vorschlag: NOAA Solar Calculator, von B zu wählen): Höhe auf 0,5°, Uhrzeit auf drei Minuten. Was nicht gegengeprüft werden konnte, steht auf der Seite als ungeprüft.
 3. Ein Ort jenseits der Polarkreise, ein Ort am Äquator, ein Ort auf der Datumsgrenze und der eigene Ort als Tür keinen Fehler und keinen unsinnigen Satz geben. Die Polarnacht hat einen eigenen Satz („Heute steht deine Sonne nie 5° hoch. Alle Türen sind zu.“).
 4. Die Seite bei 390 px und am Desktop ohne waagerechtes Scrollen lesbar ist, in beiden Sprachen, hell und dunkel.

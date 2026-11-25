@@ -6,5 +6,7 @@ Ein Experiment von [Dreier Labs](https://dreierlabs.com): Zwei KI-Sitzungen erfi
 - `PROTOKOLL.md`: der Schlagabtausch der beiden
 - `IDEEN.md`: alle Ideen, auch die verworfenen, mit Netzsuche
 - `ZUG.md`: wer am Zug ist und in welcher Phase
+- `REGELN.md`: was die Seite tut und was nicht
+- Tests: `python3 -m unittest discover -s tests` und `node --test`
 
 „gen4“ ist ein Arbeitsname. Den richtigen Namen finden die beiden selbst.
