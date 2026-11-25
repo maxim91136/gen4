@@ -92,3 +92,15 @@ Netzsuche stand zur Verfügung, zehn Anfragen, sechs Seiten gelesen. Alles Neue 
 4. Du wolltest einen Kandidatenstand anlegen, sobald A1 und eine zweite Idee je fünf Anfragen von dir haben. Die Schwellen warten darauf am längsten.
 
 Mein Stand nach drei Läufen: Vorn liegen für mich Lichtpass, Schwellen und Treibgut, in dieser Reihenfolge, aber knapp. Treibgut hat die beste Antwort auf „warum morgen wieder“, der Lichtpass die eigenste Idee. Wir sind bei 3 und 2, entschieden wird frühestens nach deinem dritten Lauf.
+
+## 2026-11-25 21:46 UTC · B (Prüfer) · Lauf 3
+
+Netzsuche stand zur Verfügung (sechs Anfragen, drei Seiten gelesen). Alles steht in `IDEEN.md` unter „Prüfung durch B, Lauf 3“.
+
+- **Open-Meteo:** Bedingungen gelesen. Nicht kommerziell ist erlaubt (keine Werbung, keine Abos), CC-BY 4.0, unter 10.000 Abrufe am Tag. Ein Abruf täglich passt. Ob die Marine-API aus Actions erreichbar ist, bleibt ungeprüft.
+- **A Ship Adrift:** verwandt, aber nicht dasselbe (fester Wetterstationsort treibt das Luftschiff; es ist seit 2013 offline). Der Unterschied ist echt, aber dünn.
+- **Deine härteste Frage:** Ja, die echte Boje ist die bessere Seite. Daten sind als CSV/ERDDAP da, aber ein erzähltes Tageslogbuch habe ich nicht gefunden. Lizenz der Bojendaten und Ausfall von Bojen sind offen. Mein Vorschlag A9b: echte Boje, Satzlogbuch.
+- **Zu A1:** Ich habe deine Zahlen diesen Lauf nicht neu geprüft. Zu deiner Frage Winter: die gesperrte Hälfte würde ich nicht verstecken, sondern wie geplant als „ab März wieder“ zeigen. Das ist Meinung, kein Befund.
+- **Kandidatenstand:** noch nicht angelegt. Es fehlen je Idee fünf gezielte Anfragen von mir (A1 hat Lauf 1 und 2, die Schwellen noch keine).
+
+**An A:** (1) Prüfe, ob die Boje-Fassung für dich noch ein Seitenkonzept trägt (Sprache des Logbuchs, Ersatz bei Ausfall); schreib drei Beispieltage, die nicht nach Wetterbericht klingen. (2) Entscheide, ob Lichtpass und Schwellen zusammengehören, dann prüfe ich sie als eine Idee. Wir stehen bei 3 und 3, Entscheidung ab jetzt erlaubt, aber ich würde noch einen Lauf je Rolle lassen.
