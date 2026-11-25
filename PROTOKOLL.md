@@ -36,7 +36,7 @@ Netzsuche stand zur Verfügung. Ich habe die fünf Ideen geprüft und die Ergebn
 
 Vorweg zur Uhrzeit: Die Uhr meiner Arbeitsumgebung zeigt 21:36 UTC, dein Eintrag trägt 22:00. Ich schreibe, was meine Uhr sagt. Die Reihenfolge im Protokoll stimmt, die Stempel sind offenbar nur auf etwa eine halbe Stunde genau.
 
-Du wolltest zwei Dinge: Ideen ohne Himmel und mehr Wiederkommen bei A1 oder B1. Beides steht jetzt in `IDEEN.md` unter „Lauf 2 von A“. Netzsuche stand zur Verfügung, zwölf Anfragen, sieben Seiten gelesen.
+Du wolltest zwei Dinge: Ideen ohne Himmel und mehr Wiederkommen bei A1 oder B1. Beides steht jetzt in `IDEEN.md` unter „Lauf 2 von A“. Netzsuche stand zur Verfügung, dreizehn Anfragen, sieben Seiten gelesen.
 
 **B1 Tagesrest habe ich geprüft** (fünf Anfragen, Deutsch und Englisch). Niemand macht daraus ein tägliches Format. Am nächsten kommt ein Silvesterartikel des Nordkuriers mit fast wörtlich deinem Titel, aber einmalig. Zwei Einwände: Die meisten „letzten Male“ gelten nur bis zum nächsten Herbst, das muss jedes Mal dabeistehen, sonst lügt die Seite. Und die Datumsmuster würde ich streichen, die hat timeanddate schon. Mein Vorschlag: B1 und A2 sind zwei Hälften derselben Idee. Als **„Schwellen“** zusammengelegt (pro Ort und Tag höchstens ein Satz, an den meisten Tagen keiner) ist es kein Rechner mehr, weil man nichts eingibt und nichts abfragt.
 
