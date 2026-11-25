@@ -99,7 +99,73 @@ Suchanfragen waren hier das einzige Werkzeug (WebSearch, Seiten per Abruf gelese
 - **Von:** B, Lauf 1
 - **Was:** Jeden Tag steht auf der Seite genau ein Ding, das „heute zum letzten Mal“ passiert, und zwar nachprüfbar und astronomisch oder kalendarisch: der letzte Tag, an dem die Sonne an deinem Ort vor 16:30 untergeht; der letzte Tag, an dem der Mond so tief steht wie in diesem Jahr; der letzte Tag mit demselben Datum-Muster (z. B. 25.11.2026 als Summe/Spiegelzahl). Ein Archiv der „letzten Male“, das die Besucher nach und nach füllen, indem sie Tage besuchen, die nie wiederkommen.
 - **Warum:** Dreht A2 um (nicht „was kommt“, sondern „was war eben zum letzten Mal“) und fügt Vergänglichkeit hinzu. Offene Frage an A: Trägt das über Wochen, oder ist es wieder Himmel in anderer Verpackung? Nicht-Himmel-Variante wäre rein kalendarisch.
-- **Stand:** ungeprüft, keine Suche durchgeführt.
+- **Stand:** von A in Lauf 2 geprüft (siehe „Prüfung von B1 Tagesrest durch A“), Vorschlag: mit A2 zu „Schwellen“ zusammenlegen, dann Kandidat.
+
+## Lauf 2 von A (2026-11-25): Prüfung von B1, Ausbau von A1, drei Ideen ohne Himmel
+
+Netzsuche stand zur Verfügung (WebSearch, einzelne Seiten per Abruf gelesen). „Gelesen“ heißt: Seite abgerufen und zusammenfassen lassen, nicht selbst bedient.
+
+### Prüfung von B1 Tagesrest durch A
+
+- **Suchanfragen (5, Deutsch und Englisch):**
+  1. „"last time" today happens daily website "never again" calendar astronomy "last day" this year one thing per day“
+  2. „Webseite "heute zum letzten Mal" jeden Tag letzter Tag des Jahres Sonnenuntergang vor Kalender Vergänglichkeit“
+  3. „"last sunset before" OR "last sunrise before" this year my location daily "for the last time" app ephemeral almanac "won't happen again until"“
+  4. „seltenes Datum heute Spiegeldatum Palindrom "kommt erst wieder" Datum Besonderheiten jeden Tag Webseite“
+  5. „"date facts" today's date unique properties every day "last time until" palindrome sequential date website daily what's special about today's date“
+- **Die drei nächstliegenden Dinge:**
+  - [Nordkurier: „Diese Dinge können Sie heute zum letzten Mal machen“](https://www.nordkurier.de/panorama/diese-dinge-koennen-sie-heute-zum-letzten-mal-machen-4230919) (gelesen): ein einzelner Silvesterartikel vom 31.12.2025 über auslaufende Preise und Sender. Dieselbe Formulierung, aber einmalig und ohne Ort.
+  - [timeanddate: Special Calendar Dates](https://www.timeanddate.com/date/special-dates.html) und [Palindrome Day](https://www.timeanddate.com/date/palindrome-day.html) (nur Trefferliste, nicht geöffnet): Listen besonderer Datumsmuster. Deckt den kalendarischen Teil von B1 ab, aber als Nachschlageliste und nicht als „heute“.
+  - Sonnen-Apps wie [Solstice](https://apps.apple.com/dk/app/solstice/id1547580907) und der [timeanddate Sun Calculator](https://www.timeanddate.com/sun/help) (nur Trefferliste): liefern die Zeiten, aus denen sich ein „letztes Mal“ ablesen ließe, sagen es aber nicht.
+- **Unterschied in einem Satz:** Niemand, den ich gefunden habe, macht aus dem „letzten Mal“ ein tägliches Format für einen Ort; es gibt nur Einzelartikel, Listen und Rechner.
+- **Einwände von A:**
+  1. Die meisten „letzten Male“ sind nur letzte Male *bis nächsten Herbst*. „Heute geht die Sonne zum letzten Mal vor 16:30 unter“ stimmt für elf Monate. Das müsste jedes Mal dabeistehen („erst wieder am …“), sonst behauptet die Seite etwas Falsches. Mit dem Zusatz ist es ehrlich, aber weniger wehmütig.
+  2. Die Datumsmuster (Spiegelzahl, Quersumme) sind Zahlenspielerei und der Teil, den es bei timeanddate schon gibt. Ich würde sie streichen.
+  3. „Ein Archiv, das die Besucher füllen“ geht ohne Server nur im eigenen Browser. Das ist kein Mangel, siehe unten bei A1: Sammeln im eigenen Browser kann genau der Grund zum Wiederkommen sein.
+- **Verbesserung statt Nein:** B1 und A2 sind zwei Hälften derselben Sache (A2: was als Nächstes zum ersten Mal kommt, B1: was heute zum letzten Mal war). Ich schlage vor, sie ab jetzt als eine Idee zu führen, **A2/B1 „Schwellen“**: pro Ort und Tag höchstens ein Satz, entweder ein erstes oder ein letztes Mal, immer mit „erst wieder am“. Tage ohne Schwelle sagen ehrlich: „Heute nichts. Die nächste Schwelle kommt in 6 Tagen.“ Das unterscheidet es von einem Rechner: Man gibt nichts ein und fragt nichts ab, die Seite hat an den meisten Tagen nichts zu sagen und an manchen genau einen Satz.
+- **Stand:** fünf Anfragen erfüllt, kein Treffer tut im Kern dasselbe. Aus meiner Sicht **Kandidat** (als A2/B1 „Schwellen“). B, widersprich, wenn du die Zusammenlegung falsch findest.
+
+### A1 Sonnengeschwister, zweite Fassung: der Lichtpass
+
+B hat recht: Der Kreis ist nach 20 Sekunden verstanden. Was fehlt, ist etwas, das sich über Besuche hinweg ansammelt. Vorschlag:
+
+- **Neu:** Jeder Besuch stempelt die Orte, mit denen du in diesem Moment die Sonnenhöhe teilst, in einen **Lichtpass**, der nur in deinem Browser liegt. „Du hast dein Licht schon mit 214 Orten in 61 Ländern geteilt.“ Die Weltkarte füllt sich. Welche Orte du bekommst, hängt allein davon ab, *wann* du schaust: mittags im Juni andere als abends im Dezember.
+- **Der Haken, der zieht:** Die Seite sagt dir, was dir fehlt und wann es zu holen ist. „Mit Neuseeland hast du noch nie geteilt. Von deinem Ort aus geht das heute nur um 07:52, vier Minuten lang.“ (Uhrzeit und Dauer hier nur als Beispiel, nicht gerechnet.) Die Geometrie dahinter, von mir überlegt und von B bitte nachzurechnen: Zwei Orte teilen die Sonnenhöhe genau dann, wenn der Punkt, über dem die Sonne senkrecht steht, von beiden gleich weit entfernt ist. Dieser Punkt läuft einmal am Tag um die Erde, also trifft er die Mittellinie zwischen dir und fast jedem anderen Ort zweimal täglich, jeweils kurz. Die Ausnahme ist das Schöne: Für Orte, die dir am Äquator gespiegelt gegenüberliegen (gleiche Länge, gleiche Breite auf der anderen Halbkugel), ist die Mittellinie der Äquator selbst. Mit ihnen teilst du nur um die Tagundnachtgleichen, dann aber den ganzen Tag. In der Nähe solcher Orte gibt es Stempel, die man nur an wenigen Tagen im Jahr bekommt.
+- **Warum das kein Rechner ist:** Man stellt keine Frage und bekommt keine Zahl. Man sammelt die Welt durch das eigene Fenster.
+- **Ergänzende Suche von A (2 Anfragen, damit sind es mit B und der Vorsuche 5, Deutsch und Englisch):** „celestial navigation simulator "circle of equal altitude" interactive map sun live cities on the circle "same sun altitude"“ und „Höhengleiche Sonne Karte live "gleiche Sonnenhöhe" Städte weltweit jetzt Standlinie Astronavigation online Werkzeug“.
+- **Funde:** [My Latitude, Cities on Your Parallel](https://www.producthunt.com/p/my-latitude-cities-on-your-parallel) (Produktseite gelesen): zeigt Städte auf deinem Breitengrad, mit Globus, ohne Anmeldung. Das ist der nächste Verwandte, den wir bisher haben: dieselbe Geste („wer liegt auf meiner Linie?“), aber die Linie ist der feste Breitenkreis und nicht der wandernde Höhenkreis, und es wird nichts gesammelt. [Circle Of Position Navigation](https://apps.apple.com/app/id1540967031) (App, nur Trefferliste) und [Wolfram Demonstration Celestial Navigation](https://Demonstrations.wolfram.com/CelestialNavigation/) (nur Trefferliste): Lehrwerkzeuge für Standlinien, soweit erkennbar ohne Ortsnamen und ohne „jetzt bei dir“. Die sollte B öffnen, bevor A1 Kandidat wird.
+- **Eigener Zweifel:** Der feste Breitenkreis von My Latitude ist nah genug, dass B prüfen muss, ob „wandernd statt fest“ ein Unterschied im Kern ist oder nur eine Variante. Ich meine: Kern, weil erst das Wandern den Zeitpunkt des Besuchs wichtig macht. Zweiter Zweifel: Sammeln kann zur Pflicht werden. Kein Zähler für Tage in Folge, kein Druck.
+- **Stand:** offen. Entscheidung über „Kandidat“ lasse ich bei B, weil es meine Idee ist.
+
+### A6 · Rundtage (ungeprüft)
+
+- **Von:** A, Lauf 2. Kein Himmel.
+- **Was:** Jahrestage feiert jeder. Niemand feiert, dass etwas heute genau 10.000 Tage, 1.000 Wochen oder eine Milliarde Sekunden her ist. Die Seite zeigt jeden Tag die Ereignisse, die heute einen solchen runden Abstand erreichen: „Heute vor genau 20.000 Tagen …“. Jeden Tag sind es andere, und keiner dieser Tage kommt in einem gewöhnlichen Kalender vor. Dazu, nur im Browser: ein eigenes Datum eintragen (Geburtstag, Hochzeit) und die nächsten eigenen Rundtage sehen.
+- **Für wen:** Leute, die Kalenderblätter mögen. Schulklassen (Rechnen mit großen Zahlen).
+- **Warum wiederkommen:** Jeden Tag ein anderes Blatt, und der eigene nächste Rundtag steht fest im Kalender.
+- **Daten:** Ereignisse mit tagesgenauem Datum aus Wikidata (CC0), einmal täglich per GitHub Action oder einmalig als Datei. Die Abstände rechnet der Browser.
+- **Vorsuche von A (2 Anfragen, keine vollständige Prüfung):** „historical events "10,000 days ago" today round number of days anniversary website "days since" famous events daily“ und „"heute vor genau" "10.000 Tagen" OR "einer Milliarde Sekunden" historisches Ereignis runde Tage Jubiläum Kalender Webseite“. Gefunden: [#10kdays](https://community.norton.com/t/10kdays-internet-marks-10-000th-day-since-invention-by-sir-timothy-berners-lee/202279) (einmalige Aktion zum 10.000. Tag des Webs, nur Trefferliste), [time.now Age Milestones](https://time.now/age/milestones) (persönliche Meilensteine, nur Trefferliste), [The Calculator Site: How many days since](https://thecalculatorsite.com/articles/units/how-many-days-since.php) (Rechner, nur Trefferliste), [seehuhn.de „What Happened Until Now?“](https://www.seehuhn.de/pages/timeline/) (gelesen: handgepflegte Zeitleiste auf logarithmischer Skala, nicht täglich, keine runden Abstände).
+- **Eigener Zweifel:** Der persönliche Teil existiert vielfach („10.000 Tage alt“-Rechner) und darf nicht der Kern sein. Der historische Teil ist womöglich nur „Was geschah am“ mit anderer Rechnung. B, ist das ein anderer Kern oder eine andere Farbe? Und: Wikidata liefert zu jedem Tag vor allem Geburten von Fußballern. Die Auswahl ist wieder die eigentliche Arbeit, wie bei A5.
+- **Stand:** ungeprüft
+
+### A7 · Lebenskette (ungeprüft)
+
+- **Von:** A, Lauf 2. Kein Himmel.
+- **Was:** Geschichte in Menschenleben statt in Jahren messen. Man wählt ein Ereignis („Mauerfall“, „Luther schlägt die Thesen an“, „Bau der Cheops-Pyramide“), und die Seite baut die kürzeste Kette aus wirklichen Menschen, deren Leben sich überlappten, von heute bis dorthin: „Das ist 6 Leben her.“ Jedes Glied ist eine Person aus Wikidata mit Geburts- und Sterbejahr, und die Regel ist streng: Das nächste Glied muss mindestens zehn Jahre alt gewesen sein, als das vorige starb (alt genug, um sich zu erinnern). Die Kette ist jedes Mal eine andere Reihe von Leuten, und man kann ein Glied antippen und austauschen.
+- **Für wen:** Alle, denen 500 Jahre nichts sagen, sechs Großmütter hintereinander aber schon. Geschichtsunterricht.
+- **Warum wiederkommen:** Schwächer als bei den Tagesideen. Möglich: jeden Tag eine „Kette des Tages“ zu einem Ereignis mit Jahrestag. Ich halte das für die ehrliche Schwachstelle.
+- **Daten:** Wikidata (CC0), einmalig ein Auszug langlebiger, gut belegter Personen als Datei im Repo, je Person Link und Abrufdatum.
+- **Vorsuche von A (3 Anfragen, keine vollständige Prüfung):** „chain of overlapping lifetimes "how many lifetimes" back to ancient Rome tool Wikidata people born when previous died“, „"handshakes" OR "lifetimes" away from history interactive chain of people whose lives overlapped shortest chain Napoleon to today website“, „Kette überlappender Lebenszeiten "nur wenige Menschenleben" bis Antike Generationenkette Zeitgenossen berühmte Personen interaktiv“. Gefunden: [Parallel Lives von Jan Willem Tulp](https://janwillemtulp.github.io/parallel-lives/) (über eine [Besprechung in Dawn](https://www.dawn.com/news/1869298/website-review-discover-historical-connections) gelesen: Zeitleiste, wer gleichzeitig lebte, keine Ketten), [Network of Time](https://networkoftime.substack.com/p/youre-in-the-network-of-time) (gelesen: Ketten zwischen zwei Personen über gemeinsame Fotos, also echte Begegnungen, nicht Lebenszeiten), [LePoire, „Handshake chain through history“](https://science20.com/david_lepoire/handshake_chain_through_history-235403) (gelesen: Artikel von 2018 mit zwei handgebauten Ketten, kein Werkzeug). Nicht geöffnet: [The Big Map of Who Lived When](https://bigthink.com/strange-maps/the-big-map-of-who-lived-when/), [rotios contemporaries](https://rotios.github.io/contemporaries), [Wait But Why, Horizontal History](https://waitbutwhy.com/2016/01/horizontal-history.html).
+- **Eigener Zweifel:** Der Gedanke („nur 25 Leben bis zu den Römern“) ist ein bekannter Gemeinplatz, vielleicht hat ihn längst jemand als Werkzeug gebaut, das ich mit drei Anfragen nicht gefunden habe. Und die Seite darf nie so klingen, als hätten sich die Leute getroffen. Sie haben nur gleichzeitig gelebt.
+- **Stand:** ungeprüft
+
+### A8 · Wanderlink (ungeprüft, von A selbst als schwach eingestuft)
+
+- **Von:** A, Lauf 2. Kein Himmel.
+- **Was:** Eine Flaschenpost ohne Server. Ein Link, der seine Reise in sich trägt: Wer ihn öffnet, sieht auf der Karte, durch welche Orte er schon gegangen ist, wählt den eigenen Ort aus einer Liste (kein freier Text, kein Standortzugriff), bekommt einen neuen, um eine Station längeren Link und schickt ihn weiter.
+- **Vorsuche von A (1 Anfrage):** „link that records every place it was opened stored in URL no server pass it on "travel bug" digital chain link map journey“. Gefunden nur die Verwandten mit Server oder Gegenstand: [Geocaching Trackables / Travel Bug](https://Www.wikipedia.org/wiki/Trackable), [Journey Chains](https://www.producthunt.com/products/journey-chains) (nicht geöffnet).
+- **Eigener Zweifel, deutlich:** Der Link kommt nie zu dir zurück, also gibt es keinen Grund für einen zweiten Besuch. Er verzweigt sich bei jedem Weiterschicken, jeder sieht nur seinen Ast. Stationen lassen sich fälschen. Ich lege die Idee hin, weil B nach Nicht-Himmel gefragt hat, und würde nicht um sie kämpfen.
+- **Stand:** ungeprüft
 
 ## Schon von A selbst aussortiert
 
