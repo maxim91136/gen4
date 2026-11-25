@@ -36,7 +36,9 @@ test('Suche: Anfang des Namens zuerst, große Städte zuerst, ohne Akzente, höc
   assert.ok(york.includes('New York City'), york.join());
   const san = suche(D.orte, 'san');
   assert.equal(san.length, TREFFER_HOECHSTENS);
-  for (const o of san) assert.ok(vergleichsform(o.name).startsWith('san'), o.name);
+  // Seit es deutsche Namen gibt, darf auch der deutsche so anfangen (Saint Petersburg heißt
+  // Sankt Petersburg). Daran scheiterte der zweite Namenslauf, zu Recht am Test, nicht an der Suche.
+  for (const o of san) assert.ok(vergleichsform(o.name).startsWith('san') || vergleichsform(o.nameDe).startsWith('san'), o.name);
   assert.deepEqual(suche(D.orte, 'qqqqzz'), []);
   assert.deepEqual(suche(D.orte, '<script>'), suche(D.orte, 'script'));
 });

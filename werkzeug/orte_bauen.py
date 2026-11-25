@@ -67,9 +67,11 @@ def auswahl(orte):
     return tueren, suchliste, zahlen
 
 def name_de(o, namen):
-    """Der deutsche Name, wenn er sich vom Namen bei GeoNames unterscheidet, sonst ''."""
+    """Der deutsche Name, wenn er sich vom Namen bei GeoNames unterscheidet, sonst ''.
+    Ein Label der Form "Stadt X", wo X der Name bei GeoNames ist, bezeichnet die Verwaltung und
+    nicht den Ort (im ersten echten Lauf: "Stadt Madrid"); es zaehlt wie kein anderer Name."""
     n = namen.get(str(o["id"]), "")
-    return n if n and n != o["name"] else ""
+    return n if n and n != o["name"] and n != "Stadt " + o["name"] else ""
 
 def ausgabe(tueren, suchliste, zahlen, abgerufen, namen=None):
     if namen is not None:

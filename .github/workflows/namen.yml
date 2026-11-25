@@ -39,6 +39,20 @@ jobs:
         run: python werkzeug/namen_holen.py "$RUNNER_TEMP/geonames/cities15000.txt" "$RUNNER_TEMP/namen.json" "$(date -u +%F)" | tee -a "$GITHUB_STEP_SUMMARY"
       - name: Ortsliste mit Namen bauen
         run: python werkzeug/orte_bauen.py "$RUNNER_TEMP/geonames/cities15000.txt" site/orte.json "$(date -u +%F)" "$RUNNER_TEMP/namen.json" | tee -a "$GITHUB_STEP_SUMMARY"
+      # Zum Nachsehen, auch wenn danach ein Test scheitert: was Wikidata geantwortet hat und was
+      # daraus gebaut wurde. Bleibt bei GitHub liegen, kommt nicht ins Repo und nicht auf die Seite.
+      - name: Antwort und Entwurf aufheben
+        if: always()
+        run: |
+          mkdir -p "$RUNNER_TEMP/zum-nachsehen"
+          cp "$RUNNER_TEMP/namen.json" "$RUNNER_TEMP/zum-nachsehen/" 2>/dev/null || true
+          cp site/orte.json "$RUNNER_TEMP/zum-nachsehen/orte-entwurf.json" 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: namen-zum-nachsehen
+          path: ${{ runner.temp }}/zum-nachsehen
+          retention-days: 14
       - name: Alle Tests mit der neuen Datei
         run: |
           python -m unittest discover -s tests
