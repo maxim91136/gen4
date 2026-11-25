@@ -1,7 +1,7 @@
 """Tests zu werkzeug/namen_holen.py und zur Spalte name_de in werkzeug/orte_bauen.py.
 Die Antworten von Wikidata sind hier nachgestellt, nicht abgerufen: Aus der Arbeitsumgebung ist
 der Abfragedienst nicht erreichbar. Geprueft wird, was das Skript mit einer Antwort tut."""
-import os, sys, unittest
+import json, os, sys, unittest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "werkzeug"))
 # Der eigene Ordner muss im Suchpfad stehen: Der Actions-Lauf ruft die Tests als
 # `tests.test_namen_holen` auf, nicht ueber `discover -s tests`. Ohne diese Zeile fand er
@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "werkzeug"))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import orte_bauen as ob
 import namen_holen as nh
-from test_orte_bauen import PROBE
+from test_orte_bauen import PROBE, zeile as zeile_gn
 
 def zeile(g, q, de=None, sl=1, mul=None):
     z = {"g": {"type": "literal", "value": str(g)},
@@ -35,7 +35,9 @@ class Abfrage(unittest.TestCase):
     def test_abfrage_enthaelt_nur_zahlen(self):
         q = nh.abfrage([2950159, 3169070])
         self.assertIn('VALUES ?g { "2950159" "3169070" }', q)
-        self.assertIn("wdt:P1566", q)
+        self.assertIn("ps:P1566 ?g", q)
+        self.assertIn("DeprecatedRank", q)
+        self.assertEqual(q.count("{"), q.count("}"))
         self.assertIn('LANG(?de) = "de"', q)
         self.assertIn('LANG(?mul) = "mul"', q)
         self.assertIn("wikibase:sitelinks", q)
@@ -106,9 +108,13 @@ class Auswerten(unittest.TestCase):
 
 class SpalteNameDe(unittest.TestCase):
     def setUp(self):
-        self.tueren, self.suche, self.zahlen = ob.auswahl(ob.lesen(PROBE))
+        probe = list(PROBE)
+        f = probe[0].split("\t"); f[3] = "Hauptstadt,Capitale"; probe[0] = "\t".join(f)
+        f = probe[7].split("\t"); f[3] = "Mittelstadt"; probe[7] = "\t".join(f)
+        self.tueren, self.suche, self.zahlen = ob.auswahl(ob.lesen(probe))
         # Hauptort heisst deutsch anders, Grossort gleich, die uebrigen fehlen bei Wikidata.
-        self.namen = nh.ausgabe({"1": (9, 1, "Hauptstadt", "de"), "2": (9, 2, "Grossort", "de")}, "2026-11-26")
+        self.namen = nh.ausgabe({"1": (9, 1, "Hauptstadt", "de"), "2": (9, 2, "Grossort", "de"),
+                                 "8": (9, 8, "Landkreis Mittelort", "de")}, "2026-11-26")
 
     def test_ohne_namen_bleibt_die_alte_form(self):
         a = ob.ausgabe(self.tueren, self.suche, self.zahlen, "2026-11-25")
@@ -126,17 +132,42 @@ class SpalteNameDe(unittest.TestCase):
         self.assertIn("CC0", a["namen_quelle"])
         z = a["zahlen"]
         self.assertEqual((z["tueren_ohne_deutschen_namen"], z["tueren_mit_anderem_deutschen_namen"]), (3, 1))
-        self.assertEqual((z["suchliste_ohne_deutschen_namen"], z["suchliste_mit_anderem_deutschen_namen"]), (3, 1))
+        # Mittelort hat bei Wikidata einen Namen, den GeoNames nicht kennt: verworfen, nicht "ohne".
+        self.assertEqual((z["suchliste_ohne_deutschen_namen"], z["suchliste_mit_anderem_deutschen_namen"]), (2, 1))
+        self.assertEqual((z["tueren_name_verworfen"], z["suchliste_name_verworfen"]), (0, 1))
+        self.assertEqual({z[0]: z[4] for z in a["orte"]}["Mittelort"], "")
+        self.assertNotIn('"alt"', json.dumps(a))        # die Schreibweisen bleiben draussen
         # Die Zahlen der Auswahl selbst aendern sich nicht.
         self.assertEqual(z["tueren"], self.zahlen["tueren"])
         self.assertNotIn("tueren_ohne_deutschen_namen", self.zahlen)
 
-    def test_stadt_vor_dem_namen_ist_kein_anderer_name(self):
-        o = {"id": 1, "name": "Madrid"}
-        self.assertEqual(ob.name_de(o, {"1": "Stadt Madrid"}), "")
-        self.assertEqual(ob.name_de(o, {"1": "Madrid"}), "")
-        self.assertEqual(ob.name_de(o, {"1": "Madrid-Stadt"}), "Madrid-Stadt")
-        self.assertEqual(ob.name_de({"id": 1, "name": "Mexico City"}, {"1": "Mexiko-Stadt"}), "Mexiko-Stadt")
+    def test_name_nur_wenn_geonames_ihn_kennt(self):
+        # Erfundene Zeilen in der Form von cities15000; die vierte Spalte sind die anderen Schreibweisen.
+        def ort(i, name, andere):
+            f = zeile_gn(i, name, 1, 2, "PPLC", "AA", 300000).split("\t"); f[3] = andere
+            return ob.lesen(["\t".join(f)])[0]
+        mailand = ort(1, "Milan", "Mailand,Milano,Milán")
+        self.assertEqual(ob.name_de(mailand, {"1": "Mailand"}), "Mailand")
+        self.assertEqual(ob.verworfen(mailand, {"1": "Mailand"}), "")
+        self.assertEqual(ob.name_de(mailand, {"1": "Milan"}), "")                 # gleich, also leer
+        self.assertEqual(ob.name_de(mailand, {"1": "Metropolitanstadt Mailand"}), "")
+        self.assertEqual(ob.verworfen(mailand, {"1": "Metropolitanstadt Mailand"}), "Metropolitanstadt Mailand")
+        self.assertEqual(ob.name_de(mailand, {}), "")
+        self.assertEqual(ob.verworfen(mailand, {}), "")
+        # Die Faelle aus den echten Laeufen.
+        bamako = ort(2, "Bamako", "BKO,Bamako,Bamaku")
+        self.assertEqual(ob.name_de(bamako, {"2": "Gebäude des Ministeriums für Wirtschaft und Finanzen"}), "")
+        self.assertEqual(ob.name_de(ort(3, "Madrid", "Madrid,Madryt"), {"3": "Stadt Madrid"}), "")
+        # Verglichen wird ohne Akzente, Gross und Klein und Satzzeichen.
+        self.assertEqual(ob.name_de(ort(4, "Saint George's", "St. George's,Sent-Dzhordzhes"), {"4": "St. George’s"}), "St. George’s")
+        self.assertEqual(ob.name_de(ort(5, "Male", "Male,Malé"), {"5": "Malé"}), "Malé")
+        self.assertEqual(ob.name_de(ort(6, "Mexico City", "Mexiko-Stadt,Mexico"), {"6": "Mexiko-Stadt"}), "Mexiko-Stadt")
+
+    def test_vergleichsform(self):
+        self.assertEqual(ob.vergleichsform("  São  Paulo "), "sao paulo")
+        self.assertEqual(ob.vergleichsform("Gießen"), "giessen")
+        self.assertEqual(ob.vergleichsform("Saint John’s"), "saint john s")
+        self.assertEqual(ob.vergleichsform("東京"), "")
 
 if __name__ == "__main__":
     unittest.main()

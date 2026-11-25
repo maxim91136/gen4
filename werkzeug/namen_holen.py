@@ -36,7 +36,11 @@ def abfrage(ids):
     Schwesterprojekten er einen Artikel hat), nach dem deutschen Label und nach dem Label "mul"
     (bei Wikidata der Name fuer alle Sprachen, wenn es keinen eigenen gibt)."""
     werte = " ".join('"%d"' % int(i) for i in ids)
-    return ('SELECT ?g ?item ?sl ?de ?mul WHERE { VALUES ?g { %s } ?item wdt:P1566 ?g . '
+    # p:/ps: statt wdt:, damit auch Kennungen gefunden werden, die an einem Eintrag nicht den
+    # Vorzugsrang haben (eine Stadt, die zugleich Verwaltungseinheit ist, fuehrt oft zwei).
+    # Zurueckgezogene Angaben (DeprecatedRank) zaehlen nicht.
+    return ('SELECT ?g ?item ?sl ?de ?mul WHERE { VALUES ?g { %s } ?item p:P1566 ?st . ?st ps:P1566 ?g . '
+            '?st wikibase:rank ?rang . FILTER(?rang != wikibase:DeprecatedRank) '
             '?item wikibase:sitelinks ?sl . '
             'OPTIONAL { ?item rdfs:label ?de . FILTER(LANG(?de) = "de") } '
             'OPTIONAL { ?item rdfs:label ?mul . FILTER(LANG(?mul) = "mul") } }' % werte)

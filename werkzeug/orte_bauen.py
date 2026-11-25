@@ -15,14 +15,21 @@ Mit namen.json (geschrieben von werkzeug/namen_holen.py, Quelle Wikidata, CC0) b
 Zeile eine weitere Spalte name_de: den deutschen Namen, wenn es einen gibt und er anders lautet
 als der Name von GeoNames, sonst eine leere Zeichenkette. A Lauf 12, REGELN.md Abschnitt 5.
 """
-import json, sys
+import json, re, sys, unicodedata
 
 SPALTEN = 19
-ID, NAME, BREITE, LAENGE, KLASSE, CODE, LAND, EINWOHNER = 0, 1, 4, 5, 6, 7, 8, 14
+ID, NAME, ASCII, ANDERE, BREITE, LAENGE, KLASSE, CODE, LAND, EINWOHNER = 0, 1, 2, 3, 4, 5, 6, 7, 8, 14
 AB_TUER = 5_000_000
 AB_ORT = 100_000
 STELLEN = 2            # Nachkommastellen der Koordinaten, 0,01 Grad sind etwa ein Kilometer
 ERWARTET = (150, 350)  # Zahl der Tueren, REGELN.md Abschnitt 5
+
+def vergleichsform(text):
+    """Schreibweise zum Vergleichen, wie in site/ortswahl.mjs: klein, ohne Akzente, nur
+    Buchstaben, Ziffern und einzelne Leerzeichen."""
+    t = unicodedata.normalize("NFD", text.lower().replace("ß", "ss"))
+    t = "".join(z for z in t if not unicodedata.combining(z))
+    return " ".join(re.sub(r"[^a-z0-9]+", " ", t).split())
 
 def lesen(zeilen):
     orte = []
@@ -37,7 +44,10 @@ def lesen(zeilen):
         if not (-90 <= b <= 90 and -180 <= l <= 180):
             raise ValueError(f"Zeile {nr}: Koordinaten ausserhalb der Erde ({b}, {l}).")
         orte.append({"id": int(f[ID]), "name": f[NAME], "b": round(b, STELLEN), "l": round(l, STELLEN),
-                     "code": f[CODE], "land": f[LAND], "ew": int(f[EINWOHNER] or 0)})
+                     "code": f[CODE], "land": f[LAND], "ew": int(f[EINWOHNER] or 0),
+                     # Alle Schreibweisen, die GeoNames fuer den Ort kennt (ohne Sprachangabe),
+                     # in Vergleichsform. Kommt nicht in die Ausgabe, dient nur name_de().
+                     "alt": {vergleichsform(x) for x in [f[NAME], f[ASCII]] + f[ANDERE].split(",")} - {""}})
     return orte
 
 def auswahl(orte):
@@ -66,12 +76,25 @@ def auswahl(orte):
               "tueren_im_erwarteten_bereich": ERWARTET[0] <= len(tueren) <= ERWARTET[1]}
     return tueren, suchliste, zahlen
 
+def bekannt(o, name):
+    """Steht der Name unter den Schreibweisen, die GeoNames fuer diesen Ort fuehrt?"""
+    return vergleichsform(name) in o["alt"]
+
 def name_de(o, namen):
-    """Der deutsche Name, wenn er sich vom Namen bei GeoNames unterscheidet, sonst ''.
-    Ein Label der Form "Stadt X", wo X der Name bei GeoNames ist, bezeichnet die Verwaltung und
-    nicht den Ort (im ersten echten Lauf: "Stadt Madrid"); es zaehlt wie kein anderer Name."""
+    """Der deutsche Name von Wikidata, wenn er anders lautet als der Name bei GeoNames und wenn
+    GeoNames ihn unter den anderen Schreibweisen desselben Orts fuehrt. Sonst ''.
+
+    Die zweite Bedingung ist die Gegenprobe aus einer zweiten Quelle (REGELN.md Abschnitt 5,
+    Zusatz Lauf 13). Ohne sie hiess Bamako "Gebaeude des Ministeriums fuer Wirtschaft und
+    Finanzen" und Osnabrueck "Kreisfreie Stadt Osnabrueck": Bei Wikidata traegt nicht nur die
+    Stadt die Kennung, und welcher Eintrag der richtige ist, laesst sich dort nicht sicher sagen."""
     n = namen.get(str(o["id"]), "")
-    return n if n and n != o["name"] and n != "Stadt " + o["name"] else ""
+    return n if n and n != o["name"] and bekannt(o, n) else ""
+
+def verworfen(o, namen):
+    """Der Name von Wikidata, wenn er anders lautet und GeoNames ihn nicht kennt. Sonst ''."""
+    n = namen.get(str(o["id"]), "")
+    return n if n and n != o["name"] and not bekannt(o, n) else ""
 
 def ausgabe(tueren, suchliste, zahlen, abgerufen, namen=None):
     if namen is not None:
@@ -79,6 +102,8 @@ def ausgabe(tueren, suchliste, zahlen, abgerufen, namen=None):
         zahlen = dict(zahlen,
                       tueren_ohne_deutschen_namen=sum(1 for o in tueren if str(o["id"]) not in n),
                       tueren_mit_anderem_deutschen_namen=sum(1 for o in tueren if name_de(o, n)),
+                      tueren_name_verworfen=sum(1 for o in tueren if verworfen(o, n)),
+                      suchliste_name_verworfen=sum(1 for o in suchliste if verworfen(o, n)),
                       suchliste_ohne_deutschen_namen=sum(1 for o in suchliste if str(o["id"]) not in n),
                       suchliste_mit_anderem_deutschen_namen=sum(1 for o in suchliste if name_de(o, n)))
         return {
@@ -127,5 +152,10 @@ if __name__ == "__main__":
         n = namen["namen"]
         print("\nTueren mit anderem deutschen Namen:")
         print(", ".join(f"{o['name']} -> {name_de(o, n)}" for o in tueren if name_de(o, n)))
+        print("\nTueren, deren Name von Wikidata verworfen wurde, weil GeoNames ihn fuer den Ort nicht kennt:")
+        print(", ".join(f"{o['name']} -/-> {verworfen(o, n)}" for o in tueren if verworfen(o, n)) or "keine")
+        weg = [f"{o['name']} -/-> {verworfen(o, n)}" for o in suchliste if verworfen(o, n)]
+        print(f"\nIn der Suchliste verworfen: {len(weg)}. Die ersten 60 (groesste Staedte zuerst):")
+        print(", ".join(weg[:60]) or "keine")
         print("\nTueren ohne deutschen Namen bei Wikidata:")
         print(", ".join(o["name"] for o in tueren if str(o["id"]) not in n) or "keine")
