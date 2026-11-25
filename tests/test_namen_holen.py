@@ -3,6 +3,10 @@ Die Antworten von Wikidata sind hier nachgestellt, nicht abgerufen: Aus der Arbe
 der Abfragedienst nicht erreichbar. Geprueft wird, was das Skript mit einer Antwort tut."""
 import os, sys, unittest
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "werkzeug"))
+# Der eigene Ordner muss im Suchpfad stehen: Der Actions-Lauf ruft die Tests als
+# `tests.test_namen_holen` auf, nicht ueber `discover -s tests`. Ohne diese Zeile fand er
+# test_orte_bauen nicht und brach ab (Lauf Nr. 1 von namen.yml, 2026-11-25).
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import orte_bauen as ob
 import namen_holen as nh
 from test_orte_bauen import PROBE

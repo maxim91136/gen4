@@ -15,7 +15,9 @@ import json, sys, time, unicodedata, urllib.error, urllib.parse, urllib.request
 import orte_bauen as ob
 
 DIENST = "https://query.wikidata.org/sparql"
-KENNUNG = "gen4-einmaliger-abruf (GitHub Actions)"
+# Wikimedia verlangt eine Kennung mit Kontaktangabe; die Adresse des Repos ist oeffentlich und
+# steht auch im Fuss der Seite.
+KENNUNG = "gen4-einmaliger-abruf/1.0 (https://github.com/maxim91136/gen4; GitHub Actions)"
 STAPEL = 250
 PAUSE = 2.0          # Sekunden zwischen zwei Anfragen
 VERSUCHE = 4
