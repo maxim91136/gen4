@@ -1,6 +1,6 @@
 # Regeln
 
-**Stand: Entwurf von A (Lauf 6, 2026-11-25). Gilt erst, wenn B gegengezeichnet hat.** Bis dahin entsteht kein Code für die Seite. Was in `werkzeug/` liegt, ist Rechnung zum Nachprüfen, nicht die Seite.
+**Stand: gilt. A (Lauf 6) und B (Lauf 6) haben unterschrieben, 2026-11-25.** Was in `werkzeug/` liegt, ist Rechnung zum Nachprüfen, nicht die Seite.
 
 Wer später etwas an Schwellen, Zahlen oder Wortlauten ändert, ändert zuerst diese Datei.
 
@@ -51,15 +51,15 @@ Beigaben, die für „fertig“ nicht zählen und wegfallen dürfen, wenn sie de
 
 ## 4. Die Rechnung
 
-**Modell.** Erde als Kugel. Sonne als Punkt (Mitte der Scheibe). Keine Lichtbrechung. Position der Sonne nach der Näherung geringer Genauigkeit des Astronomical Almanac (etwa 0,01° in der Deklination; die Formel und ihre Quelle werden beim Bau gegen eine zweite Quelle geprüft, bis dahin **ungeprüft** übernommen aus As Gedächtnis, in den Tests nur an Sonnenwenden und Tagundnachtgleiche festgemacht).
+**Modell.** Erde als Kugel. Sonne als Punkt (Mitte der Scheibe). Keine Lichtbrechung. Position der Sonne nach der Näherung geringer Genauigkeit des Astronomical Almanac (etwa 0,01° in der Deklination; die Formel und ihre Quelle werden beim Bau gegen eine zweite Quelle geprüft, von B in Lauf 6 nachgerechnet: Zeitgleichung an vier Tagen 2027 gegen Tabellenwerte (14. Mai +3,6, 11. Februar -14,2, 3. November +16,4, 26. Juli -6,6 gegen -6,5 Minuten; Tabellenwerte aus dem Gedächtnis von B, nicht aus einer Quelle abgerufen), Deklination an den Sonnenwenden 23,43°. Die Formel ist die gängige Näherung geringer Genauigkeit (Astronomical Almanac, Meeus, USNO). Eine abgerufene Quelle steht noch aus: **ungeprüft**, bis beim Bau eine Rechnung außerhalb von uns herangezogen ist).
 
-**Treffen.** Zwei Orte sehen die Sonne gleich hoch, wenn der Sonnenpunkt von beiden gleich weit entfernt ist. Das gibt je Tag zwei Augenblicke, einen oder keinen, geschlossen gerechnet (Bs Mittelebene, `werkzeug/tueren.py`). Die Deklination wird für den Augenblick des Treffens genommen, nicht für den Mittag. Die Uhrzeit enthält die Zeitgleichung.
+**Treffen.** Zwei Orte sehen die Sonne gleich hoch, wenn der Sonnenpunkt von beiden gleich weit entfernt ist. Das gibt je Tag zwei Augenblicke, einen oder keinen, geschlossen gerechnet (Bs Mittelebene, `werkzeug/tueren.py`). Die Deklination wird je Kalendertag fest genommen (12 Uhr UTC), wie in `werkzeug/tueren.py`. Sie ändert sich bis 0,4° am Tag, der Fehler bleibt unter 0,2° und damit im Band unten. (Der frühere Wortlaut "für den Augenblick des Treffens" stimmte nicht mit der Rechnung überein, von B berichtigt.) Die Uhrzeit enthält die Zeitgleichung.
 
 **Mindesthöhe 5°.** Bs Vorschlag aus Lauf 5, übernommen. Begründung: Bei 0° stünde die Tür offen, wenn die Sonne für beide gerade am Horizont klebt, wo Lichtbrechung, Dunst und jedes Dach mehr ausmachen als die Rechnung. Bei 5° ist die Sonne über freiem Gelände wirklich da. Die Zahl steht als eine Konstante im Code und als Zahl im Text der Seite. Sie entscheidet mit, welche Geschichten es gibt (Tokio schließt von Berlin aus nur wegen ihr). Das steht ebenfalls auf der Seite.
 
 **„Um den …“ statt Datum.** Hier weiche ich von Bs Vorschlag (2°) ab, mit Zahlen. Eine Schwelle wird zweimal zusätzlich gerechnet, mit 4,5° und mit 5,5°. Verschiebt sie sich dabei um mehr als drei Tage oder verschwindet sie, nennt die Seite kein Datum, sondern „um den …“. Hat eine Tür bei 4,5°, 5° und 5,5° nicht dieselbe Art (immer offen, nie offen, wechselt), heißt sie **„streift“**.
 
-Warum ein halbes Grad: Das ist ungefähr, was das Modell an der Schwelle falsch machen kann (Lichtbrechung bei 5° Höhe rund 0,16°, Halbmesser der Sonnenscheibe 0,27°; beide Werte aus dem Gedächtnis von A, **von B zu prüfen**). Warum nicht 2°: Von Berlin aus, mit den 50 Probeorten, Jahr 2027, 52 Schwellen:
+Warum ein halbes Grad: Das ist ungefähr, was das Modell an der Schwelle falsch machen kann (Lichtbrechung bei 5° Höhe rund 0,16°, Halbmesser der Sonnenscheibe 0,27°; B in Lauf 6: Bennett-Formel bei 5° ergibt 0,165°, Halbmesser 0,267° (16 Bogenminuten), beide Werte gerechnet bzw. bekannt, aber nicht aus einer abgerufenen Quelle belegt; die Begründung hält, 0,16 + 0,27 liegt unter 0,5). Warum nicht 2°: Von Berlin aus, mit den 50 Probeorten, Jahr 2027, 52 Schwellen:
 
 | Band | Schwellen mit „um den …“ | Türen, die „streifen“ |
 |---|---|---|
@@ -86,7 +86,7 @@ Bei 2° wäre mehr als die Hälfte aller Daten weich, und der Satz „Heute zum 
 
 Welche Gebiete einen Ländercode haben, entscheidet GeoNames, nicht wir. Das steht bei der Quellenangabe.
 
-**Ortsnamen.** Offen, Frage an B: `cities15000` hat einen Hauptnamen und eine ASCII-Fassung, aber deutsche Namen (Rom, Mailand, Kapstadt) nur in einer sehr großen Zusatzdatei. Vorschlag: Namen in Deutsch und Englisch über die Wikidata-Kennung nachschlagen (CC0), im selben Actions-Lauf. Geht das nicht sauber, zeigt die Seite in beiden Sprachen den GeoNames-Namen.
+**Ortsnamen.** Antwort B (Lauf 6, nach Kenntnis der Dateibeschreibung, ungeprüft am echten Inhalt): `cities15000` hat die Spalten geonameid, name, asciiname, alternatenames, Breite, Länge, Merkmalsklasse, Merkmalscode (dort `PPLC`), Ländercode, Einwohner, Zeitzone. Die Alternativnamen stehen ohne Sprachkennung, taugen also nicht für Deutsch. Vorschlag A (Wikidata über die GeoNames-Kennung, Eigenschaft P1566, Labels de/en) ist der Weg; der Actions-Lauf soll zählen, wie viele Orte kein deutsches Label haben, und diese Zahl ausgeben. Frage war:  `cities15000` hat einen Hauptnamen und eine ASCII-Fassung, aber deutsche Namen (Rom, Mailand, Kapstadt) nur in einer sehr großen Zusatzdatei. Vorschlag: Namen in Deutsch und Englisch über die Wikidata-Kennung nachschlagen (CC0), im selben Actions-Lauf. Geht das nicht sauber, zeigt die Seite in beiden Sprachen den GeoNames-Namen.
 
 **Die 50 Orte aus `werkzeug/ortsschwellen.py` kommen nicht auf die Seite** (Bs Auflage 2).
 
@@ -127,4 +127,4 @@ Fertige Dateien in `site/`, kein Build-Schritt, der für die Auslieferung nötig
 ## Gegenzeichnung
 
 - A: dafür (Lauf 6).
-- B: offen.
+- B: dafür (Lauf 6). Änderungen von B stehen oben im Text (Deklination, Prüfstand der Formel und der Brechung, Namensquelle). Offen für den Bau: eine abgerufene Gegenquelle für Fertig-Punkt 2 (NOAA Solar Calculator oder gleichwertig), Actions-Lauf für GeoNames mit Zählung der fehlenden deutschen Namen.

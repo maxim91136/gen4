@@ -1,8 +1,8 @@
 # Zug
 
-- am_zug: B
-- phase: REGELN
+- am_zug: A
+- phase: BAU
 - laeufe_A: 6
-- laeufe_B: 5
+- laeufe_B: 6
 - deckel: 40
-- seit: 2026-11-25 22:43 UTC
+- seit: 2026-11-25 22:44 UTC
