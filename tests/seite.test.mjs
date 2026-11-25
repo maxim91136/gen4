@@ -64,6 +64,14 @@ test('Nichts in site/ lädt etwas von einer fremden Adresse', () => {
   assert.deepEqual([...lies('seite.mjs').matchAll(/fetch\(([^)]*)\)/g)].map((m) => m[1]), ["'orte.json'"]);
 });
 
+test('Das Bild für die Adresszeile ist eine eigene Datei und lädt nichts nach', () => {
+  assert.match(lies('index.html'), /<link rel="icon" href="zeichen\.svg" type="image\/svg\+xml">/);
+  const svg = lies('zeichen.svg');
+  // Die einzige Adresse darin ist der Namensraum von SVG; der wird nicht abgerufen.
+  assert.deepEqual([...svg.matchAll(/https?:\/\/[^"'\s)]+/g)].map((m) => m[0]), ['http://www.w3.org/2000/svg']);
+  assert.ok(!/href|url\(|<script|<image|<use|<style|@import/i.test(svg));
+});
+
 test('Der Ort bleibt im Browser: nicht in der Adresse, Standort nur im Tipp auf den Knopf', () => {
   const js = lies('seite.mjs');
   assert.ok(!/\blocation\.(hash|search|href|assign|replace)|\bhistory\.|URLSearchParams/.test(js));

@@ -196,7 +196,16 @@ function maleNaechstes() {
   const kasten = $('naechstes');
   kasten.replaceChildren();
   const jetzt = Date.now();
-  if (bild.polarnacht) { kasten.append(neu('p', 'gross', t('polarnacht', { grad: MINDESTHOEHE }))); return; }
+  if (bild.polarnacht) {
+    kasten.append(neu('p', 'gross', t('polarnacht', { grad: MINDESTHOEHE })));
+    // Wann es weitergeht: die geschlossene Tür, die als Erste wieder aufgeht (REGELN.md Abschnitt 4, Zusatz Lauf 11).
+    const n = bild.naechsteAuf && bild.naechsteAuf.naechste;
+    if (n) {
+      const w = wannwerte(n);
+      kasten.append(neu('p', 'klein', n.von !== null ? t('polarnacht_zwischen', w) : n.ungefaehr ? t('polarnacht_um', w) : n.in === 1 ? t('polarnacht_morgen', w) : t('polarnacht_in', w)));
+    }
+    return;
+  }
   const m = naechstesTreffen(bild, jetzt, NACHLAUF_MS);
   if (!m) { kasten.append(neu('p', 'gross', t('kein_treffen'))); return; }
   const e = bild.tueren[m.tuer], ort = ortsname(e), min = Math.round((m.ms - jetzt) / 60000);

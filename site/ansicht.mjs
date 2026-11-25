@@ -105,6 +105,7 @@ export function abstandGrad(a, b) {
  *   heuteZu     Türen, deren letztes Treffen heute liegt (Datum fest, nicht "um den")
  *   heuteAuf    Türen, die heute zum ersten Mal wieder offen sind
  *   naechsteZu  die Tür, die als Nächste nach heute schließt, oder null
+ *   naechsteAuf die geschlossene Tür, die als Nächste nach heute aufgeht, oder null (für die Polarnacht)
  *   nachbarn    Orte, die näher als das Band liegen und deshalb keine Tür sind
  *   zahlen      { offen, zu, immer, nie }
  */
@@ -218,6 +219,7 @@ export function ansicht(ich, orte, jetztMs, ortstag) {
     heuteZu: tueren.filter((e) => schliesst(e) && e.naechste.in === 0 && !e.naechste.ungefaehr),
     heuteAuf: tueren.filter((e) => e.heuteAuf),
     naechsteZu: tueren.find((e) => schliesst(e) && e.naechste.in > 0) || null,
+    naechsteAuf: tueren.find((e) => e.zustand === 'zu' && e.naechste) || null,
     nachbarn, zahlen,
   };
 }

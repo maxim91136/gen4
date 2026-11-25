@@ -27,6 +27,9 @@ test('Berlin: jede Tür kommt genau einmal vor, der eigene Ort ist keine Tür', 
   assert.deepEqual(a.nachbarn.map((o) => o.name), ['Berlin']);
   assert.equal(a.zahlen.offen + a.zahlen.zu + a.zahlen.immer + a.zahlen.nie, a.tueren.length);
   assert.equal(a.polarnacht, false);
+  // Die nächste Öffnung ist die früheste unter den geschlossenen Türen.
+  assert.equal(a.naechsteAuf.zustand, 'zu');
+  for (const e of a.tueren) if (e.zustand === 'zu' && e.naechste) assert.ok(e.naechste.tag >= a.naechsteAuf.naechste.tag, e.name);
 });
 
 test('Berlin: Rom und Tokio schließen an den Tagen aus REGELN.md, höchstens ein Tag daneben', () => {
@@ -132,6 +135,13 @@ test('Ränder der Erde: Polarnacht, Mitternachtssonne, Äquator, Datumsgrenze, P
   assert.equal(winter.fahrplan.length, 0);
   assert.equal(naechstesTreffen(winter, Date.UTC(2027, 11, 21, 11)), null);
   assert.equal(winter.heuteZu.length, 0);
+  // Die Polarnacht sagt, wann es weitergeht: die früheste aller Öffnungen, und sie liegt nach heute.
+  assert.equal(winter.naechsteAuf.zustand, 'zu');
+  assert.equal(winter.naechsteAuf.naechste.was, 'auf');
+  assert.ok(winter.naechsteAuf.naechste.in >= 1);
+  for (const e of winter.tueren) if (e.naechste) assert.ok(e.naechste.tag >= winter.naechsteAuf.naechste.tag, e.name);
+  // Von Longyearbyen aus kommt die Sonne erst im März wieder auf 5° (Mittagshöhe 11,78° + Deklination).
+  assert.equal(r.datum(winter.naechsteAuf.naechste.tag).monat, 3);
   const sommer = ansicht(LYB, ORTE, Date.UTC(2027, 5, 21, 11), zone(2));
   assert.equal(sommer.polarnacht, false);
   assert.ok(sommer.fahrplan.length > 0);

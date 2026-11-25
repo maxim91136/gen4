@@ -19,7 +19,7 @@
     --linie: #3a2f21;
     --sonne: #ffb347;
     --licht: #ffc04a;
-    --holz: #0a0806;
+    --holz: #5c4830; /* heller als der Grund, sonst verschwindet die geschlossene Tür */
   }
 }
 * { box-sizing: border-box; }

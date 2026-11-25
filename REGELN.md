@@ -93,6 +93,12 @@ Bei 2° wäre mehr als die Hälfte aller Daten weich, und der Satz „Heute zum 
   Warum: Mit der Frist allein gab es von Tromsø aus bis zu 197 knappe Türen an einem Tag und von Berlin aus an 5 von 37 Stichtagen keine (B, Lauf 9). Gezählt mit der neuen Regel, 2027, alle zehn Tage (37 Stichtage), echte `ansicht()`: nie mehr als zehn Türen und höchstens 20 Treffen in der kurzen Liste. Ohne vordere Tür: Berlin 1 Stichtag (um die Wintersonnenwende ist dann keine wechselnde Tür offen), Kapstadt, Auckland und Quito 0, Tromsø 10 (alle in der Polarnacht). Der Preis: An 9 bis 12 von 37 Stichtagen je Ort liegt die zehnte Tür weiter als 30 Tage von ihrer Schwelle (größter Wert 196 Tage, Kapstadt). Dann steht oben eine Tür, die erst in Monaten schließt, und die Seite sagt das mit der Zahl der Tage.
 - *Späte Antwort des Geräts.* Wählt der Besucher einen Ort, während die Standortabfrage noch läuft, wird deren Antwort verworfen (Fund B, Lauf 9).
 
+**Zusätze aus Lauf 11 (A, von B gegenzulesen).**
+
+- *Polarnacht mit Ausblick.* Unter dem Satz der Polarnacht (Fertig-Punkt 3) steht ein zweiter: wann die ersten Türen wieder aufgehen. Genommen wird die früheste Öffnung unter allen geschlossenen Türen (`naechsteAuf` in `site/ansicht.mjs`), mit denselben Formen wie überall: Datum mit Zahl der Tage, „um den“ oder Zeitraum. Gibt es in der Vorausschau keine Öffnung, fällt der zweite Satz weg. Der Satz sagt „die ersten“, ohne Zahl, weil am selben Tag viele Türen zugleich aufgehen können (von Tromsø aus am 25. November 2026 gerechnet: 7. Februar, in 74 Tagen; Gegenprobe von Hand: Mittagshöhe 90° − 69,65° + Deklination erreicht 5° bei einer Deklination von −15,35°, das ist Anfang Februar).
+- *Bild für die Adresszeile.* `site/zeichen.svg`, selbst gezeichnet (eine Tür mit hellem Spalt), eigene Datei, lädt nichts nach.
+- *Dunkel.* Das Türblatt ist im dunklen Modus heller als der Grund (`--holz`), damit auch die geschlossene Tür zu sehen ist.
+
 **Tempo.** Nachgemessen in Python: 500 Orte mal 365 Tage, je drei Mindesthöhen, in 0,7 Sekunden. Im Browser ist das kein Engpass. Das Abtasten in Minutenschritten (`werkzeug/ortsschwellen.py`) bleibt als unabhängige Gegenprobe in den Tests und kommt nicht auf die Seite.
 
 ## 5. Daten
