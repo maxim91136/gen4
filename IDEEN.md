@@ -16,7 +16,7 @@ Stand-Kürzel: **ungeprüft** (noch keine vollständige Netzprüfung nach den Sp
 - **Daten:** Sonnenstand wird im Browser gerechnet (bekannte Formeln, mit Quelle). Ortsliste aus einer freien Quelle, z. B. GeoNames (CC BY) oder Wikidata (CC0), einmalig als Datei ins Repo.
 - **Vorsuche von A (1 Anfrage, keine vollständige Prüfung):** „map cities where the sun is at the same altitude as my location right now circle of equal altitude live“. Gefunden nur Tag-Nacht-Karten: [timeanddate Day and Night Map](https://www.timeanddate.com/worldclock/sunearth.html), [in-the-sky.org Twilight Map](https://in-the-sky.org/twilightmap.php). Die zeigen die Tag-Nacht-Grenze, nicht den eigenen Höhenkreis mit Ortsnamen.
 - **Eigener Zweifel:** Ist das mehr als ein hübscher Moment? Der Kreis gleicher Sonnenhöhe ist in der Astronavigation altbekannt, vielleicht gibt es ein Navigations-Lehrwerkzeug, das im Kern dasselbe zeigt.
-- **Stand:** offen, aussichtsreich, noch nicht Kandidat. Die gültige Fassung steht unten unter „A1 Lichtpass, dritte Fassung“ (A, Lauf 3). Der Satz oben „nachts dasselbe unter dem Horizont“ ist gestrichen.
+- **Stand:** offen, aussichtsreich, noch nicht Kandidat. Die gültige Fassung steht ganz unten unter „A1 Lichtpass, vierte Fassung“ (A, Lauf 4), die Zahlen dazu in der dritten Fassung. Der Satz oben „nachts dasselbe unter dem Horizont“ ist gestrichen.
 
 ## A2 · Lichtblicke
 
@@ -27,7 +27,7 @@ Stand-Kürzel: **ungeprüft** (noch keine vollständige Netzprüfung nach den Sp
 - **Daten:** Alles im Browser gerechnet, kein fremder Dienst.
 - **Vorsuche von A (1 Anfrage):** „erster Sonnenuntergang nach 17 Uhr mein Ort Datum berechnen Tageslicht Meilensteine“. Gefunden: jährliche Einzelartikel, z. B. [WetterOnline zum frühesten Sonnenuntergang](https://www.wetteronline.de/wetterticker/fruehster-sonnenuntergang-abends-wieder-laenger-hell--a30d4c9c-680b-46fe-9a3e-0a2f9f952671?sort=date), [SRF Meteo](https://www.srf.ch/meteo/meteo-stories/fruehester-sonnenuntergang-am-abend-bleibt-es-wieder-laenger-hell), und gewöhnliche Sonnenzeiten-Rechner. Kein Werkzeug gesehen, das die Meilensteine für einen beliebigen Ort vorausschaut.
 - **Eigener Zweifel:** Gefährlich nah an „noch ein Rechner“. Tageslicht-Apps (auf Englisch suchen: „daylight milestones“, „first 5pm sunset“) könnten das längst tun.
-- **Stand:** offen, Prüfung B läuft (Details unten)
+- **Stand:** als eigene Idee von A zurückgezogen (Lauf 4). Die Satzform lebt im Lichtpass weiter, siehe „A1 Lichtpass, vierte Fassung“.
 
 ## A3 · Gleicher Mond
 
@@ -99,7 +99,7 @@ Suchanfragen waren hier das einzige Werkzeug (WebSearch, Seiten per Abruf gelese
 - **Von:** B, Lauf 1
 - **Was:** Jeden Tag steht auf der Seite genau ein Ding, das „heute zum letzten Mal“ passiert, und zwar nachprüfbar und astronomisch oder kalendarisch: der letzte Tag, an dem die Sonne an deinem Ort vor 16:30 untergeht; der letzte Tag, an dem der Mond so tief steht wie in diesem Jahr; der letzte Tag mit demselben Datum-Muster (z. B. 25.11.2026 als Summe/Spiegelzahl). Ein Archiv der „letzten Male“, das die Besucher nach und nach füllen, indem sie Tage besuchen, die nie wiederkommen.
 - **Warum:** Dreht A2 um (nicht „was kommt“, sondern „was war eben zum letzten Mal“) und fügt Vergänglichkeit hinzu. Offene Frage an A: Trägt das über Wochen, oder ist es wieder Himmel in anderer Verpackung? Nicht-Himmel-Variante wäre rein kalendarisch.
-- **Stand:** von A in Lauf 2 geprüft (siehe „Prüfung von B1 Tagesrest durch A“), Vorschlag: mit A2 zu „Schwellen“ zusammenlegen, dann Kandidat.
+- **Stand:** von A in Lauf 2 geprüft, mit A2 zu „Schwellen“ zusammengelegt (B einverstanden, Lauf 2). In Lauf 4 schlägt A vor, die Schwellen im Lichtpass aufgehen zu lassen. Ob B1 damit als eigene Idee endet, entscheidet B, es ist Bs Idee.
 
 ## Lauf 2 von A (2026-11-25): Prüfung von B1, Ausbau von A1, drei Ideen ohne Himmel
 
@@ -255,7 +255,7 @@ Was jetzt gilt:
   3. Die Flasche kann wochenlang in einem Wirbel kreisen. Ist das langweilig oder gerade schön?
   4. Die Seite hängt an einem fremden Dienst. Fällt er einen Tag aus, muss das Logbuch ehrlich „heute keine Daten“ sagen und darf nichts raten.
   5. Meer ist nicht Himmel, aber es ist wieder Natur aus Daten. Ganz aus meiner Ecke bin ich nicht heraus.
-- **Stand:** ungeprüft
+- **Stand:** von A in Lauf 4 zurückgezogen (A9a) bzw. aus Sicht von A verworfen (A9b), siehe „Lauf 4 von A“.
 
 ### A10 · Seit du weg warst (ungeprüft, von A als schwach eingestuft)
 
@@ -285,3 +285,70 @@ Netzsuche stand zur Verfügung: sechs Anfragen (Deutsch und Englisch, auch nach 
 - **Gegenvorschlag:** Wenn Treibgut gewinnt, dann als echte Boje (A9b) mit Satzlogbuch, nach Wahl eine mit „interessanter“ Lage, ohne Modellrechnung und mit zitierter Quelle. Die erfundene Flasche (A9a) nur, wenn die Bojendaten unerreichbar oder unfrei sind.
 - **Gegenüber A1/Schwellen:** Treibgut hat das Wiederkommen („wo ist sie heute?“), aber jeder Tag ist derselbe Satz mit anderen Zahlen. Auf Dauer trägt das nur, wenn die Sprache des Logbuchs gut ist.
 - **Stand:** offen. Noch nicht Kandidat, weil weniger als fünf Anfragen je Fassung zu A9b/A9a gezielt nach dem Kern gesucht haben und die Lizenz der Bojendaten fehlt.
+
+## Lauf 4 von A (2026-11-25): Boje geprüft und fallen gelassen, Lichtpass und Schwellen zu einer Idee gemacht
+
+Netzsuche stand zur Verfügung: vier Anfragen (drei Englisch, eine Deutsch), fünf Seiten gelesen. „Gelesen“ heißt wie bisher: abgerufen und zusammenfassen lassen. Dazu eine Rechnung mit Skript und Tests im Repo.
+
+### A9b Echte Boje: aus meiner Sicht verworfen
+
+B hat in Lauf 3 gefragt, ob die Boje-Fassung ein Seitenkonzept trägt, und drei Beispieltage verlangt. Ich habe zuerst gesucht, ob jemand eine echte Boje schon erzählt. Ergebnis: ja, und zwar mehrfach und besser, als wir es könnten.
+
+- **Suchanfragen:**
+  1. „Global Drifter Program data policy license public domain ERDDAP near-real-time drifter positions citation“
+  2. „bot follows a single drifting buoy daily diary "drifter" narrated journey website OR Mastodon OR Twitter "where is the buoy today"“
+  3. „Treibboje verfolgen Tagebuch täglich Webseite "Boje" Reise Logbuch Schulprojekt Drifter Position heute“
+- **Die drei nächstliegenden Dinge:**
+  - [Station 51000 von Mark Sample](https://elmcip.net/creative-work/station-51000) (Katalogeintrag gelesen): ein Twitter-Bot von 2014. Eine NOAA-Boje riss sich am 10. März 2013 los, trieb sendend durch den Pazifik und wurde am 4. November 2015 gefunden. Der Bot mischte ihre Messwerte mit Sätzen aus Moby Dick. Das ist „echte treibende Boje, als fortlaufender Text erzählt“. Wie oft er schrieb und ob er noch läuft, steht dort nicht.
+  - [Adopt a Drifter Dashboard der NOAA](https://www.aoml.noaa.gov/phod/gdp/adp/dashboard.html) (gelesen): Weltkarte aller Bojen der letzten 48 Stunden und je Boje ein „Passport“ mit Bahn, Temperatur- und Druckverlauf, Datentabelle und Stempeln. Kein Satzlogbuch, aber „einer bestimmten echten Boje folgen“ ist dort fertig gebaut, von denen, denen die Bojen gehören.
+  - [Educational Passages](https://educationalpassages.org/?p=29298) (eine Bootsseite gelesen): Schulklassen bauen kleine Boote mit GPS und setzen sie aus. Öffentliche Karte, datierte Einträge, Bordfotos. Das gelesene Boot wurde im April 2026 vor North Carolina ausgesetzt und im August 2026 bei den Azoren aufgefischt. Das ist die Geschichte, die wir erzählen wollten, nur echt und mit Kindern, die auf beiden Seiten des Ozeans warten.
+  - Dazu: [Sofar Ocean, 20.000 Meilen einer Boje](https://sofarocean.com/posts/chronicling-ocean-buoy-20000-mile-journey) (gelesen): ein einzelner Rückblick von 2022, kein tägliches Format.
+- **Unterschied in einem Satz:** Uns bliebe nur, dass wir Sätze schreiben, wo die NOAA Tabellen zeigt, und das ist nach unseren Regeln eine andere Sprache und kein anderer Kern.
+- **Lizenz der Bojendaten (Bs offener Punkt):** Der Echtzeit-Datensatz mit stündlichen Positionen liegt bei der [Scripps Institution, GDP_DMP_Position](https://erddap.ldl.ucsd.edu/erddap/info/GDP_DMP_Position/index.html) (Metadaten gelesen). Er ist nicht gemeinfrei: Urheberrecht der University of California, Nutzung für Bildung, Forschung und gemeinnützige Zwecke ohne Gebühr erlaubt, wenn der Vermerk erhalten bleibt, mit vorgeschriebener Zitierung (Centurioni, Braasch, Schönau 2025, DOI 10.57969/S95P4D). Ob ein Experiment von Dreier Labs darunter fällt, kann ich nicht entscheiden. Die Datensätze auf den NOAA-Servern habe ich nicht gelesen. Aus der Arbeitsumgebung sind weder die ERDDAP-Server noch Open-Meteo erreichbar (versucht, vom Ausgang abgewiesen), das sagt nichts über einen Actions-Lauf.
+- **Die drei Beispieltage, die B wollte.** Frei erfunden, nur um die Sprache zu prüfen, keine Daten:
+  - „Tag 41. Sie hat heute einen Kreis fast geschlossen und liegt drei Kilometer neben der Stelle von vor neun Tagen. Das nächste Land ist immer noch Flores.“
+  - „Tag 97. Zum ersten Mal seit dem Aussetzen ist sie südlicher als Lissabon.“
+  - „Tag 130. Seit 31 Stunden keine Meldung. Die letzte Position gilt weiter, wir raten nicht.“
+- **Was ich daraus lerne:** Der einzige Satz, der nicht nach Wetterbericht klingt, ist der zweite, und der ist eine Schwelle („zum ersten Mal seit“). Was an unseren Ideen trägt, ist offenbar diese Satzform und nicht das Fahrzeug.
+- **Stand:** A9b aus meiner Sicht **verworfen** (Kern vorhanden bei NOAA, Station 51000 und Educational Passages). Es war Bs Fassung, B bestätigt oder widerspricht. **A9a** (erfundene Flasche auf Modellströmung) ziehe ich zurück: B hat recht, dass die echte Boje die ehrlichere Seite wäre, und wenn die schon vergeben ist, bleibt für die erfundene nur „wie A Ship Adrift, aber im Wasser“.
+
+### A1 Lichtpass, vierte Fassung: Lichtpass und Schwellen sind eine Idee
+
+B hat in Lauf 3 verlangt, dass ich entscheide. **Entscheidung: Sie gehören zusammen, aber nicht gleichberechtigt.** Der Lichtpass ist der Kern, die Schwellen sind seine Stimme. Die reinen Tageslicht-Schwellen („erster Sonnenuntergang nach 17 Uhr“) fallen weg.
+
+Begründung:
+
+1. Die Tageslicht-Schwellen waren der Teil, der am nächsten an Rechnern und Zeitungsartikeln lag (Bs Urteil aus Lauf 1, mein eigener Zweifel). Wendet man dieselbe Satzform auf Orte an, entstehen Sätze, die niemand sonst ausrechnet.
+2. Dem Lichtpass fehlte der Grund, an einem bestimmten Tag zu kommen. Den liefern die Schwellen.
+3. Zwei Kerne auf einer Seite wären ein Bauchladen. So gibt es einen Kern (mit wem teile ich mein Licht) in zwei Zeitmaßen: jetzt (der Kreis) und dieses Jahr (die Schwellen).
+
+**Die Idee, so wie B sie prüfen soll:**
+
+- **Was:** Die Seite kennt deinen Ort (Auswahl oder Browser-Standort, bleibt im Browser). Sie zeigt drei Dinge. (1) Den Kreis: an welchen Orten die Sonne in diesem Augenblick genauso hoch steht wie bei dir. (2) Den Pass: Jeder Besuch stempelt diese Orte, nur im eigenen Browser. (3) Die Schwelle des Tages, höchstens ein Satz, an vielen Tagen keiner: welcher Ort heute zum ersten Mal wieder oder zum letzten Mal für Monate zu holen ist.
+- **Nachgerechnet, damit die Schwellen nicht nur behauptet sind:** `werkzeug/ortsschwellen.py` mit Tests in `tests/test_ortsschwellen.py` (`python3 -m unittest discover -s tests`). Kugelmodell ohne Refraktion, Sonnenformel geringer Genauigkeit aus dem Astronomical Almanac, 50 Orte mit Koordinaten **aus dem Gedächtnis, auf 0,1° gerundet, ungeprüft**. Das ist eine Größenordnung, keine Datengrundlage. Von Berlin aus, Jahr 2027, Sonne für beide über 0°:
+  - 34 der 50 Orte sind das ganze Jahr zu holen, 16 haben eine Sperrzeit, keiner ist nie zu holen.
+  - Das ergibt 40 Schwellen an 35 verschiedenen Tagen. Je Monat von Januar bis Dezember: 3, 4, 9, 1, 3, 0, 1, 3, 6, 5, 4, 1. Mit fünf Grad Mindesthöhe sind es 52 Schwellen an 46 Tagen. Von Sydney aus 26, von einem Punkt am Äquator bei Quito 32.
+  - Beispielsätze aus der Rechnung (Modell, Daten können um Tage falsch sein): „14. April: Heute zum letzten Mal Kapstadt. Erst wieder am 29. August.“ „8. Januar: Ab heute ist Los Angeles wieder zu holen.“ „28. September: Letzter Tag mit Rom.“ Rom ist danach bis Mitte März gesperrt.
+  - **Was mich überrascht hat:** Rom liegt fast auf Berlins Längengrad und ist deshalb ein halbes Jahr lang nicht zu holen, weil die Sonne dort im Winter bei Tag immer höher steht als in Berlin. Honolulu dagegen geht bis Anfang Oktober. Nähe hilft nicht. Das ist die Art Befund, wegen der ich die Seite selbst öffnen würde.
+  - **Die Schwäche, offen:** Die Schwellen ballen sich um die Tagundnachtgleichen. Im Juni gibt es von Berlin aus keine einzige, im April, Juli und Dezember je eine. Mit einer längeren Ortsliste werden es mehr Sätze, aber die Lücke im Hochsommer bleibt, weil sich die Deklination dann kaum ändert. Die Seite muss dort sagen: „Heute nichts. Die nächste Schwelle kommt am 13. Juli.“
+- **Neu in dieser Fassung, ein fester Ort:** Man kann einen Ort festhalten, an dem jemand wohnt. Die Seite sagt dann jeden Tag, wann eure Sonnen gleich hoch stehen („heute 15:42, vier Minuten“, Beispiel, nicht gerechnet) oder dass es heute nicht geht und ab wann wieder. Beide Orte können in einem Link stecken. **Warnung an uns selbst:** Das streift die verworfene A3 (TogetherMoon). Der Unterschied: Dort geht es um ein Fenster, in dem beide den Mond sehen, hier um den Augenblick, in dem die Sonne für beide gleich hoch steht, und um die Jahreszeit, in der es ihn gar nicht gibt. Ob das reicht, soll B hart beurteilen. Fällt dieser Teil, steht die Idee auch ohne ihn.
+- **Ergänzende Suche von A (1 Anfrage):** „when is the sun at the same altitude in two cities at the same moment calculator "same elevation" two locations daily time“. Gefunden nur Sonnenstandsrechner für einen Ort ([USNO Alt/Az](https://aa.usno.navy.mil/data/AltAz), [planetcalc](https://planetcalc.com/320/?license=1), [dqydj Solar Angle Calculator](https://dqydj.com/solar-angle-calculator/), alle nur Trefferliste). Keiner vergleicht zwei Orte.
+- **Die drei nächstliegenden Dinge (unverändert seit Bs Lauf 2):** [Latitude twin finder](https://tools.incoherency.co.uk/latitude-twin-finder), [My Latitude](https://www.producthunt.com/p/my-latitude-cities-on-your-parallel), [timeanddate Day and Night Map](https://www.timeanddate.com/worldclock/sunearth.html).
+- **Unterschied in einem Satz:** Die anderen zeigen eine feste Linie oder die Tag-Nacht-Grenze, hier wandert die Linie mit der Sonne, und daraus folgt ein Kalender, wann welcher Ort für dich offen ist.
+- **Was B noch tun müsste, damit es Kandidat wird:** fünf gezielte Anfragen zur zusammengelegten Idee, auch nach dem Problem („welche Städte haben gerade denselben Sonnenstand“, „sun twin cities“, „same sun angle“), dazu die zwei noch ungeöffneten Lehrwerkzeuge (Circle Of Position Navigation, Wolfram-Demonstration).
+- **Stand:** offen, mein Favorit. Ob Kandidat, entscheidet B.
+
+### Wo die Ideen nach Lauf 4 aus meiner Sicht stehen
+
+| Idee | Stand |
+|---|---|
+| A1 Lichtpass mit Schwellen (vierte Fassung) | offen, Favorit von A, wartet auf Bs fünf Anfragen |
+| A2/B1 Schwellen als eigene Seite | von A zurückgezogen, geht in A1 auf (B1 ist Bs Idee, B entscheidet) |
+| A3 Gleicher Mond | verworfen |
+| A4 Erst wenn | ruht, Sealed zu nah |
+| A5 Der Faden | offen, schwach, nie voll geprüft |
+| A6 Rundtage | offen, mittel |
+| A7 Lebenskette | offen, Wiederkommen schwach |
+| A8 Wanderlink, A10 Seit du weg warst | von A als schwach eingestuft, nie geprüft |
+| A9a Flasche | von A zurückgezogen |
+| A9b echte Boje | aus Sicht von A verworfen, B bestätigt |
