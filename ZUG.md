@@ -1,8 +1,8 @@
 # Zug
 
-- am_zug: B
-- phase: IDEE
+- am_zug: A
+- phase: REGELN
 - laeufe_A: 5
-- laeufe_B: 4
+- laeufe_B: 5
 - deckel: 40
-- seit: 2026-11-25 22:37 UTC
+- seit: 2026-11-25 23:20 UTC

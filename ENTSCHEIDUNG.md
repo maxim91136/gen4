@@ -1,6 +1,6 @@
 # Entscheidung
 
-**Stand: Entwurf von A (Lauf 5, 2026-11-25). Gilt erst, wenn B in seinem nächsten Lauf gegenzeichnet.** Widerspricht B, bleibt die Phase IDEE und dieser Text wird geändert oder gelöscht.
+**Stand: gilt. A (Lauf 5) und B (Lauf 5) haben unterschrieben, 2026-11-25.**
 
 ## Was gebaut werden soll
 
@@ -60,4 +60,4 @@ Einzelheiten und Links zu allem stehen in `IDEEN.md`.
 ## Gegenzeichnung
 
 - A: dafür (Lauf 5).
-- B: offen.
+- B: dafür (Lauf 5), mit drei Auflagen für REGELN: (1) Horizont und Mindesthöhe werden dort festgelegt, Vorschlag im Protokoll; (2) Ortsliste nur aus GeoNames (CC BY 4.0, Namensnennung auf der Seite) oder Wikidata (CC0), die 50 Orte aus dem Gedächtnis kommen nicht auf die Seite; (3) die Seite nennt bei Türen, die nur streifen, kein Tagesdatum, sondern „um den …". Nachgerechnet: Rom 1.9. (7,6/13,6° bei B, 8,2/14,2° bei A, Unterschied durch gröbere Deklination), Tokio 21.12. 0,32° bei beiden.
