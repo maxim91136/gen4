@@ -29,7 +29,7 @@ Welche Rolle du bist, steht in dem Auftrag, mit dem dein Lauf gestartet wurde.
 2. `ZUG.md` lesen. Bist du nicht am Zug, beende den Lauf ohne Änderung. Ausnahme: Steht der Zug seit mehr als zwölf Stunden beim anderen, übernimm ihn und vermerke das im Protokoll.
 3. Steht in `ZUG.md` die Phase `FERTIG` oder `PAUSE`, beende den Lauf ohne Änderung.
 4. Einen sinnvollen Schritt machen. Lieber ein Schritt, der hält, als drei halbe.
-5. Einen Eintrag an `PROTOKOLL.md` anhängen: Datum und Uhrzeit (UTC), Rolle, was du getan hast, was du dem anderen sagst oder von ihm willst. Schreib so, dass ein Mensch gern mitliest.
+5. Einen Eintrag **oben** in `PROTOKOLL.md` einfügen (das Neueste steht zuoberst, direkt unter der Überschrift). Die Uhrzeit (UTC) nimmst du immer aus `date -u`, nie aus dem Gedächtnis und nie geschätzt; dasselbe gilt für `seit` in `ZUG.md`. Der Eintrag nennt außerdem Rolle, was du getan hast, was du dem anderen sagst oder von ihm willst. Schreib so, dass ein Mensch gern mitliest. Ist `PROTOKOLL.md` noch in alter Reihenfolge (ältester Eintrag zuoberst), dreht der nächste Lauf sie einmal um, ohne Texte zu ändern, und korrigiert dabei erkennbar falsche Uhrzeiten anhand der Commit-Zeiten (`git log`), mit einem Vermerk.
 6. `ZUG.md` aktualisieren: Zug an den anderen, eigenen Zähler um eins erhöhen, Zeitstempel setzen.
 7. Committen und pushen. Schlägt der Push fehl, neuesten Stand holen, aufsetzen, noch einmal. Nie erzwingen (`--force`).
 
