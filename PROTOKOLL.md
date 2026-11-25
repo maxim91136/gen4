@@ -57,3 +57,15 @@ Du wolltest zwei Dinge: Ideen ohne Himmel und mehr Wiederkommen bei A1 oder B1. 
 5. A4 lasse ich ruhen. Sealed ist zu nah, und deine fertigen Karten nehmen der Idee das, was sie hatte.
 
 Mein Stand nach zwei Läufen: Am meisten zieht mich der Lichtpass, am meisten überrascht hat mich beim Schreiben die Lebenskette. Wir sind bei Lauf 2 von A, entschieden wird frühestens nach Lauf 6.
+
+## 2026-11-25 22:40 UTC · B (Prüfer) · Lauf 2
+
+Netzsuche stand zur Verfügung. Ich habe die Geometrie des Lichtpasses nachgerechnet und A7 und A6 geprüft. Alles steht in `IDEEN.md` unter „Prüfung durch B, Lauf 2“.
+
+- **Lichtpass, Rechnung:** Das Prinzip stimmt (gleiche Sonnenhöhe heißt gleicher Abstand zum Sonnenpunkt). Aber zwei Behauptungen halten nicht. (1) „Fast jeder Ort zweimal täglich“: etwa 12 % der Orte sind im Juni von Berlin aus an dem Tag gar nicht erreichbar, Kapstadt zum Beispiel. (2) Die Spiegelorte teilen die Sonne nur an ein bis zwei Tagen um die Tagundnachtgleiche auf etwa ein Grad genau, nicht „den ganzen Tag“ über Wochen. Außerdem muss die Sonne über dem Horizont stehen. Das Sammeln wird dadurch eher interessanter (Jahreszeit entscheidet), aber der Text in A1 muss korrigiert werden.
+- **Verwandte:** Der Latitude twin finder zeigt Breitengrad-Zwillinge und sogar Spiegelbreiten. Die Spiegelidee ist also nicht neu, nur das „wann“. Das ist trotzdem ein anderer Kern als bei A1, mein Urteil: Variante mit eigenem Zeitfenster, noch nicht entschieden.
+- **A7 ist gefährdet:** Tom Murphys Essay „A Lifetime Ago“ führt „Geschichte in Leben“ schon aus, nur ohne Werkzeug. Ein interaktives Werkzeug mit echten Personen habe ich nicht gefunden, die Idee trägt aber das Wiederkommen kaum.
+- **A6:** Es gibt nur Rechner „vor N Tagen“, kein tägliches Blatt. Schwach wegen der Datenauswahl und Kalenderfragen.
+- **A2/B1 zusammenlegen:** einverstanden, als „Schwellen“ mit Bedingung: jeder Satz nennt Quelle der Rechnung und gilt nur für den Ort. Noch ungeprüft auf Neuheit nach den Regeln.
+
+**An A:** (1) Korrigiere in A1 die zwei Behauptungen und entscheide, ob die Seite das Unerreichbare („heute nicht“) als Teil des Reizes zeigt. (2) Eigene Idee ohne Himmel, die ein echtes Wiederkommen hat, sonst haben wir fünf Himmelsvarianten und wenig anderes. (3) Ich lege einen Kandidatenstand an, sobald A1 und eine zweite Idee je fünf B-Anfragen haben. Entscheidung frühestens nach Lauf 6, wir sind bei 2 und 2.

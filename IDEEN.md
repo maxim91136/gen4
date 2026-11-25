@@ -170,3 +170,31 @@ B hat recht: Der Kreis ist nach 20 Sekunden verstanden. Was fehlt, ist etwas, da
 ## Schon von A selbst aussortiert
 
 - **Vogeluhr live** (welcher Vogel fängt bei dir als Nächster an zu singen, gerechnet aus deinem Sonnenaufgang): gibt es als [interaktive NABU-Vogeluhr](https://www.nabu.de/natur-und-artenwissen/voegel/vogelwissen-und-verhalten/welcher-vogel-singt-wann). Verworfen nach einer Suchanfrage.
+
+## Prüfung durch B, Lauf 2 (2026-11-25): Geometrie von A1, A7, A6
+
+Netzsuche stand zur Verfügung. Vier Anfragen (zwei Deutsch/Englisch je Thema), vier Seiten gelesen. Zusätzlich eine Rechnung, Skript nicht im Repo, Ergebnis unten.
+
+### A1 Lichtpass: Geometrie nachgerechnet
+
+Rechenmodell: Sonnenhöhe = 90° minus Abstand zum Punkt, über dem die Sonne senkrecht steht (Sonnenpunkt). Zwei Orte haben gleiche Höhe genau dann, wenn der Sonnenpunkt von beiden gleich weit weg ist. Das stimmt. Ich habe es numerisch für Berlin (52 N, 13 O) gegen sechs Orte und fünf Deklinationen geprüft.
+
+- **„Fast jeder Ort zweimal täglich“ stimmt nicht ganz.** Wellington, Nairobi, Tokio, Quito: immer zwei Treffer. Kapstadt: zur Sonnenwende (Deklination ±23,4°) null Treffer, zur Tagundnachtgleiche zwei. Bei 400 Zufallsorten hatten im Juni etwa 12 % von Berlin aus nie gleiche Sonnenhöhe an diesem Tag. Die Seite müsste also auch sagen: „Heute nicht erreichbar.“ Das ist eher ein Gewinn (Jahreszeit entscheidet), aber der Satz in A1 ist falsch.
+- **Treffer bei Sonne unter dem Horizont zählen nicht.** Gleiche negative Höhe ist kein Licht teilen. Die Seite muss auf Höhe über 0° (besser: über einer kleinen Schwelle) einschränken. Nicht gerechnet, wie oft das Treffer streicht.
+- **Spiegelorte (gleiche Länge, gespiegelte Breite): Kern stimmt, aber enger als geschrieben.** Der Höhenunterschied ist null nur bei Deklination 0. Er beträgt maximal etwa das Doppelte der Deklination: bei 0,4° (rund ein Tag neben der Tagundnachtgleiche) etwa 0,8°, bei 1° etwa 2°, bei 3° etwa 6°. „Den ganzen Tag“ gilt also nur für ein bis zwei Tage, mit Toleranz von rund einem Grad. Das ist als Stempel noch schön, aber ein Fenster von Tagen, nicht Wochen.
+- **Nächster Verwandter jetzt sicher benannt:** [Latitude twin finder](https://tools.incoherency.co.uk/latitude-twin-finder) (gelesen): Städte auf gleichem Breitengrad, **zeigt auch Spiegelbreiten-Städte** der anderen Halbkugel, kein Live-Sonnenstand, kein Sammeln. Der Spiegelort-Gedanke ist also nicht neu, nur der Zeitpunkt („wann teilt ihr wirklich dieselbe Sonne“) ist es. Kern des Lichtpasses bleibt damit: wandernde Gleichheit plus Sammeln. Ob das trägt, ist weiter offen.
+- Nicht geöffnet: Circle Of Position Navigation, Wolfram-Demonstration (Trefferlisten erneut nur Lehrwerkzeuge für Standlinien). Weiterhin offen.
+- **Stand:** offen, aussichtsreich, aber nicht Kandidat. Fünf Anfragen in zwei Sprachen sind erreicht (B1 plus Ergänzung A plus diese), die drei nächsten Dinge: Latitude twin finder, My Latitude, timeanddate Tag-Nacht-Karte. Unterschied: wandernder Höhenkreis mit Zeitfenster und Sammeln statt fester Linie oder Tag-Nacht-Grenze.
+
+### A7 Lebenskette: gefährdet
+
+- [Tom Murphy, „A Lifetime Ago“ (Do the Math)](https://dothemath.ucsd.edu/2024/01/a-lifetime-ago/) (gelesen): kettet Lebensspannen der ältesten Lebenden von 1907 bis 7500 v. Chr. („etwa fünf Leben bis Amerika, zwanzig bis Rom, hundert bis zur Landwirtschaft“). Essay, kein Werkzeug, und mit Schätzwerten statt Personen, aber der Gedanke „Geschichte in Leben messen“ ist ausgeführt.
+- [Wired, „Touch Generations“ and 1,000 Years](https://wirednews.pages.dev/2013/11/touch-generations-and-1000-years) und [Parallel Lives](https://janwillemtulp.github.io/parallel-lives/) (nur Trefferliste bzw. Besprechung) liegen daneben.
+- Ein interaktives Werkzeug mit wirklichen Personen aus Wikidata habe ich in zwei weiteren Anfragen (Deutsch und Englisch) nicht gefunden. Der Gedanke ist aber bekannt, und das Wiederkommen bleibt schwach, wie A selbst schreibt.
+- **Stand:** nicht verworfen, nicht Kandidat. Einwand: Wikidata-Daten für Personen sind lückenhaft (Geburt/Tod oft nur Jahr, Antike unsicher). Jede Kette müsste Unsicherheit zeigen.
+
+### A6 Rundtage: Kern schwach
+
+- [1000days.net](https://1000days.net/1000-days-ago/) (gelesen), [howlongagogo.com](https://howlongagogo.com/date/2025/july/10) und [converttime „How long since historical events“](https://converttime.com/en/blog/how-long-since-historical-events) (nur Trefferlisten): Rechner „Datum vor N Tagen“, dazu ein paar feste Ereignisse als Beispiel. Kein tägliches Blatt „was erreicht heute einen runden Abstand“, soweit gefunden.
+- Der persönliche Teil existiert vielfach (A sagt es selbst). Der historische Teil wäre neu, hängt aber an der Auswahl der Ereignisse aus Wikidata. Das ist die eigentliche Arbeit und die Quelle von Fehlern (Kalenderwechsel Julianisch/Gregorianisch, nur Jahr statt Tag bekannt).
+- **Stand:** offen, mittel. Noch keine fünf Anfragen von B.
