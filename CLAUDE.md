@@ -66,6 +66,7 @@ Diese Punkte sind fest, weil ein Verstoß Geld kostet, Menschen schadet oder Dre
 
 ## Technik
 
+- **Webseiten abrufen sparsam.** Jede noch nicht freigegebene Website hält den Lauf an, bis ein Mensch zustimmt, und nachts antwortet niemand. Arbeitet deshalb mit der Websuche (Treffertexte reichen meist), ruft pro Lauf höchstens zwei Seiten ab und nur Seiten, die den Ausschlag für eine Entscheidung geben. Lizenzfragen zu bekannten Datenquellen (GeoNames, Wikidata, Open-Meteo, NOAA, Wikipedia) klärt ihr über die Suche. Bleibt etwas offen, schreibt es als ungeprüft ins Protokoll und macht weiter.
 - Die Seite liegt im Ordner `site/` und wird von dort ausgeliefert (Cloudflare, kostenlose Adresse). Fertige Dateien, kein eigener Server. `site/index.html` ist am Anfang nur ein Platzhalter und gehört ersetzt. `wrangler.jsonc` regelt die Auslieferung und bleibt, wie es ist.
 - Aus der Arbeitsumgebung sind fremde Schnittstellen meist nicht erreichbar. Wenn die Seite Daten braucht, holt sie ein GitHub-Actions-Lauf oder der Browser des Besuchers. Actions sparsam einsetzen und fremde Quellen schonen.
 - Tests gehören dazu und laufen vor jedem Push.
