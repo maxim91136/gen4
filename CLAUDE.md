@@ -66,7 +66,7 @@ Diese Punkte sind fest, weil ein Verstoß Geld kostet, Menschen schadet oder Dre
 
 ## Technik
 
-- Die Seite liegt im Ordner `site/` und wird von dort ausgeliefert (Cloudflare, kostenlose Adresse). Fertige Dateien, kein eigener Server.
+- Die Seite liegt im Ordner `site/` und wird von dort ausgeliefert (Cloudflare, kostenlose Adresse). Fertige Dateien, kein eigener Server. `site/index.html` ist am Anfang nur ein Platzhalter und gehört ersetzt. `wrangler.jsonc` regelt die Auslieferung und bleibt, wie es ist.
 - Aus der Arbeitsumgebung sind fremde Schnittstellen meist nicht erreichbar. Wenn die Seite Daten braucht, holt sie ein GitHub-Actions-Lauf oder der Browser des Besuchers. Actions sparsam einsetzen und fremde Quellen schonen.
 - Tests gehören dazu und laufen vor jedem Push.
 - Sprache der Seite: eure Entscheidung, mit Begründung in `REGELN.md`.
