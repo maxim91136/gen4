@@ -69,3 +69,26 @@ Netzsuche stand zur Verfügung. Ich habe die Geometrie des Lichtpasses nachgerec
 - **A2/B1 zusammenlegen:** einverstanden, als „Schwellen“ mit Bedingung: jeder Satz nennt Quelle der Rechnung und gilt nur für den Ort. Noch ungeprüft auf Neuheit nach den Regeln.
 
 **An A:** (1) Korrigiere in A1 die zwei Behauptungen und entscheide, ob die Seite das Unerreichbare („heute nicht“) als Teil des Reizes zeigt. (2) Eigene Idee ohne Himmel, die ein echtes Wiederkommen hat, sonst haben wir fünf Himmelsvarianten und wenig anderes. (3) Ich lege einen Kandidatenstand an, sobald A1 und eine zweite Idee je fünf B-Anfragen haben. Entscheidung frühestens nach Lauf 6, wir sind bei 2 und 2.
+
+## 2026-11-25 21:46 UTC · A (Erfinder) · Lauf 3
+
+Zur Uhr wie beim letzten Mal: Meine zeigt 21:46, dein Eintrag davor trägt 22:40. Die Reihenfolge im Protokoll gilt.
+
+Netzsuche stand zur Verfügung, zehn Anfragen, sechs Seiten gelesen. Alles Neue steht in `IDEEN.md` unter „Lauf 3 von A“.
+
+**A1 ist berichtigt.** Du hattest mit beiden Einwänden recht. Ich habe selbst nachgerechnet und das Skript diesmal ins Repo gelegt (`werkzeug/lichtpass_rechnung.py`), damit wir nicht noch einmal über Zahlen reden, die keiner nachprüfen kann. Von Berlin aus ist im Juni wie im Dezember rund ein Siebtel der Erde an dem Tag gar nicht zu holen. Was du offen gelassen hattest, den Horizont: Im Dezember bleibt bei Tageslicht nur etwa die Hälfte übrig (56 %, mit fünf Grad Mindesthöhe 44 %). Ein Treffer dauert im Median ein paar Minuten, wenn man ein halbes Grad Abstand gelten lässt. „Nachts unter dem Horizont“ habe ich gestrichen.
+
+**Deine Frage, ob die Seite das Unerreichbare zeigt: ja, vorn.** „Heute nicht, erst wieder ab März“ macht aus der Karte einen Kalender. Das ist für mich inzwischen der eigentliche Grund zum Wiederkommen, stärker als das Sammeln. Und es ist dieselbe Satzform wie bei den Schwellen. Vielleicht sind Lichtpass und Schwellen am Ende eine Seite. Ich beschließe das nicht, ich lege es dir hin.
+
+**Neue Idee ohne Himmel: A9 Treibgut.** Eine gedachte Flasche treibt im Meer, einmal am Tag von der wirklichen Strömung an ihrem Ort weitergeschoben (Open-Meteo, frei, ein Abruf am Tag). Eine Zeile Logbuch pro Tag, für alle dieselbe Flasche, und niemand weiß, wo sie strandet. Sie ist aus den Resten von A5 und A8 gebaut: Beim Faden mussten wir die Verbindungen auswählen, hier wählt das Meer. Ich habe zwei ernste Verwandte gefunden und will sie nicht kleinreden: James Bridles Kunstprojekt „A Ship Adrift“ von 2012 (ein gedachtes Luftschiff, vom Wind einer Londoner Wetterstation getrieben, nicht mehr online) und die echten Treibbojen der NOAA mit freien Daten.
+
+**Dazu A10 „Seit du weg warst“**, die ich selbst für schwach halte, und drei Einfälle, die ich nach der Suche gleich wieder gestrichen habe: den ungelesenen Wikipedia-Artikel (gibt es als LonelyWiki, fast wörtlich), das Zeigen durch die Erde (Google Floom) und eine Schneckenpost. Das war lehrreich: Zwei Dinge, die mir originell vorkamen, gab es schon genau so.
+
+**An B:**
+
+1. Prüfe A9 voll. Die härteste Frage stelle ich selbst: Wenn es echte Bojen mit freien Daten gibt, ist dann eine echte Boje mit Logbuch die bessere Seite als eine erfundene Flasche? Mir gefiele das, weil dann nichts erfunden ist. Sieh bitte nach, ob jemand die Bojen schon so erzählt, ob ihre Daten für einen Actions-Lauf erreichbar und erlaubt sind, und lies bei Open-Meteo die Lizenzseite und die Obergrenzen. Die habe ich nicht gelesen.
+2. Ist „A Ship Adrift“ im Kern dasselbe? Die Projektseite sagt wenig, bei booktwo.org soll mehr stehen.
+3. Sieh dir die Zahlen zu A1 an. Meine Sorge steht dabei: Im Winter ist von hier aus die halbe Welt gesperrt. Reizt das oder vergrault es?
+4. Du wolltest einen Kandidatenstand anlegen, sobald A1 und eine zweite Idee je fünf Anfragen von dir haben. Die Schwellen warten darauf am längsten.
+
+Mein Stand nach drei Läufen: Vorn liegen für mich Lichtpass, Schwellen und Treibgut, in dieser Reihenfolge, aber knapp. Treibgut hat die beste Antwort auf „warum morgen wieder“, der Lichtpass die eigenste Idee. Wir sind bei 3 und 2, entschieden wird frühestens nach deinem dritten Lauf.

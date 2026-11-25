@@ -16,7 +16,7 @@ Stand-Kürzel: **ungeprüft** (noch keine vollständige Netzprüfung nach den Sp
 - **Daten:** Sonnenstand wird im Browser gerechnet (bekannte Formeln, mit Quelle). Ortsliste aus einer freien Quelle, z. B. GeoNames (CC BY) oder Wikidata (CC0), einmalig als Datei ins Repo.
 - **Vorsuche von A (1 Anfrage, keine vollständige Prüfung):** „map cities where the sun is at the same altitude as my location right now circle of equal altitude live“. Gefunden nur Tag-Nacht-Karten: [timeanddate Day and Night Map](https://www.timeanddate.com/worldclock/sunearth.html), [in-the-sky.org Twilight Map](https://in-the-sky.org/twilightmap.php). Die zeigen die Tag-Nacht-Grenze, nicht den eigenen Höhenkreis mit Ortsnamen.
 - **Eigener Zweifel:** Ist das mehr als ein hübscher Moment? Der Kreis gleicher Sonnenhöhe ist in der Astronavigation altbekannt, vielleicht gibt es ein Navigations-Lehrwerkzeug, das im Kern dasselbe zeigt.
-- **Stand:** offen, Prüfung B läuft (Details unten)
+- **Stand:** offen, aussichtsreich, noch nicht Kandidat. Die gültige Fassung steht unten unter „A1 Lichtpass, dritte Fassung“ (A, Lauf 3). Der Satz oben „nachts dasselbe unter dem Horizont“ ist gestrichen.
 
 ## A2 · Lichtblicke
 
@@ -130,6 +130,7 @@ Netzsuche stand zur Verfügung (WebSearch, einzelne Seiten per Abruf gelesen). �
 B hat recht: Der Kreis ist nach 20 Sekunden verstanden. Was fehlt, ist etwas, das sich über Besuche hinweg ansammelt. Vorschlag:
 
 - **Neu:** Jeder Besuch stempelt die Orte, mit denen du in diesem Moment die Sonnenhöhe teilst, in einen **Lichtpass**, der nur in deinem Browser liegt. „Du hast dein Licht schon mit 214 Orten in 61 Ländern geteilt.“ Die Weltkarte füllt sich. Welche Orte du bekommst, hängt allein davon ab, *wann* du schaust: mittags im Juni andere als abends im Dezember.
+- **Berichtigung (A, Lauf 3):** Im folgenden Punkt sind zwei Behauptungen falsch, B hat es nachgerechnet: „fast jeder Ort zweimal täglich“ und „dann aber den ganzen Tag“. Der Absatz bleibt stehen, damit man den Fehler sieht. Es gilt die dritte Fassung weiter unten.
 - **Der Haken, der zieht:** Die Seite sagt dir, was dir fehlt und wann es zu holen ist. „Mit Neuseeland hast du noch nie geteilt. Von deinem Ort aus geht das heute nur um 07:52, vier Minuten lang.“ (Uhrzeit und Dauer hier nur als Beispiel, nicht gerechnet.) Die Geometrie dahinter, von mir überlegt und von B bitte nachzurechnen: Zwei Orte teilen die Sonnenhöhe genau dann, wenn der Punkt, über dem die Sonne senkrecht steht, von beiden gleich weit entfernt ist. Dieser Punkt läuft einmal am Tag um die Erde, also trifft er die Mittellinie zwischen dir und fast jedem anderen Ort zweimal täglich, jeweils kurz. Die Ausnahme ist das Schöne: Für Orte, die dir am Äquator gespiegelt gegenüberliegen (gleiche Länge, gleiche Breite auf der anderen Halbkugel), ist die Mittellinie der Äquator selbst. Mit ihnen teilst du nur um die Tagundnachtgleichen, dann aber den ganzen Tag. In der Nähe solcher Orte gibt es Stempel, die man nur an wenigen Tagen im Jahr bekommt.
 - **Warum das kein Rechner ist:** Man stellt keine Frage und bekommt keine Zahl. Man sammelt die Welt durch das eigene Fenster.
 - **Ergänzende Suche von A (2 Anfragen, damit sind es mit B und der Vorsuche 5, Deutsch und Englisch):** „celestial navigation simulator "circle of equal altitude" interactive map sun live cities on the circle "same sun altitude"“ und „Höhengleiche Sonne Karte live "gleiche Sonnenhöhe" Städte weltweit jetzt Standlinie Astronavigation online Werkzeug“.
@@ -198,3 +199,75 @@ Rechenmodell: Sonnenhöhe = 90° minus Abstand zum Punkt, über dem die Sonne se
 - [1000days.net](https://1000days.net/1000-days-ago/) (gelesen), [howlongagogo.com](https://howlongagogo.com/date/2025/july/10) und [converttime „How long since historical events“](https://converttime.com/en/blog/how-long-since-historical-events) (nur Trefferlisten): Rechner „Datum vor N Tagen“, dazu ein paar feste Ereignisse als Beispiel. Kein tägliches Blatt „was erreicht heute einen runden Abstand“, soweit gefunden.
 - Der persönliche Teil existiert vielfach (A sagt es selbst). Der historische Teil wäre neu, hängt aber an der Auswahl der Ereignisse aus Wikidata. Das ist die eigentliche Arbeit und die Quelle von Fehlern (Kalenderwechsel Julianisch/Gregorianisch, nur Jahr statt Tag bekannt).
 - **Stand:** offen, mittel. Noch keine fünf Anfragen von B.
+
+## Lauf 3 von A (2026-11-25): A1 berichtigt, zwei neue Ideen ohne Himmel, drei selbst aussortiert
+
+Netzsuche stand zur Verfügung: zehn Anfragen, sechs Seiten gelesen. „Gelesen“ heißt wie bisher: abgerufen und zusammenfassen lassen, nicht selbst bedient.
+
+### A1 Lichtpass, dritte Fassung (berichtigt nach Bs Rechnung)
+
+B hat in Lauf 2 zwei meiner Behauptungen widerlegt. Ich habe nachgerechnet und komme auf dieselbe Größenordnung. Das Skript liegt diesmal im Repo: `werkzeug/lichtpass_rechnung.py` (Kugelmodell, feste Deklination, Minutenschritte, 1.500 Zufallspunkte gleichmäßig auf der Kugel, also meist Meer; keine Refraktion). Ergebnis:
+
+| Ort | Tag | Punkte mit gleicher Sonnenhöhe irgendwann am Tag | davon bei Sonne über dem Horizont | bei Sonne über 5° |
+|---|---|---|---|---|
+| Berlin | Junisonnenwende | 86 % | 84 % | 82 % |
+| Berlin | Tagundnachtgleiche | 100 % | 100 % | 88 % |
+| Berlin | Dezembersonnenwende | 86 % | 56 % | 44 % |
+| Quito | Junisonnenwende | 97 % | 85 % | 80 % |
+| Sydney | Junisonnenwende | 91 % | 73 % | 64 % |
+
+Die Prozentzahlen beziehen sich immer auf alle Zufallspunkte. Bs „etwa 12 % im Juni von Berlin aus unerreichbar“ passt dazu (bei mir 14 %).
+
+Was jetzt gilt:
+
+1. **Nicht jeder Ort ist an jedem Tag zu holen.** Von Berlin aus fehlt im Juni und im Dezember rund ein Siebtel der Erde ganz, und im Dezember ist bei Tageslicht nur etwa die Hälfte erreichbar. Nur um die Tagundnachtgleichen ist die ganze Erde offen.
+2. **Gestempelt wird nur, wenn die Sonne für beide über dem Horizont steht.** Mein Satz „nachts dasselbe unter dem Horizont“ ist gestrichen. Gleich tief unter dem Horizont ist kein geteiltes Licht. Die genaue Schwelle (0° oder ein paar Grad) gehört in die Regeln, falls A1 gewinnt.
+3. **Spiegelorte:** nicht „den ganzen Tag über Wochen“, sondern an ein bis zwei Tagen um die Tagundnachtgleiche auf etwa ein Grad genau (Bs Rechnung, von mir nicht wiederholt). Dass es Spiegelbreiten als Gedanken schon gibt (Latitude twin finder), nehme ich an. Neu ist nur der Zeitpunkt.
+4. **Wie lang ist ein Treffer?** Im Median liegen zwei Orte an einem Tag zusammen zwei bis fünf Minuten lang höchstens ein halbes Grad auseinander (beide Begegnungen zusammengezählt; von Berlin aus vier bis fünf, von Quito aus zwei bis drei). Das Fenster ist also kurz, aber nicht unmenschlich kurz. Ein halbes Grad ist ungefähr der Durchmesser der Sonnenscheibe und wäre eine Toleranz, die sich erklären lässt: „eure Sonnen überdecken sich“.
+
+**Entscheidung zu Bs Frage, ob die Seite das Unerreichbare zeigt: ja, und zwar vorn.** „Heute nicht. Kapstadt ist von dir aus erst wieder ab dem 2. März zu holen“ (Datum nur als Beispiel, nicht gerechnet) ist der Satz, der aus einer Karte einen Kalender macht. Damit hat der Pass drei Arten von Lücken: jetzt gerade nicht, heute nicht, in dieser Jahreszeit nicht. Die dritte ist der Grund, im März wiederzukommen. Das ist zugleich die Brücke zu den „Schwellen“: „Ab heute ist Kapstadt für dich wieder erreichbar“ ist eine Schwelle. Falls beide Ideen überleben, könnten sie eine Seite sein. Das ist ein Angebot an B, kein Beschluss.
+
+**Ehrlicher Rest-Zweifel:** Im Winter ist von Mitteleuropa aus die Hälfte der Welt gesperrt, und genau dann ist es draußen dunkel und man sitzt am Rechner. Ob das reizt oder frustriert, weiß ich nicht.
+
+- **Stand:** offen, aussichtsreich. Ob Kandidat, entscheidet B.
+
+### A9 · Treibgut (ungeprüft)
+
+- **Von:** A, Lauf 3. Kein Himmel, kein Standort des Besuchers.
+- **Was:** Eine einzige gedachte Flasche treibt im Meer, und zwar dorthin, wohin die wirkliche Strömung sie trägt. Einmal am Tag holt ein GitHub-Actions-Lauf die Strömung an genau dem Punkt, an dem die Flasche gerade ist, und schiebt sie entsprechend weiter. Die Seite zeigt die Spur auf der Karte und ein Logbuch mit einer Zeile pro Tag: „Tag 212. 14 km nach Nordost. 380 km westlich von Irland. Wasser 11 °C, Wellen 3 m.“ (Beispiel, nicht gerechnet.) Niemand weiß, wohin sie treibt, auch wir nicht. Wir legen nur den Startpunkt fest. Strandet sie, endet die Fahrt mit Ort und Datum, und am nächsten Tag beginnt dort eine neue.
+- **Woher der Gedanke kommt:** Er ist die Kreuzung aus zwei meiner schwachen Ideen. A5 (Der Faden) hatte „jeden Tag ein Knoten, niemand weiß, wohin“, scheiterte aber daran, dass wir die Verbindungen auswählen müssten. A8 (Wanderlink) hatte die Flaschenpost, aber keinen Grund zum Wiederkommen. Hier wählt die Strömung, und die Flasche ist für alle dieselbe.
+- **Für wen:** Kinder (wo ist die Flasche heute?), Schulklassen, alle, die gern einer langsamen Geschichte folgen.
+- **Warum wiederkommen:** Echte Spannung über Monate. Jeden Tag genau eine neue Zeile, und irgendwann eine Küste.
+- **Daten:** [Open-Meteo Marine API](https://open-meteo.com/en/docs/marine-weather-api) (gelesen): Geschwindigkeit und Richtung der Meeresströmung stündlich, Raster etwa 8 km, Modell MeteoFrance SMOC aus Copernicus Marine, ohne Schlüssel und kostenlos für nicht kommerzielle Nutzung, Quellenangabe Pflicht. Ein Abruf pro Tag. Die Lizenzseite selbst und die Abruf-Obergrenze habe ich nicht gelesen, das muss vor einer Entscheidung geschehen.
+- **Ehrlichkeit, muss auf der Seite stehen:** Es gibt keine Flasche. Es ist eine Rechnung auf Modelldaten, kein Messwert. Open-Meteo schreibt selbst, dass die Daten an Küsten ungenau und nicht für die Navigation gedacht sind. Wind und Wellen schieben eine echte Flasche zusätzlich, das lassen wir entweder weg und sagen es, oder wir rechnen es nach einer belegten Faustregel ein. Eine Zahl dafür nenne ich hier nicht, weil ich keine Quelle gelesen habe.
+- **Vorsuche von A (3 Anfragen, Deutsch und Englisch, keine vollständige Prüfung):**
+  1. „virtual message in a bottle drifting with real ocean currents in real time website daily position log "virtual bottle" follow where it goes“
+  2. „virtuelle Flaschenpost treibt mit echten Meeresströmungen live verfolgen Webseite Logbuch täglich Position“
+  3. „simulated balloon OR drifter moved every day by real wind or current forecast data, public logbook website, "where is it now", art project virtual drifter“
+- **Funde:**
+  - [James Bridle, „A Ship Adrift“](https://www.jamesbridle.com/works/a-ship-adrift) (gelesen): Kunstprojekt von 2012. Ein gedachtes Luftschiff, ein Jahr lang angetrieben von den Daten einer Wetterstation auf einem Dach in London, verbreitet über soziale Medien. Laut der Seite nicht mehr online. Das ist der nächste Verwandte und im Gedanken sehr nah: ein erfundenes Fahrzeug, von echten Daten bewegt, öffentlich verfolgt. Unterschied: Dort trieb der Wind eines einzigen festen Ortes das Schiff über die Karte, die Bahn war also eine Übersetzung. Hier wirkt die Strömung an dem Ort, an dem die Flasche wirklich wäre.
+  - [NOAA Global Drifter Program](https://www.aoml.noaa.gov/global-drifter-program/) und [Adopt a Drifter](https://www.adp.noaa.gov/faq/) (FAQ gelesen): echte Bojen, Position etwa stündlich per Satellit, Daten frei, Karte der Standorte wöchentlich aktualisiert, Bildungsprogramm für Schulklassen. Kein Logbuch in Sätzen, soweit die FAQ es sagt.
+  - [Adrift / Plastic Adrift](https://www.oceansatlas.org/item-details/en/c/472396) (nur Trefferliste): Simulation, wohin Treibgut von einem gewählten Punkt aus über Jahre statistisch gelangt. Eine Antwort auf einmal, keine Fahrt in Echtzeit.
+  - Nur Trefferliste, nicht geöffnet: [Flaschenposten mit GPS-Sender](https://www.cruisingworld.com/modern-message-in-bottle/), [float-predictor](https://www.github.com/StudioFolder/float-predictor) (Ballonbahnen).
+- **Eigener Zweifel, deutlich:**
+  1. **Die echten Bojen sind der stärkste Einwand.** Wenn es wirkliche Drifter mit freien Daten gibt, warum eine erfundene Flasche? Mögliche Antwort: Dann nehmen wir eben eine echte Boje und schreiben ihr das Logbuch. Das wäre bei „nichts erfinden“ sogar die sauberere Fassung. B, bitte prüfe beides: ob jemand die Bojen schon so erzählt und ob ihre Daten für uns erreichbar und erlaubt sind.
+  2. A Ship Adrift könnte im Kern dasselbe sein. Ich meine: verwandt, aber nicht dasselbe. Urteile du.
+  3. Die Flasche kann wochenlang in einem Wirbel kreisen. Ist das langweilig oder gerade schön?
+  4. Die Seite hängt an einem fremden Dienst. Fällt er einen Tag aus, muss das Logbuch ehrlich „heute keine Daten“ sagen und darf nichts raten.
+  5. Meer ist nicht Himmel, aber es ist wieder Natur aus Daten. Ganz aus meiner Ecke bin ich nicht heraus.
+- **Stand:** ungeprüft
+
+### A10 · Seit du weg warst (ungeprüft, von A als schwach eingestuft)
+
+- **Von:** A, Lauf 3. Kein Himmel.
+- **Was:** Die Seite merkt sich im Browser nur, wann du zuletzt da warst, und zeigt beim nächsten Besuch, was in genau dieser Spanne geschehen ist: „Du warst 12 Tage weg. Der Atlantik ist in der Zeit um … breiter geworden, der Mond hat sich um … entfernt.“ Jede Zahl mit Quelle. Je länger man wegbleibt, desto mehr steht da.
+- **Vorsuche von A (3 Anfragen, Deutsch und Englisch):** „"since your last visit" website shows what happened in the world while you were away: continental drift, hair growth, moon distance, births“, die deutsche Entsprechung mit „seit deinem letzten Besuch“, und „"while you were away" OR "since you last visited" web page counters … localStorage last visit fun site“.
+- **Funde:** [BBC „Your Life on Earth“](https://flowingdata.com/2014/10/21/your-life-on-earth/) (nur Trefferliste): dasselbe ab dem Geburtstag. Eine über [MetaFilter](https://metafilter.com/204857/A-lot-happened-in-the-past-1-minute-and-21-seconds) beschriebene Seite (Beitrag gelesen, die Seite selbst nicht): Zähler, die ab dem Öffnen der Seite laufen, mit Quellen. [Cosmic Odometer](https://www.producthunt.com/posts/cosmic-odometer) (nur Trefferliste): zurückgelegte Strecke im All seit der Geburt. Mit dem Anker „letzter Besuch“ habe ich nichts gefunden.
+- **Eigener Zweifel:** Der einzige Unterschied ist der Startpunkt der Uhr. Das ist nach unseren Regeln vermutlich „eine andere Farbe“. Außerdem belohnt die Seite das Wegbleiben. Ich würde nicht um sie kämpfen.
+- **Stand:** ungeprüft
+
+### In Lauf 3 von A selbst aussortiert
+
+- **Der ungelesene Artikel** (jeden Tag ein Wikipedia-Artikel, den fast niemand liest, und am nächsten Tag die Zahl, wie viele ihn danach gelesen haben): gibt es als [LonelyWiki](https://www.producthunt.com/p/lonelywiki) (Produktseite gelesen): täglich ein vergessener Artikel, für alle derselbe, mit Leserzahl. Verworfen nach zwei Anfragen. Dazu gefunden: [Colin Morris, In search of the least viewed article on Wikipedia](https://colinmorris.github.io/blog/unpopular-wiki-articles) (nur Trefferliste).
+- **Durch die Erde zeigen** (Handy schräg nach unten halten und sehen, bei welcher Stadt die Linie wieder aus der Erde kommt): gibt es als [Google Floom](https://screenrant.com/google-floom-ar-tunnel-through-earth/) und als [„dig through“](https://tim-fan.github.io/blog/dig_through/2026/06/07/dig-through.html) (beide nur Trefferliste, die Titel sind eindeutig genug). Verworfen nach einer Anfrage.
+- **Schneckenpost** (ein Gruß im Link, der so lange unterwegs ist, wie ein Tier für die Strecke wirklich bräuchte): Verzögerung nach Entfernung ist der Kern der Brieffreunde-App Slowly. Die kenne ich nur aus dem Gedächtnis, gesucht habe ich danach nicht. Dazu ist die Mechanik im Link die von Sealed, an der schon A4 hängt. Nicht weiterverfolgt. Bei der Suche nach einer Schnecke auf der Karte gefunden: [The Immortal Snail](https://apps.apple.com/app/id6753925236) (gelesen: Spiel, in dem eine Schnecke langsam auf den eigenen Standort zukriecht) und [Real Snail Mail](https://en.wikipedia.org/wiki/Real_Snail_Mail) (nur Trefferliste).
