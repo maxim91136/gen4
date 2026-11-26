@@ -135,6 +135,9 @@ Welche Gebiete einen Ländercode haben, entscheidet GeoNames, nicht wir. Das ste
 - *Zum Nachsehen.* Der Lauf legt die Antwort von Wikidata (`namen.json`, mit Q-Nummer, Seitenlinks und Art des Labels je Ort) und den Entwurf von `orte.json` 14 Tage bei GitHub ab, auch wenn er danach scheitert. Beides kommt nicht ins Repo und nicht auf die Seite.
 - *Dritter Abruf.* Jeder Lauf von `namen.yml` holt GeoNames einmal und fragt Wikidata etwa 27-mal. Mit Lauf 3 sind es bei GeoNames drei Abrufe an einem Tag (einer von `orte.yml`, zwei von hier). Das ist mehr, als „einmalig“ versprach; ein vierter nur, wenn Lauf 3 wieder etwas Falsches bringt. (Er hat. Lauf 4 ist damit der vierte Abruf bei GeoNames an diesem Tag.)
 
+- *Ergebnis von Lauf 4 (A, 23:57 UTC am 25. November, fertig nach Mitternacht; steht im Repo).* Wikidata: 4377 von 6375 gefragten Orten mit Namen, 99 davon aus „mul“, 1070 mit Eintrag ohne brauchbaren Namen, 928 ohne Eintrag. In `orte.json`: 326 Türen, davon **57 mit anderem deutschen Namen**, 4 verworfen (Bamako, Madrid, dazu die richtigen „Kuweit-Stadt“ und „Kischinau“, die GeoNames nicht führt), 32 ohne Namen bei Wikidata; Suchliste 6286, davon **920 mit anderem deutschen Namen**, 216 verworfen, 1986 ohne. Türen, Koordinaten und Suchliste sind Zeile für Zeile dieselben wie beim ersten Abruf (nachgerechnet), GeoNames hat sich zwischen den Abrufen also nicht geändert. Die Wikidata-Antwort ist vom 25., der GeoNames-Abruf nach der Uhr des Laufs vom 26. November; so steht es in der Datei.
+- *Was offen bleibt.* Die Vermutung zu den Rängen war falsch (acht Einträge mehr, Zürich, Bern, Monaco, Baku, Jerewan, São Paulo und Hongkong weiter ohne Namen); warum sie fehlen, wissen wir nicht, **ungeprüft**. Für die meisten ist es gleich, weil sie deutsch so heißen wie bei GeoNames; Jerewan, Hongkong, Bischkek, Duschanbe, Pjöngjang und Vatikanstadt stehen deshalb in der englischen Form auf der deutschen Seite. Die 920 Namen der Suchliste hat niemand einzeln gelesen. Kein weiterer Lauf ohne neuen Grund: Es waren vier an einem Abend.
+
 **Die 50 Orte aus `werkzeug/ortsschwellen.py` kommen nicht auf die Seite** (Bs Auflage 2).
 
 **Der Ort des Besuchers.** Aus der Liste gewählt oder eingetippt. Die Standortabfrage des Browsers nur auf ausdrücklichen Tipp, das Ergebnis auf 0,1° gerundet. Der Ort liegt im `localStorage` und sonst nirgends, auch nicht in der Adresse der Seite. Ohne Angabe zeigt die Seite ein Beispiel (Berlin) und sagt, dass es ein Beispiel ist.
@@ -172,7 +175,7 @@ Stand Lauf 7 (A): Das Modul ist `site/rechnung.mjs`. Die Brücke zwischen beiden
 1. Rechenmodul in JavaScript mit Tests gegen die Python-Zahlen. Noch keine Seite.
 2. Ortsliste holen (Actions-Lauf), Auswahlregel anwenden, Zahl der Orte ansehen.
 3. Seite mit festem Ort Berlin: nächstes Treffen, Türen, Fahrplan.
-4. Ortswahl, Sprache, Texte. (Stand Lauf 12: Werkzeug und Seite für deutsche Ortsnamen stehen, der Lauf ist noch nicht ausgelöst.) (Stand Lauf 9: Ortswahl und Sprache stehen, deutsche Ortsnamen fehlen.)
+4. Ortswahl, Sprache, Texte. (Stand Lauf 13: Die deutschen Ortsnamen stehen in `site/orte.json`, siehe Abschnitt 5.) (Stand Lauf 12: Werkzeug und Seite für deutsche Ortsnamen stehen, der Lauf ist noch nicht ausgelöst.) (Stand Lauf 9: Ortswahl und Sprache stehen, deutsche Ortsnamen fehlen.)
 5. Beigaben, wenn der Kern steht.
 
 ## Gegenzeichnung
