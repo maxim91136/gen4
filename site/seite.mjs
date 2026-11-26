@@ -1,5 +1,5 @@
 // Sonnentür: die Seite. Holt die Ortsliste (eigene Datei, keine fremde Adresse), lässt
-// ansicht.mjs rechnen und schreibt das Ergebnis in die Seite. Stand Bauschritt 4: Ortswahl.
+// ansicht.mjs rechnen und schreibt das Ergebnis in die Seite.
 // Ohne gewählten Ort rechnet die Seite für Berlin und sagt, dass das ein Beispiel ist.
 
 import { tagnummer, datum, MINDESTHOEHE, VORAUSSCHAU } from './rechnung.mjs';
@@ -72,7 +72,7 @@ function festeTexte() {
   $('quellen-namen').dataset.stand = mitNamen ? isoText(daten.namen_abgerufen) : '';
   for (const e of document.querySelectorAll('[data-t]')) {
     if (e.dataset.stand) { e.textContent = t(e.dataset.t, { datum: e.dataset.stand }); continue; }
-    e.textContent = t(e.dataset.t, { grad: MINDESTHOEHE, tage: VORAUSSCHAU, datum: daten ? isoText(daten.abgerufen) : '' });
+    e.textContent = t(e.dataset.t, { grad: MINDESTHOEHE, tage: VORAUSSCHAU, datum: daten && daten.abgerufen ? isoText(daten.abgerufen) : '' });
   }
   maleOrt();
 }
@@ -136,6 +136,14 @@ function ortswahlAnschliessen() {
     maleOrt();
     if (!kasten.hidden) $('ort-suche').focus();
   });
+  // Escape schließt die Ortswahl und gibt den Fokus dem Knopf zurück, der sie geöffnet hat.
+  $('ortswahl').addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || $('ortswahl').hidden) return;
+    $('ortswahl').hidden = true;
+    meldung = '';
+    maleOrt();
+    $('ort-knopf').focus();
+  });
   $('ort-suche').addEventListener('input', maleTreffer);
   const nimm = () => {
     const k = koordinaten($('ort-breite').value, $('ort-laenge').value);
@@ -167,7 +175,7 @@ function ortswahlAnschliessen() {
 
 function isoText(iso) {
   const [j, m, d] = iso.split('-').map(Number);
-  return tagtext(tagnummer(j, m, d)) + ' ' + j;
+  return tagtext(tagnummer(j, m, d)) + (sprache === 'de' ? ' ' : ', ') + j; // englisch: November 26, 2026
 }
 
 function tuerbild(e) {
@@ -374,6 +382,9 @@ async function los() {
     setInterval(takt, 30000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) takt(); });
   } catch (fehler) {
+    // Auch eine Ortsliste, die ankommt, aber nicht taugt (leer, abgeschnitten), ist ein Fehler.
+    // Ohne dieses Vergessen stolperte festeTexte() über die halbe Liste, und der Satz blieb aus (A, Lauf 16).
+    daten = null; bild = null;
     $('laedt').dataset.t = 'fehler';
     festeTexte();
     console.error(fehler);

@@ -44,6 +44,10 @@ test('Ohne JavaScript steht ein Satz da, und die Herkunft steht in der Seite sel
   assert.ok(html.includes(TEXTE.de.herkunft));
   assert.match(TEXTE.de.herkunft, /zwei KI-Sitzungen/);
   assert.match(TEXTE.en.herkunft, /two AI sessions/);
+  // Eine Ortsliste, die ankommt, aber nicht taugt, darf den Fehlersatz nicht verhindern.
+  assert.match(lies('seite.mjs'), /catch \(fehler\) \{[\s\S]*?daten = null;[\s\S]*?dataset\.t = 'fehler'/);
+  // Seit dem SCHLIFF (A, Lauf 16) steht nirgends mehr, die Seite sei im Bau.
+  for (const n of ['index.html', 'texte.mjs']) assert.doesNotMatch(lies(n), /im Bau|under construction/);
   assert.match(TEXTE.de.quellen, /GeoNames.*CC BY 4\.0/);
   // Deutsche Namen kommen aus einer zweiten Quelle; steht sie in der Ortsliste, nennt die Seite sie mit Stand.
   for (const s of ['de', 'en']) assert.match(TEXTE[s].namen_wikidata, /Wikidata, CC0.*\{datum\}/);

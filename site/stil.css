@@ -121,3 +121,5 @@ footer { margin-top: 48px; border-top: 1px solid var(--linie); color: var(--leis
 footer p { margin: 0 0 10px; }
 a { color: var(--sonne); }
 [hidden] { display: none !important; }
+/* Ohne JavaScript bleiben die Sätze aus texte.mjs leer. Leere Überschriften und Absätze nehmen dann keinen Platz. */
+[data-t]:empty { display: none; }
