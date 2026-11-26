@@ -1,0 +1,535 @@
+{
+ "stand": "2026-11-26",
+ "fremd": {
+  "pyephem": "4.2.1",
+  "astral": "3.2"
+ },
+ "grenzen": {
+  "hoehe_grad": 0.5,
+  "zeit_s": 180
+ },
+ "stichproben": [
+  {
+   "ich": "Berlin",
+   "ort": "Rom",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    41.9,
+    12.5
+   ],
+   "tag": "2027-03-25",
+   "ms": 1805953139379,
+   "hoehe": 5.493225,
+   "utc": "2027-03-25 05:38:59",
+   "pyephem": {
+    "hoehe_ich": 5.398,
+    "hoehe_ort": 5.409,
+    "hoehe_abstand": 0.095,
+    "zeit_abstand_s": -19
+   },
+   "astral": {
+    "hoehe_ich": 5.403,
+    "hoehe_ort": 5.414,
+    "hoehe_abstand": 0.09,
+    "zeit_abstand_s": -19
+   }
+  },
+  {
+   "ich": "Berlin",
+   "ort": "Rom",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    41.9,
+    12.5
+   ],
+   "tag": "2027-06-21",
+   "ms": 1813561336620,
+   "hoehe": 35.609518,
+   "utc": "2027-06-21 07:02:16",
+   "pyephem": {
+    "hoehe_ich": 35.617,
+    "hoehe_ort": 35.619,
+    "hoehe_abstand": 0.009,
+    "zeit_abstand_s": -3
+   },
+   "astral": {
+    "hoehe_ich": 35.617,
+    "hoehe_ort": 35.618,
+    "hoehe_abstand": 0.008,
+    "zeit_abstand_s": -2
+   }
+  },
+  {
+   "ich": "Berlin",
+   "ort": "Rom",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    41.9,
+    12.5
+   ],
+   "tag": "2027-06-21",
+   "ms": 1813593218263,
+   "hoehe": 29.600866,
+   "utc": "2027-06-21 15:53:38",
+   "pyephem": {
+    "hoehe_ich": 29.604,
+    "hoehe_ort": 29.605,
+    "hoehe_abstand": 0.004,
+    "zeit_abstand_s": 1
+   },
+   "astral": {
+    "hoehe_ich": 29.608,
+    "hoehe_ort": 29.609,
+    "hoehe_abstand": 0.008,
+    "zeit_abstand_s": 2
+   }
+  },
+  {
+   "ich": "Berlin",
+   "ort": "Tokio",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    35.68,
+    139.69
+   ],
+   "tag": "2027-05-01",
+   "ms": 1809154640257,
+   "hoehe": 29.114624,
+   "utc": "2027-05-01 06:57:20",
+   "pyephem": {
+    "hoehe_ich": 29.062,
+    "hoehe_ort": 29.081,
+    "hoehe_abstand": 0.053,
+    "zeit_abstand_s": 3
+   },
+   "astral": {
+    "hoehe_ich": 29.063,
+    "hoehe_ort": 29.086,
+    "hoehe_abstand": 0.052,
+    "zeit_abstand_s": 4
+   }
+  },
+  {
+   "ich": "Berlin",
+   "ort": "Kapstadt",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    -33.93,
+    18.42
+   ],
+   "tag": "2027-04-01",
+   "ms": 1806558521402,
+   "hoehe": 9.450854,
+   "utc": "2027-04-01 05:48:41",
+   "pyephem": {
+    "hoehe_ich": 9.36,
+    "hoehe_ort": 9.494,
+    "hoehe_abstand": 0.09,
+    "zeit_abstand_s": -157
+   },
+   "astral": {
+    "hoehe_ich": 9.365,
+    "hoehe_ort": 9.497,
+    "hoehe_abstand": 0.086,
+    "zeit_abstand_s": -155
+   }
+  },
+  {
+   "ich": "Berlin",
+   "ort": "Kapstadt",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    -33.93,
+    18.42
+   ],
+   "tag": "2027-04-01",
+   "ms": 1806588285544,
+   "hoehe": 30.151886,
+   "utc": "2027-04-01 14:04:45",
+   "pyephem": {
+    "hoehe_ich": 30.174,
+    "hoehe_ort": 30.119,
+    "hoehe_abstand": 0.033,
+    "zeit_abstand_s": -56
+   },
+   "astral": {
+    "hoehe_ich": 30.176,
+    "hoehe_ort": 30.119,
+    "hoehe_abstand": 0.033,
+    "zeit_abstand_s": -59
+   }
+  },
+  {
+   "ich": "Berlin",
+   "ort": "Kapstadt",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    -33.93,
+    18.42
+   ],
+   "tag": "2027-09-10",
+   "ms": 1820555479895,
+   "hoehe": 11.170655,
+   "utc": "2027-09-10 05:51:19",
+   "pyephem": {
+    "hoehe_ich": 11.229,
+    "hoehe_ort": 11.093,
+    "hoehe_abstand": 0.078,
+    "zeit_abstand_s": 162
+   },
+   "astral": {
+    "hoehe_ich": 11.226,
+    "hoehe_ort": 11.088,
+    "hoehe_abstand": 0.083,
+    "zeit_abstand_s": 164
+   }
+  },
+  {
+   "ich": "Berlin",
+   "ort": "Kapstadt",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    -33.93,
+    18.42
+   ],
+   "tag": "2027-09-10",
+   "ms": 1820584101529,
+   "hoehe": 31.59435,
+   "utc": "2027-09-10 13:48:21",
+   "pyephem": {
+    "hoehe_ich": 31.563,
+    "hoehe_ort": 31.61,
+    "hoehe_abstand": 0.031,
+    "zeit_abstand_s": 49
+   },
+   "astral": {
+    "hoehe_ich": 31.569,
+    "hoehe_ort": 31.618,
+    "hoehe_abstand": 0.025,
+    "zeit_abstand_s": 50
+   }
+  },
+  {
+   "ich": "Berlin",
+   "ort": "New York",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    40.71,
+    -74.01
+   ],
+   "tag": "2027-07-15",
+   "ms": 1815659671196,
+   "hoehe": 46.152854,
+   "utc": "2027-07-15 13:54:31",
+   "pyephem": {
+    "hoehe_ich": 46.143,
+    "hoehe_ort": 46.143,
+    "hoehe_abstand": 0.01,
+    "zeit_abstand_s": 0
+   },
+   "astral": {
+    "hoehe_ich": 46.145,
+    "hoehe_ort": 46.144,
+    "hoehe_abstand": 0.008,
+    "zeit_abstand_s": 1
+   }
+  },
+  {
+   "ich": "Quito",
+   "ort": "Nairobi",
+   "ich_koord": [
+    -0.22,
+    -78.51
+   ],
+   "ort_koord": [
+    -1.29,
+    36.82
+   ],
+   "tag": "2027-03-20",
+   "ms": 1805549454174,
+   "hoehe": 32.332334,
+   "utc": "2027-03-20 13:30:54",
+   "pyephem": {
+    "hoehe_ich": 32.336,
+    "hoehe_ort": 32.324,
+    "hoehe_abstand": 0.009,
+    "zeit_abstand_s": -2
+   },
+   "astral": {
+    "hoehe_ich": 32.344,
+    "hoehe_ort": 32.32,
+    "hoehe_abstand": 0.012,
+    "zeit_abstand_s": -2
+   }
+  },
+  {
+   "ich": "Tromsø",
+   "ort": "Reykjavík",
+   "ich_koord": [
+    69.65,
+    18.96
+   ],
+   "ort_koord": [
+    64.15,
+    -21.94
+   ],
+   "tag": "2027-06-21",
+   "ms": 1813576416064,
+   "hoehe": 43.600988,
+   "utc": "2027-06-21 11:13:36",
+   "pyephem": {
+    "hoehe_ich": 43.601,
+    "hoehe_ort": 43.603,
+    "hoehe_abstand": 0.002,
+    "zeit_abstand_s": -1
+   },
+   "astral": {
+    "hoehe_ich": 43.603,
+    "hoehe_ort": 43.604,
+    "hoehe_abstand": 0.003,
+    "zeit_abstand_s": 0
+   }
+  },
+  {
+   "ich": "Tromsø",
+   "ort": "Berlin",
+   "ich_koord": [
+    69.65,
+    18.96
+   ],
+   "ort_koord": [
+    52.52,
+    13.405
+   ],
+   "tag": "2027-05-10",
+   "ms": 1809929515681,
+   "hoehe": 24.371826,
+   "utc": "2027-05-10 06:11:55",
+   "pyephem": {
+    "hoehe_ich": 24.312,
+    "hoehe_ort": 24.322,
+    "hoehe_abstand": 0.059,
+    "zeit_abstand_s": -9
+   },
+   "astral": {
+    "hoehe_ich": 24.314,
+    "hoehe_ort": 24.323,
+    "hoehe_abstand": 0.058,
+    "zeit_abstand_s": -8
+   }
+  },
+  {
+   "ich": "Tromsø",
+   "ort": "Berlin",
+   "ich_koord": [
+    69.65,
+    18.96
+   ],
+   "ort_koord": [
+    52.52,
+    13.405
+   ],
+   "tag": "2027-05-10",
+   "ms": 1809967931378,
+   "hoehe": 15.502905,
+   "utc": "2027-05-10 16:52:11",
+   "pyephem": {
+    "hoehe_ich": 15.551,
+    "hoehe_ort": 15.542,
+    "hoehe_abstand": 0.048,
+    "zeit_abstand_s": -9
+   },
+   "astral": {
+    "hoehe_ich": 15.554,
+    "hoehe_ort": 15.545,
+    "hoehe_abstand": 0.051,
+    "zeit_abstand_s": -8
+   }
+  },
+  {
+   "ich": "Auckland",
+   "ort": "Sydney",
+   "ich_koord": [
+    -36.85,
+    174.76
+   ],
+   "ort_koord": [
+    -33.87,
+    151.21
+   ],
+   "tag": "2027-01-10",
+   "ms": 1799543218265,
+   "hoehe": 72.912586,
+   "utc": "2027-01-10 01:06:58",
+   "pyephem": {
+    "hoehe_ich": 72.954,
+    "hoehe_ort": 72.992,
+    "hoehe_abstand": 0.079,
+    "zeit_abstand_s": -9
+   },
+   "astral": {
+    "hoehe_ich": 72.954,
+    "hoehe_ort": 72.992,
+    "hoehe_abstand": 0.08,
+    "zeit_abstand_s": -8
+   }
+  },
+  {
+   "ich": "Auckland",
+   "ort": "Tokio",
+   "ich_koord": [
+    -36.85,
+    174.76
+   ],
+   "ort_koord": [
+    35.68,
+    139.69
+   ],
+   "tag": "2027-10-05",
+   "ms": 1822701650692,
+   "hoehe": 49.004295,
+   "utc": "2027-10-05 02:00:50",
+   "pyephem": {
+    "hoehe_ich": 48.892,
+    "hoehe_ort": 49.153,
+    "hoehe_abstand": 0.148,
+    "zeit_abstand_s": -87
+   },
+   "astral": {
+    "hoehe_ich": 48.897,
+    "hoehe_ort": 49.154,
+    "hoehe_abstand": 0.149,
+    "zeit_abstand_s": -86
+   }
+  },
+  {
+   "ich": "Suva",
+   "ort": "Apia",
+   "ich_koord": [
+    -18.14,
+    178.44
+   ],
+   "ort_koord": [
+    -13.83,
+    -171.77
+   ],
+   "tag": "2027-02-14",
+   "ms": 1802563578688,
+   "hoehe": 83.84349,
+   "utc": "2027-02-14 00:06:18",
+   "pyephem": {
+    "hoehe_ich": 83.981,
+    "hoehe_ort": 83.87,
+    "hoehe_abstand": 0.138,
+    "zeit_abstand_s": -18
+   },
+   "astral": {
+    "hoehe_ich": 83.977,
+    "hoehe_ort": 83.879,
+    "hoehe_abstand": 0.134,
+    "zeit_abstand_s": -16
+   }
+  },
+  {
+   "ich": "Sydney",
+   "ort": "Kapstadt",
+   "ich_koord": [
+    -33.87,
+    151.21
+   ],
+   "ort_koord": [
+    -33.93,
+    18.42
+   ],
+   "tag": "2026-12-05",
+   "ms": 1796451078979,
+   "hoehe": 31.319608,
+   "utc": "2026-12-05 06:11:18",
+   "pyephem": {
+    "hoehe_ich": 31.283,
+    "hoehe_ort": 31.327,
+    "hoehe_abstand": 0.036,
+    "zeit_abstand_s": -6
+   },
+   "astral": {
+    "hoehe_ich": 31.294,
+    "hoehe_ort": 31.321,
+    "hoehe_abstand": 0.026,
+    "zeit_abstand_s": -4
+   }
+  },
+  {
+   "ich": "Berlin",
+   "ort": "Nairobi",
+   "ich_koord": [
+    52.52,
+    13.405
+   ],
+   "ort_koord": [
+    -1.29,
+    36.82
+   ],
+   "tag": "2027-08-02",
+   "ms": 1817206750147,
+   "hoehe": 54.83399,
+   "utc": "2027-08-02 11:39:10",
+   "pyephem": {
+    "hoehe_ich": 54.837,
+    "hoehe_ort": 54.83,
+    "hoehe_abstand": 0.004,
+    "zeit_abstand_s": -3
+   },
+   "astral": {
+    "hoehe_ich": 54.838,
+    "hoehe_ort": 54.833,
+    "hoehe_abstand": 0.004,
+    "zeit_abstand_s": -1
+   }
+  }
+ ],
+ "zaehlung": {
+  "beschreibung": "Berlin, Tromsø, Quito, Auckland, Kapstadt gegen alle Türen aus site/orte.json, 15. jedes Monats 2027, nur PyEphem",
+  "treffen": 16647,
+  "hoehe_abstand": {
+   "median": 0.027,
+   "p99": 0.147,
+   "groesster": 0.191,
+   "ueber_grenze": 0
+  },
+  "zeit_abstand_s": {
+   "median": 5,
+   "p99": 92,
+   "groesster": 581,
+   "ueber_grenze": 48,
+   "ohne_gleichstand_in_einer_stunde": 7
+  },
+  "hoehe_abstand_wo_zeit_ueber_grenze": 0.138
+ }
+}
