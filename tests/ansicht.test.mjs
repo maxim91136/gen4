@@ -4,10 +4,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as r from '../site/rechnung.mjs';
-import { ansicht, naechstesTreffen, abstandGrad, utcTag, zeitraum, KNAPP_TAGE, VORN, ZEITRAUM_HOECHSTENS } from '../site/ansicht.mjs';
+import { ansicht, naechstesTreffen, abstandGrad, utcTag, zeitraum, buendeln, KNAPP_TAGE, VORN, ZEITRAUM_HOECHSTENS, BUENDEL_AB, BUENDEL_NAMEN } from '../site/ansicht.mjs';
 
 const D = JSON.parse(readFileSync(new URL('../site/orte.json', import.meta.url), 'utf8'));
 const ORTE = D.tueren.map((z) => ({ id: z[0], name: z[1], land: z[2], ort: [z[3], z[4]] }));
+const ORTE_EINW = D.tueren.map((z) => ({ id: z[0], name: z[1], land: z[2], ort: [z[3], z[4]], einw: z[5] }));
 const ort = (name) => ORTE.find((o) => o.name === name).ort;
 const BERLIN = ort('Berlin');
 // Zeitzone mit festem Abstand zu UTC in Stunden.
@@ -289,4 +290,72 @@ test('Frisch: Rom ist von Berlin aus Anfang April 2028 knapp, weil es gerade ers
   const spaeter = bei(ansicht(BERLIN, ORTE, Date.UTC(2028, 5, 5, 10), zone(2)), 'Rome');
   assert.equal(spaeter.frisch, false);
   assert.equal(spaeter.knapp, false);
+});
+
+test('Bündel: nur feste Daten, selber Tag, selbe Richtung, ab vier Türen, keine Tür geht verloren', () => {
+  const tromsoe = [69.65, 18.96];
+  const faelle = [[BERLIN, 1], [tromsoe, 1], [ort('Quito'), -5], [ort('Auckland'), 13], [[-77.85, 166.67], 13]];
+  let gebuendelt = 0;
+  for (const [ich, h] of faelle) for (let k = 0; k < 366; k += 40) {
+    const a = ansicht(ich, ORTE_EINW, Date.UTC(2026, 10, 26, 12) + k * 86400000, zone(h));
+    const zeilen = buendeln(a.tueren);
+    // Jede Tür genau einmal, in der Reihenfolge der Liste, wenn man die Bündel aufklappt.
+    const flach = zeilen.flatMap((z) => z.buendel ? z.buendel.tueren : [z.tuer]);
+    assert.equal(flach.length, a.tueren.length);
+    assert.equal(new Set(flach).size, a.tueren.length);
+    const erste = zeilen.map((z) => z.buendel ? z.buendel.tueren[0].nr : z.tuer.nr);
+    assert.deepEqual(erste, [...erste].sort((x, y) => x - y));
+    const fest = new Map();
+    for (const z of zeilen) {
+      if (!z.buendel) {
+        const n = z.tuer.naechste;
+        if (n && !n.ungefaehr && n.von === null) fest.set(n.was + n.tag, (fest.get(n.was + n.tag) || 0) + 1);
+        continue;
+      }
+      const b = z.buendel;
+      gebuendelt++;
+      assert.ok(b.tueren.length >= BUENDEL_AB);
+      assert.equal(b.namen.length, BUENDEL_NAMEN);
+      for (const e of b.tueren) {
+        assert.equal(e.naechste.was, b.was);
+        assert.equal(e.naechste.tag, b.tag);
+        assert.equal(e.naechste.in, b.in);
+        assert.equal(e.naechste.ungefaehr, false);
+        assert.equal(e.naechste.von, null);
+        assert.equal(e.zustand, b.was === 'zu' ? 'offen' : 'zu');
+        if (b.was === 'zu') assert.ok(b.spalt <= e.spalt); else assert.equal(b.spalt, null);
+        // Genannt sind die größten: keine Tür im Bündel hat mehr Einwohner als die kleinste genannte.
+        if (!b.namen.includes(e)) assert.ok(e.einw <= b.namen[BUENDEL_NAMEN - 1].einw, e.name);
+      }
+      assert.ok(b.namen.every((e) => b.tueren.includes(e)));
+    }
+    // Was einzeln blieb und ein festes Datum hat, war zu wenig für ein Bündel.
+    for (const [k2, zahl] of fest) assert.ok(zahl < BUENDEL_AB, k2);
+  }
+  assert.ok(gebuendelt > 0);
+});
+
+test('Bündel: Tromsø in der Polarnacht zeigt eine Zeile statt vieler gleicher', () => {
+  const a = ansicht([69.65, 18.96], ORTE_EINW, Date.UTC(2026, 10, 26, 12), zone(1));
+  assert.equal(a.polarnacht, true);
+  const zeilen = buendeln(a.tueren);
+  const erstes = zeilen[0].buendel;
+  assert.ok(erstes, 'die erste Zeile ist ein Bündel');
+  assert.equal(erstes.was, 'auf');
+  assert.equal(erstes.tag, a.naechsteAuf.naechste.tag);
+  assert.ok(zeilen.length < a.tueren.length);
+});
+
+test('Bündel: ohne Einwohnerzahl entscheidet die Kennung, und drei Türen sind kein Bündel', () => {
+  const tuer = (id, tag, mehr = {}) => ({ id, name: 'O' + id, einw: 0, spalt: null, naechste: { was: 'auf', tag, in: tag, ungefaehr: false, von: null, bis: null }, ...mehr });
+  const drei = [tuer(3, 5), tuer(1, 5), tuer(2, 5)];
+  assert.ok(buendeln(drei).every((z) => z.tuer));
+  const weich = tuer(9, 5); weich.naechste.ungefaehr = true;
+  const zu = tuer(8, 5, { spalt: 12 }); zu.naechste.was = 'zu';
+  const ohne = { id: 7, name: 'O7', einw: 0, spalt: 30, naechste: null };
+  const z = buendeln([tuer(4, 5, { einw: 10 }), weich, tuer(3, 5), zu, tuer(1, 5), tuer(2, 5), ohne]);
+  assert.equal(z.length, 4);
+  assert.deepEqual(z[0].buendel.namen.map((e) => e.id), [4, 1, 2]);
+  assert.deepEqual(z[0].buendel.tueren.map((e) => e.id), [4, 3, 1, 2]);
+  assert.deepEqual(z.slice(1).map((x) => x.tuer.id), [9, 8, 7]);
 });

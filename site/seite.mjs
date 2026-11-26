@@ -3,13 +3,13 @@
 // Ohne gewählten Ort rechnet die Seite für Berlin und sagt, dass das ein Beispiel ist.
 
 import { tagnummer, datum, MINDESTHOEHE, VORAUSSCHAU } from './rechnung.mjs';
-import { ansicht, naechstesTreffen } from './ansicht.mjs';
+import { ansicht, naechstesTreffen, buendeln } from './ansicht.mjs';
 import { suche, anzeigename, koordinaten, standort, gradteile, alsText, ausText } from './ortswahl.mjs';
 import { satz } from './texte.mjs';
 
 const BERLIN_ID = 2950159;      // GeoNames-Kennung, der Ort selbst kommt aus orte.json
 const NACHLAUF_MS = 2 * 60000;  // ein Treffen gilt zwei Minuten lang als "jetzt"
-const ERSTE_TUEREN = 24;
+const ERSTE_TUEREN = 24;     // so viele Zeilen der Türliste ohne Aufklappen; ein Bündel zählt als eine
 
 const $ = (id) => document.getElementById(id);
 const neu = (art, klasse, text) => {
@@ -198,6 +198,27 @@ function tuerzeile(e) {
   return li;
 }
 
+/** Eine Zeile für viele Türen mit derselben festen Schwelle am selben Tag (REGELN.md Abschnitt 4, Zusatz Lauf 14). */
+function buendelzeile(b) {
+  const li = neu('li', 'zeile buendel');
+  const d = neu('details'), kopf = neu('summary', 'buendel-kopf');
+  const stapel = tuerbild(b);
+  stapel.classList.add('tuer-stapel');
+  const w = { zahl: b.tueren.length, tage: b.in, datum: tagtext(b.tag) };
+  let was;
+  if (b.was === 'zu') was = b.in === 0 ? t('buendel_zu_heute', w) : b.in === 1 ? t('buendel_zu_morgen', w) : t('buendel_zu_in', w);
+  else was = b.in === 1 ? t('buendel_auf_morgen', w) : t('buendel_auf_in', w);
+  const text = neu('div', 'zeile-text');
+  text.append(neu('div', 'ort', was),
+    neu('div', 'zeile-fuss', t('buendel_namen', { orte: b.namen.map(ortsname).join(', '), zahl: b.tueren.length - b.namen.length })));
+  kopf.append(stapel, text);
+  const innen = neu('ul', 'liste');
+  innen.append(...b.tueren.map(tuerzeile));
+  d.append(kopf, innen);
+  li.append(d);
+  return li;
+}
+
 function maleNaechstes() {
   const kasten = $('naechstes');
   kasten.replaceChildren();
@@ -258,9 +279,10 @@ function maleHeute() {
 function maleTueren() {
   $('zahlen').textContent = t('zahlen', bild.zahlen);
   const liste = $('tueren'), rest = $('tueren-rest'), mehr = $('tueren-mehr');
-  liste.replaceChildren(...bild.tueren.slice(0, ERSTE_TUEREN).map(tuerzeile));
-  rest.replaceChildren(...bild.tueren.slice(ERSTE_TUEREN).map(tuerzeile));
-  mehr.hidden = bild.tueren.length <= ERSTE_TUEREN;
+  const zeilen = buendeln(bild.tueren).map((z) => z.buendel ? buendelzeile(z.buendel) : tuerzeile(z.tuer));
+  liste.replaceChildren(...zeilen.slice(0, ERSTE_TUEREN));
+  rest.replaceChildren(...zeilen.slice(ERSTE_TUEREN));
+  mehr.hidden = zeilen.length <= ERSTE_TUEREN;
   $('tueren-mehr-text').textContent = t('alle_tueren', { zahl: bild.tueren.length });
   const nah = $('nachbarn');
   nah.hidden = !bild.nachbarn.length;
@@ -309,7 +331,7 @@ function maleFahrplan() {
 
 /** Die Türen mit Namen in der Sprache der Seite. Die Rechnung kennt nur einen Namen je Ort. */
 function baueOrte() {
-  orte = daten.tueren.map((z) => ({ id: z[0], name: anzeigename(z[1], z[6], sprache), land: z[2], ort: [z[3], z[4]] }));
+  orte = daten.tueren.map((z) => ({ id: z[0], name: anzeigename(z[1], z[6], sprache), land: z[2], ort: [z[3], z[4]], einw: z[5] }));
 }
 
 function rechne() {

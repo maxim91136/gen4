@@ -36,6 +36,12 @@ export const VORN = 10;
 // Tage, falsche Paare über 90), und es bleibt bei "um den".
 export const ZEITRAUM_HOECHSTENS = 60;
 
+// Bündel in der Türliste (Vorschlag B, Lauf 11; REGELN.md Abschnitt 4, Zusatz Lauf 14): Ab so
+// vielen Türen mit derselben festen Schwelle am selben Tag steht eine Zeile statt vieler, mit
+// so vielen Namen. In der Polarnacht sagten sonst alle sichtbaren Zeilen dasselbe.
+export const BUENDEL_AB = 4;
+export const BUENDEL_NAMEN = 3;
+
 const istOffen = (sp, grenze) => sp !== null && sp >= grenze;
 
 /** Tage, an denen eine Reihe von Spalten die Grenze kreuzt. Wie `wechsel` in rechnung.mjs. */
@@ -81,14 +87,14 @@ export function abstandGrad(a, b) {
  * Alles, was die Seite für einen Ort und einen Augenblick zeigt.
  *
  *   ich      [Breite, Länge]
- *   orte     Liste { id, name, land, ort: [Breite, Länge] }
+ *   orte     Liste { id, name, land, ort: [Breite, Länge], einw } (einw: Einwohner, darf fehlen)
  *   jetztMs  Millisekunden seit 1970
  *   ortstag  Funktion ms -> Tagnummer des Kalendertags in der Zeitzone des Besuchers
  *
  * Ergebnis:
  *   heute       Tagnummer des Ortstags
  *   polarnacht  true, wenn die Sonne heute am eigenen Ort nie die Mindesthöhe erreicht
- *   tueren      je Ort { id, name, land, zustand, streift, spalt, naechste, danach, knapp, frisch, seit, abstand, vorn }, sortiert
+ *   tueren      je Ort { id, name, land, einw, zustand, streift, spalt, naechste, danach, knapp, frisch, seit, abstand, vorn }, sortiert
  *               nach dem, was als Nächstes geschieht.
  *               zustand: 'offen' | 'zu' (Tür wechselt) | 'immer' | 'nie' (über die Vorausschau)
  *               spalt: höchste gemeinsame Höhe heute oder null
@@ -124,7 +130,7 @@ export function ansicht(ich, orte, jetztMs, ortstag) {
     if (abstandGrad(ich, o.ort) < BAND) { nachbarn.push({ id: o.id, name: o.name, land: o.land }); continue; }
 
     const t = tuer(ich, o.ort, start, tage);
-    const eintrag = { id: o.id, name: o.name, land: o.land, zustand: t.art, streift: t.streift,
+    const eintrag = { id: o.id, name: o.name, land: o.land, einw: o.einw || 0, zustand: t.art, streift: t.streift,
       spalt: null, naechste: null, danach: null, heuteAuf: false, knapp: false, frisch: false,
       seit: null, abstand: null, vorn: false };
 
@@ -222,6 +228,39 @@ export function ansicht(ich, orte, jetztMs, ortstag) {
     naechsteAuf: tueren.find((e) => e.zustand === 'zu' && e.naechste) || null,
     nachbarn, zahlen,
   };
+}
+
+/**
+ * Die Türliste, wie sie gezeigt wird: Türen mit derselben festen Schwelle am selben Ortstag als
+ * ein Bündel, wenn es mindestens BUENDEL_AB sind. Weiche Daten ("um den", Zeitraum) bleiben
+ * einzeln. Die Reihenfolge von `tueren` bleibt; das Bündel steht an der Stelle seiner ersten Tür.
+ *
+ * Ergebnis: Liste aus { tuer } und { buendel: { was, tag, in, tueren, namen, spalt } }.
+ *   tueren  alle Türen des Bündels in der Reihenfolge der Liste
+ *   namen   die BUENDEL_NAMEN Türen mit den meisten Einwohnern, bei Gleichstand kleinere Kennung
+ *   spalt   der schmalste Spalt von heute im Bündel oder null, wenn die Türen zu sind
+ */
+export function buendeln(tueren) {
+  const schluessel = (e) => e.naechste && !e.naechste.ungefaehr && e.naechste.von === null ? e.naechste.was + ':' + e.naechste.tag : null;
+  const gruppen = new Map();
+  for (const e of tueren) {
+    const k = schluessel(e);
+    if (k === null) continue;
+    if (!gruppen.has(k)) gruppen.set(k, []);
+    gruppen.get(k).push(e);
+  }
+  const aus = [], fertig = new Set();
+  for (const e of tueren) {
+    const k = schluessel(e), g = k === null ? null : gruppen.get(k);
+    if (!g || g.length < BUENDEL_AB) { aus.push({ tuer: e }); continue; }
+    if (fertig.has(k)) continue;
+    fertig.add(k);
+    const namen = [...g].sort((a, b) => b.einw - a.einw || a.id - b.id).slice(0, BUENDEL_NAMEN);
+    let schmal = null;
+    for (const x of g) if (x.spalt !== null && (schmal === null || x.spalt < schmal)) schmal = x.spalt;
+    aus.push({ buendel: { was: e.naechste.was, tag: e.naechste.tag, in: e.naechste.in, tueren: g, namen, spalt: schmal } });
+  }
+  return aus;
 }
 
 /**

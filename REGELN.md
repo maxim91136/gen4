@@ -99,6 +99,12 @@ Bei 2° wäre mehr als die Hälfte aller Daten weich, und der Satz „Heute zum 
 - *Bild für die Adresszeile.* `site/zeichen.svg`, selbst gezeichnet (eine Tür mit hellem Spalt), eigene Datei, lädt nichts nach.
 - *Dunkel.* Das Türblatt ist im dunklen Modus heller als der Grund (`--holz`), damit auch die geschlossene Tür zu sehen ist.
 
+**Zusatz aus Lauf 14 (A, auf Vorschlag von B in Lauf 11, von B gegenzulesen).**
+
+- *Bündel in der Türliste.* Haben mindestens **vier** Türen als Nächstes dasselbe vor sich (alle schließen oder alle gehen auf), am selben Ortstag und mit festem Datum, stehen sie in der Liste als eine Zeile: die Zahl, das Datum und die Namen der **drei** Türen mit den meisten Einwohnern laut GeoNames (bei Gleichstand die kleinere Kennung), dahinter „und N weitere“. Ein Tipp klappt alle Türen des Bündels auf, jede mit ihrer gewohnten Zeile. Weiche Daten („um den“, Zeitraum) werden nie gebündelt, auch nicht untereinander: Zwei Türen „um den 7. Februar“ gehen nicht sicher am selben Tag auf. Türen, die schließen, und Türen, die aufgehen, kommen nie ins selbe Bündel. Das Bündel steht dort, wo seine erste Tür in der Reihenfolge stünde; an der Reihenfolge selbst ändert sich nichts. Das Türbild des Bündels zeigt bei offenen Türen den schmalsten Spalt im Bündel. Konstanten `BUENDEL_AB` und `BUENDEL_NAMEN` in `site/ansicht.mjs`. Die oberste Zeile, „Heute an den Türen“ und der Fahrplan bleiben, wie sie sind.
+  Warum vier: Mit drei Namen in der Zeile wäre ein Bündel aus drei Türen nur eine Zeile, die dasselbe sagt wie drei, und versteckt den Spalt. Warum Einwohner statt Alphabet: Die Zeile soll Orte nennen, die man kennt; die Zahl steht schon in der Datei, es kommt keine neue Quelle dazu. Die Einwohnerzahl selbst zeigt die Seite nicht.
+  Gezählt mit echter `ansicht()` am 26. November 2026, 12 Uhr UTC: Tromsø (Polarnacht) 326 Türen in 82 Zeilen, 34 Bündel, das größte mit 34 Türen (gehen in 73 Tagen auf); in den ersten 24 Zeilen stehen damit 163 Türen statt 24. Berlin 325 Türen in 303 Zeilen, 6 Bündel, das größte mit 6 Türen. Kapstadt 326 in 312, 4 Bündel. Quito und Auckland kein Bündel, die Liste bleibt, wie sie war. Das Bündeln greift also dort, wo es gebraucht wird, und sonst kaum.
+
 **Tempo.** Nachgemessen in Python: 500 Orte mal 365 Tage, je drei Mindesthöhen, in 0,7 Sekunden. Im Browser ist das kein Engpass. Das Abtasten in Minutenschritten (`werkzeug/ortsschwellen.py`) bleibt als unabhängige Gegenprobe in den Tests und kommt nicht auf die Seite.
 
 ## 5. Daten

@@ -91,6 +91,19 @@ noscript .gross { margin: 24px 0; }
 }
 .tuer-zu { opacity: 0.55; }
 
+/* Ein Bündel: viele Türen mit derselben Schwelle am selben Tag. Zwei Türblätter hintereinander. */
+.buendel { display: block; }
+.buendel > details { margin: 0; }
+.buendel-kopf { display: flex; align-items: center; gap: 14px; padding: 0; border: 0; border-radius: 0; min-height: 44px; list-style: none; }
+.buendel-kopf::-webkit-details-marker { display: none; }
+.buendel-kopf::after { content: "+"; flex: none; width: 28px; height: 28px; line-height: 26px; text-align: center; border: 1px solid var(--linie); border-radius: 999px; color: var(--leise); }
+.buendel > details[open] > .buendel-kopf { margin-bottom: 10px; }
+.buendel > details[open] > .buendel-kopf::after { content: "\2212"; }
+.buendel-kopf:hover::after { border-color: var(--sonne); }
+.tuer-stapel { margin-right: 5px; overflow: visible; box-shadow: 5px -3px 0 -1px var(--grund), 5px -3px 0 0 var(--holz); }
+.tuer-stapel.tuer-offen::after { border-radius: 2px 0 0 0; }
+.buendel .liste { margin-left: 12px; padding-left: 12px; border-left: 2px solid var(--linie); }
+
 details { margin-top: 6px; }
 summary {
   cursor: pointer; padding: 10px 12px; min-height: 44px; border: 1px solid var(--linie); border-radius: 8px;
