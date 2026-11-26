@@ -210,7 +210,7 @@ function buendelzeile(b) {
   else was = b.in === 1 ? t('buendel_auf_morgen', w) : t('buendel_auf_in', w);
   const text = neu('div', 'zeile-text');
   text.append(neu('div', 'ort', was),
-    neu('div', 'zeile-fuss', t('buendel_namen', { orte: b.namen.map(ortsname).join(', '), zahl: b.tueren.length - b.namen.length })));
+    neu('div', 'zeile-fuss', t(b.tueren.length - b.namen.length === 1 ? 'buendel_namen_eins' : 'buendel_namen', { orte: b.namen.map(ortsname).join(', '), zahl: b.tueren.length - b.namen.length })));
   kopf.append(stapel, text);
   const innen = neu('ul', 'liste');
   innen.append(...b.tueren.map(tuerzeile));

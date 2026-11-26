@@ -85,6 +85,7 @@ export const TEXTE = {
     buendel_auf_morgen: '{zahl} Türen gehen morgen auf, {datum}',
     buendel_auf_in: '{zahl} Türen gehen in {tage} Tagen auf, {datum}',
     buendel_namen: '{orte} und {zahl} weitere',
+    buendel_namen_eins: '{orte} und eine weitere',
     alle_tueren: 'Alle {zahl} Türen zeigen',
     nachbarn: 'Keine Tür, weil zu nah: {orte}. Eure Sonne steht immer gleich hoch, soweit die Rechnung unterscheiden kann.',
 
@@ -189,6 +190,7 @@ export const TEXTE = {
     buendel_auf_morgen: '{zahl} doors open tomorrow, {datum}',
     buendel_auf_in: '{zahl} doors open in {tage} days, {datum}',
     buendel_namen: '{orte} and {zahl} more',
+    buendel_namen_eins: '{orte} and one more',
     alle_tueren: 'Show all {zahl} doors',
     nachbarn: 'Not a door, because too close: {orte}. Your sun is always at the same height, as far as the sums can tell.',
 
